@@ -391,7 +391,12 @@ class Settings {
 					<input type="hidden" name="soundtrack_display_settings[show_image]" value="0" />
 					<label>
 						<input type="checkbox" name="soundtrack_display_settings[show_image]" value="1" <?php checked( ! empty( $settings['show_image'] ) ); ?> />
-						<?php esc_html_e( 'Show Album Image', 'soundtrack-your-brand' ); ?>
+						<?php esc_html_e( 'Show Icon / Artwork', 'soundtrack-your-brand' ); ?>
+					</label><br />
+					<input type="hidden" name="soundtrack_display_settings[show_prefix]" value="0" />
+					<label>
+						<input type="checkbox" name="soundtrack_display_settings[show_prefix]" value="1" <?php checked( ! empty( $settings['show_prefix'] ) ); ?> />
+						<?php esc_html_e( 'Show "Currently playing" Label', 'soundtrack-your-brand' ); ?>
 					</label><br />
 					<input type="hidden" name="soundtrack_display_settings[show_artist]" value="0" />
 					<label>
@@ -401,7 +406,25 @@ class Settings {
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="syb_image_size"><?php esc_html_e( 'Image Size', 'soundtrack-your-brand' ); ?></label></th>
+				<th scope="row"><label for="syb_prefix_text"><?php esc_html_e( 'Label Text', 'soundtrack-your-brand' ); ?></label></th>
+				<td>
+					<input type="text" name="soundtrack_display_settings[prefix_text]" id="syb_prefix_text"
+						value="<?php echo esc_attr( $settings['prefix_text'] ); ?>" class="regular-text" />
+					<p class="description"><?php esc_html_e( 'Shown above the track when a song is playing (e.g. "Currently playing:").', 'soundtrack-your-brand' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="syb_image_display"><?php esc_html_e( 'Artwork Display', 'soundtrack-your-brand' ); ?></label></th>
+				<td>
+					<select name="soundtrack_display_settings[image_display]" id="syb_image_display">
+						<option value="icon" <?php selected( $settings['image_display'], 'icon' ); ?>><?php esc_html_e( 'Music icon (recommended)', 'soundtrack-your-brand' ); ?></option>
+						<option value="album" <?php selected( $settings['image_display'], 'album' ); ?>><?php esc_html_e( 'Album art from API (square images only)', 'soundtrack-your-brand' ); ?></option>
+					</select>
+					<p class="description"><?php esc_html_e( 'Soundtrack often returns wide, low-quality banner images. The music icon avoids distorted artwork.', 'soundtrack-your-brand' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="syb_image_size"><?php esc_html_e( 'Icon / Image Size', 'soundtrack-your-brand' ); ?></label></th>
 				<td>
 					<select name="soundtrack_display_settings[image_size]" id="syb_image_size">
 						<option value="small" <?php selected( $settings['image_size'], 'small' ); ?>><?php esc_html_e( 'Small (48px)', 'soundtrack-your-brand' ); ?></option>
@@ -422,12 +445,20 @@ class Settings {
 				<td><input type="text" name="soundtrack_display_settings[artist_color]" id="syb_artist_color" value="<?php echo esc_attr( $settings['artist_color'] ); ?>" class="syb-color-picker" data-default-color="#666666" /></td>
 			</tr>
 			<tr>
+				<th scope="row"><label for="syb_prefix_color"><?php esc_html_e( 'Label Color', 'soundtrack-your-brand' ); ?></label></th>
+				<td><input type="text" name="soundtrack_display_settings[prefix_color]" id="syb_prefix_color" value="<?php echo esc_attr( $settings['prefix_color'] ); ?>" class="syb-color-picker" data-default-color="#444444" /></td>
+			</tr>
+			<tr>
 				<th scope="row"><label for="syb_song_font_size"><?php esc_html_e( 'Song Font Size (px)', 'soundtrack-your-brand' ); ?></label></th>
 				<td><input type="number" name="soundtrack_display_settings[song_font_size]" id="syb_song_font_size" value="<?php echo esc_attr( (string) $settings['song_font_size'] ); ?>" min="8" max="72" class="small-text" /></td>
 			</tr>
 			<tr>
 				<th scope="row"><label for="syb_artist_font_size"><?php esc_html_e( 'Artist Font Size (px)', 'soundtrack-your-brand' ); ?></label></th>
 				<td><input type="number" name="soundtrack_display_settings[artist_font_size]" id="syb_artist_font_size" value="<?php echo esc_attr( (string) $settings['artist_font_size'] ); ?>" min="8" max="72" class="small-text" /></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="syb_prefix_font_size"><?php esc_html_e( 'Label Font Size (px)', 'soundtrack-your-brand' ); ?></label></th>
+				<td><input type="number" name="soundtrack_display_settings[prefix_font_size]" id="syb_prefix_font_size" value="<?php echo esc_attr( (string) $settings['prefix_font_size'] ); ?>" min="8" max="72" class="small-text" /></td>
 			</tr>
 			<tr>
 				<th scope="row"><label for="syb_song_font_weight"><?php esc_html_e( 'Song Font Weight', 'soundtrack-your-brand' ); ?></label></th>
@@ -510,21 +541,27 @@ class Settings {
 			return $defaults;
 		}
 
-		$templates  = array( 'classic', 'compact', 'modern', 'minimal' );
-		$alignments = array( 'left', 'center', 'right' );
-		$sizes      = array( 'small', 'medium', 'large', 'custom' );
-		$weights    = array( '300', '400', '500', '600', '700', '800' );
+		$templates      = array( 'classic', 'compact', 'modern', 'minimal' );
+		$alignments     = array( 'left', 'center', 'right' );
+		$sizes          = array( 'small', 'medium', 'large', 'custom' );
+		$weights        = array( '300', '400', '500', '600', '700', '800' );
+		$image_displays = array( 'icon', 'album' );
 
 		$clean = array(
 			'template'           => in_array( $value['template'] ?? '', $templates, true ) ? $value['template'] : $defaults['template'],
 			'show_image'         => ! empty( $value['show_image'] ),
+			'image_display'      => in_array( $value['image_display'] ?? '', $image_displays, true ) ? $value['image_display'] : $defaults['image_display'],
+			'show_prefix'        => ! empty( $value['show_prefix'] ),
+			'prefix_text'        => sanitize_text_field( $value['prefix_text'] ?? $defaults['prefix_text'] ),
 			'show_artist'        => ! empty( $value['show_artist'] ),
 			'image_size'         => in_array( $value['image_size'] ?? '', $sizes, true ) ? $value['image_size'] : $defaults['image_size'],
 			'image_size_custom'  => max( 16, min( 400, absint( $value['image_size_custom'] ?? $defaults['image_size_custom'] ) ) ),
 			'song_color'         => sanitize_hex_color( $value['song_color'] ?? '' ) ?: $defaults['song_color'],
 			'artist_color'       => sanitize_hex_color( $value['artist_color'] ?? '' ) ?: $defaults['artist_color'],
+			'prefix_color'       => sanitize_hex_color( $value['prefix_color'] ?? '' ) ?: $defaults['prefix_color'],
 			'song_font_size'     => max( 8, min( 72, absint( $value['song_font_size'] ?? $defaults['song_font_size'] ) ) ),
 			'artist_font_size'   => max( 8, min( 72, absint( $value['artist_font_size'] ?? $defaults['artist_font_size'] ) ) ),
+			'prefix_font_size'   => max( 8, min( 72, absint( $value['prefix_font_size'] ?? $defaults['prefix_font_size'] ) ) ),
 			'song_font_weight'   => in_array( $value['song_font_weight'] ?? '', $weights, true ) ? $value['song_font_weight'] : $defaults['song_font_weight'],
 			'artist_font_weight' => in_array( $value['artist_font_weight'] ?? '', $weights, true ) ? $value['artist_font_weight'] : $defaults['artist_font_weight'],
 			'alignment'          => in_array( $value['alignment'] ?? '', $alignments, true ) ? $value['alignment'] : $defaults['alignment'],

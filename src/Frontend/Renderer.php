@@ -22,6 +22,16 @@ class Renderer {
 	private const TEMPLATES = array( 'classic', 'compact', 'modern', 'minimal' );
 
 	/**
+	 * Minimum height/width ratio for usable square album art.
+	 */
+	private const MIN_ALBUM_ASPECT_RATIO = 0.75;
+
+	/**
+	 * Maximum height/width ratio for usable square album art.
+	 */
+	private const MAX_ALBUM_ASPECT_RATIO = 1.25;
+
+	/**
 	 * Render a now playing widget.
 	 *
 	 * @param array<string, mixed>|null $data     Track data or null.
@@ -59,26 +69,22 @@ class Renderer {
 			return $this->render_fallback( $classes, $style, $settings, $state );
 		}
 
-		$show_image  = ! empty( $settings['show_image'] );
-		$show_artist = ! empty( $settings['show_artist'] );
-		$image_size  = $this->resolve_image_size( $settings );
-
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" style="<?php echo esc_attr( $style ); ?>"<?php echo $data_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-live="polite">
 			<?php
 			switch ( $template ) {
 				case 'compact':
-					$this->render_compact( $data, $show_image, $show_artist, $image_size );
+					$this->render_compact( $data, $settings );
 					break;
 				case 'modern':
-					$this->render_modern( $data, $show_image, $show_artist, $image_size );
+					$this->render_modern( $data, $settings );
 					break;
 				case 'minimal':
-					$this->render_minimal( $data, $show_artist );
+					$this->render_minimal( $data, $settings );
 					break;
 				default:
-					$this->render_classic( $data, $show_image, $show_artist, $image_size );
+					$this->render_classic( $data, $settings );
 					break;
 			}
 			?>
@@ -112,6 +118,284 @@ class Renderer {
 			$data_attrs,
 			esc_html( $text )
 		);
+	}
+
+	/**
+	 * Render classic template.
+	 *
+	 * @param array<string, mixed> $data     Track data.
+	 * @param array<string, mixed> $settings Display settings.
+	 */
+	private function render_classic( array $data, array $settings ): void {
+		$image_size = $this->resolve_image_size( $settings );
+		?>
+		<div class="syb-nowplaying__inner">
+			<?php $this->render_media( $data, $settings, $image_size ); ?>
+			<div class="syb-nowplaying__meta">
+				<?php $this->render_prefix( $settings, 'p' ); ?>
+				<p class="syb-nowplaying__song"><?php echo esc_html( $data['track_name'] ); ?></p>
+				<?php if ( ! empty( $settings['show_artist'] ) && ! empty( $data['artists'] ) ) : ?>
+					<p class="syb-nowplaying__artist"><?php echo esc_html( $data['artists'] ); ?></p>
+				<?php endif; ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render compact template.
+	 *
+	 * @param array<string, mixed> $data     Track data.
+	 * @param array<string, mixed> $settings Display settings.
+	 */
+	private function render_compact( array $data, array $settings ): void {
+		$image_size = $this->resolve_image_size( $settings );
+		?>
+		<div class="syb-nowplaying__inner">
+			<?php $this->render_media( $data, $settings, $image_size, true ); ?>
+			<div class="syb-nowplaying__text">
+				<?php $this->render_prefix( $settings, 'span', true ); ?>
+				<span class="syb-nowplaying__song"><?php echo esc_html( $data['track_name'] ); ?></span>
+				<?php if ( ! empty( $settings['show_artist'] ) && ! empty( $data['artists'] ) ) : ?>
+					<span class="syb-nowplaying__separator">—</span>
+					<span class="syb-nowplaying__artist"><?php echo esc_html( $data['artists'] ); ?></span>
+				<?php endif; ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render modern card template.
+	 *
+	 * @param array<string, mixed> $data     Track data.
+	 * @param array<string, mixed> $settings Display settings.
+	 */
+	private function render_modern( array $data, array $settings ): void {
+		$image_size = $this->resolve_image_size( $settings );
+		?>
+		<div class="syb-nowplaying__card">
+			<?php $this->render_media( $data, $settings, $image_size, false, true ); ?>
+			<?php $this->render_prefix( $settings, 'p' ); ?>
+			<p class="syb-nowplaying__song"><?php echo esc_html( $data['track_name'] ); ?></p>
+			<?php if ( ! empty( $settings['show_artist'] ) && ! empty( $data['artists'] ) ) : ?>
+				<p class="syb-nowplaying__artist"><?php echo esc_html( $data['artists'] ); ?></p>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render minimal template.
+	 *
+	 * @param array<string, mixed> $data     Track data.
+	 * @param array<string, mixed> $settings Display settings.
+	 */
+	private function render_minimal( array $data, array $settings ): void {
+		?>
+		<p class="syb-nowplaying__minimal">
+			<?php $this->render_prefix( $settings, 'span', true ); ?>
+			<?php if ( ! empty( $settings['show_artist'] ) && ! empty( $data['artists'] ) ) : ?>
+				<span class="syb-nowplaying__artist"><?php echo esc_html( $data['artists'] ); ?></span>
+				<span class="syb-nowplaying__separator"> – </span>
+			<?php endif; ?>
+			<span class="syb-nowplaying__song"><?php echo esc_html( $data['track_name'] ); ?></span>
+		</p>
+		<?php
+	}
+
+	/**
+	 * Render the prefix label when enabled.
+	 *
+	 * @param array<string, mixed> $settings  Display settings.
+	 * @param string               $tag       HTML tag name.
+	 * @param bool                 $inline    Whether the label is inline with track text.
+	 */
+	private function render_prefix( array $settings, string $tag = 'p', bool $inline = false ): void {
+		if ( empty( $settings['show_prefix'] ) ) {
+			return;
+		}
+
+		$text = trim( (string) ( $settings['prefix_text'] ?? '' ) );
+
+		if ( '' === $text ) {
+			return;
+		}
+
+		$class = 'syb-nowplaying__prefix';
+
+		if ( $inline ) {
+			$class .= ' syb-nowplaying__prefix--inline';
+		}
+
+		printf(
+			'<%1$s class="%2$s">%3$s</%1$s>',
+			tag_escape( $tag ),
+			esc_attr( $class ),
+			esc_html( $text )
+		);
+
+		if ( $inline ) {
+			echo ' ';
+		}
+	}
+
+	/**
+	 * Render icon or album artwork.
+	 *
+	 * @param array<string, mixed> $data      Track data.
+	 * @param array<string, mixed> $settings  Display settings.
+	 * @param int                  $size      Media size in px.
+	 * @param bool                 $inline    Whether image is inline (compact template).
+	 * @param bool                 $centered  Whether image is centered (modern template).
+	 */
+	private function render_media( array $data, array $settings, int $size, bool $inline = false, bool $centered = false ): void {
+		if ( empty( $settings['show_image'] ) ) {
+			return;
+		}
+
+		if ( $this->should_use_album_art( $data, $settings ) ) {
+			$this->render_album_image( $data, $size, $inline, $centered );
+			return;
+		}
+
+		$this->render_music_icon( $size, $inline, $centered );
+	}
+
+	/**
+	 * Render the default music icon.
+	 *
+	 * @param int  $size     Icon size in px.
+	 * @param bool $inline   Whether icon is inline.
+	 * @param bool $centered Whether icon is centered.
+	 */
+	private function render_music_icon( int $size, bool $inline = false, bool $centered = false ): void {
+		$classes = array( 'syb-nowplaying__icon' );
+
+		if ( $inline ) {
+			$classes[] = 'syb-nowplaying__icon--inline';
+		}
+
+		if ( $centered ) {
+			$classes[] = 'syb-nowplaying__icon--centered';
+		}
+
+		$icon_size = (int) round( $size * 0.55 );
+		?>
+		<span class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" aria-hidden="true">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="<?php echo esc_attr( (string) $icon_size ); ?>" height="<?php echo esc_attr( (string) $icon_size ); ?>" focusable="false">
+				<path fill="currentColor" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+			</svg>
+		</span>
+		<?php
+	}
+
+	/**
+	 * Render album artwork when it is usable.
+	 *
+	 * @param array<string, mixed> $data     Track data.
+	 * @param int                  $size     Image size in px.
+	 * @param bool                 $inline   Whether image is inline.
+	 * @param bool                 $centered Whether image is centered.
+	 */
+	private function render_album_image( array $data, int $size, bool $inline = false, bool $centered = false ): void {
+		if ( empty( $data['image_url'] ) ) {
+			$this->render_music_icon( $size, $inline, $centered );
+			return;
+		}
+
+		$classes = array( 'syb-nowplaying__image' );
+
+		if ( $inline ) {
+			$classes[] = 'syb-nowplaying__image--inline';
+		}
+
+		if ( $centered ) {
+			$classes[] = 'syb-nowplaying__image--centered';
+		}
+
+		if ( $this->is_wide_artwork( $data ) ) {
+			$classes[] = 'syb-nowplaying__image--wide';
+		}
+
+		$tag   = $inline ? 'img' : 'div';
+		$class = esc_attr( implode( ' ', $classes ) );
+
+		if ( $inline ) {
+			printf(
+				'<img class="%1$s" src="%2$s" alt="%3$s" width="%4$d" height="%4$d" loading="lazy" />',
+				$class,
+				esc_url( $data['image_url'] ),
+				esc_attr( sprintf( __( 'Album art for %s', 'soundtrack-your-brand' ), $data['album_name'] ) ),
+				$size
+			);
+			return;
+		}
+
+		printf( '<div class="%s">', $class );
+		printf(
+			'<img src="%s" alt="%s" width="%d" height="%d" loading="lazy" />',
+			esc_url( $data['image_url'] ),
+			esc_attr( sprintf( __( 'Album art for %s', 'soundtrack-your-brand' ), $data['album_name'] ) ),
+			$size,
+			$size
+		);
+		echo '</div>';
+	}
+
+	/**
+	 * Determine whether album art should be used instead of the icon.
+	 *
+	 * @param array<string, mixed> $data     Track data.
+	 * @param array<string, mixed> $settings Display settings.
+	 * @return bool
+	 */
+	private function should_use_album_art( array $data, array $settings ): bool {
+		if ( 'album' !== ( $settings['image_display'] ?? 'icon' ) ) {
+			return false;
+		}
+
+		if ( empty( $data['image_url'] ) ) {
+			return false;
+		}
+
+		return $this->is_squareish_artwork( $data );
+	}
+
+	/**
+	 * Check if artwork has a usable square aspect ratio.
+	 *
+	 * @param array<string, mixed> $data Track data.
+	 * @return bool
+	 */
+	private function is_squareish_artwork( array $data ): bool {
+		$width  = (int) ( $data['image_width'] ?? 0 );
+		$height = (int) ( $data['image_height'] ?? 0 );
+
+		if ( $width < 1 || $height < 1 ) {
+			return false;
+		}
+
+		$ratio = $height / $width;
+
+		return $ratio >= self::MIN_ALBUM_ASPECT_RATIO && $ratio <= self::MAX_ALBUM_ASPECT_RATIO;
+	}
+
+	/**
+	 * Check if artwork is a wide banner.
+	 *
+	 * @param array<string, mixed> $data Track data.
+	 * @return bool
+	 */
+	private function is_wide_artwork( array $data ): bool {
+		$width  = (int) ( $data['image_width'] ?? 0 );
+		$height = (int) ( $data['image_height'] ?? 0 );
+
+		if ( $width < 1 || $height < 1 ) {
+			return false;
+		}
+
+		return ( $height / $width ) < self::MIN_ALBUM_ASPECT_RATIO;
 	}
 
 	/**
@@ -180,110 +464,6 @@ class Renderer {
 	}
 
 	/**
-	 * Render classic template.
-	 *
-	 * @param array<string, mixed> $data        Track data.
-	 * @param bool                 $show_image  Whether to show album image.
-	 * @param bool                 $show_artist Whether to show artist.
-	 * @param int                  $image_size  Image size in px.
-	 */
-	private function render_classic( array $data, bool $show_image, bool $show_artist, int $image_size ): void {
-		?>
-		<div class="syb-nowplaying__inner">
-			<?php if ( $show_image && ! empty( $data['image_url'] ) ) : ?>
-				<div class="syb-nowplaying__image">
-					<img src="<?php echo esc_url( $data['image_url'] ); ?>"
-						alt="<?php echo esc_attr( sprintf( __( 'Album art for %s', 'soundtrack-your-brand' ), $data['album_name'] ) ); ?>"
-						width="<?php echo esc_attr( (string) $image_size ); ?>"
-						height="<?php echo esc_attr( (string) $image_size ); ?>"
-						loading="lazy" />
-				</div>
-			<?php endif; ?>
-			<div class="syb-nowplaying__meta">
-				<p class="syb-nowplaying__song"><?php echo esc_html( $data['track_name'] ); ?></p>
-				<?php if ( $show_artist && ! empty( $data['artists'] ) ) : ?>
-					<p class="syb-nowplaying__artist"><?php echo esc_html( $data['artists'] ); ?></p>
-				<?php endif; ?>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Render compact template.
-	 *
-	 * @param array<string, mixed> $data        Track data.
-	 * @param bool                 $show_image  Whether to show album image.
-	 * @param bool                 $show_artist Whether to show artist.
-	 * @param int                  $image_size  Image size in px.
-	 */
-	private function render_compact( array $data, bool $show_image, bool $show_artist, int $image_size ): void {
-		?>
-		<div class="syb-nowplaying__inner">
-			<?php if ( $show_image && ! empty( $data['image_url'] ) ) : ?>
-				<img class="syb-nowplaying__image syb-nowplaying__image--inline"
-					src="<?php echo esc_url( $data['image_url'] ); ?>"
-					alt="<?php echo esc_attr( sprintf( __( 'Album art for %s', 'soundtrack-your-brand' ), $data['album_name'] ) ); ?>"
-					width="<?php echo esc_attr( (string) $image_size ); ?>"
-					height="<?php echo esc_attr( (string) $image_size ); ?>"
-					loading="lazy" />
-			<?php endif; ?>
-			<span class="syb-nowplaying__song"><?php echo esc_html( $data['track_name'] ); ?></span>
-			<?php if ( $show_artist && ! empty( $data['artists'] ) ) : ?>
-				<span class="syb-nowplaying__separator">—</span>
-				<span class="syb-nowplaying__artist"><?php echo esc_html( $data['artists'] ); ?></span>
-			<?php endif; ?>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Render modern card template.
-	 *
-	 * @param array<string, mixed> $data        Track data.
-	 * @param bool                 $show_image  Whether to show album image.
-	 * @param bool                 $show_artist Whether to show artist.
-	 * @param int                  $image_size  Image size in px.
-	 */
-	private function render_modern( array $data, bool $show_image, bool $show_artist, int $image_size ): void {
-		?>
-		<div class="syb-nowplaying__card">
-			<?php if ( $show_image && ! empty( $data['image_url'] ) ) : ?>
-				<div class="syb-nowplaying__image syb-nowplaying__image--centered">
-					<img src="<?php echo esc_url( $data['image_url'] ); ?>"
-						alt="<?php echo esc_attr( sprintf( __( 'Album art for %s', 'soundtrack-your-brand' ), $data['album_name'] ) ); ?>"
-						width="<?php echo esc_attr( (string) $image_size ); ?>"
-						height="<?php echo esc_attr( (string) $image_size ); ?>"
-						loading="lazy" />
-				</div>
-			<?php endif; ?>
-			<p class="syb-nowplaying__song"><?php echo esc_html( $data['track_name'] ); ?></p>
-			<?php if ( $show_artist && ! empty( $data['artists'] ) ) : ?>
-				<p class="syb-nowplaying__artist"><?php echo esc_html( $data['artists'] ); ?></p>
-			<?php endif; ?>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Render minimal template.
-	 *
-	 * @param array<string, mixed> $data        Track data.
-	 * @param bool                 $show_artist Whether to show artist.
-	 */
-	private function render_minimal( array $data, bool $show_artist ): void {
-		?>
-		<p class="syb-nowplaying__minimal">
-			<?php if ( $show_artist && ! empty( $data['artists'] ) ) : ?>
-				<span class="syb-nowplaying__artist"><?php echo esc_html( $data['artists'] ); ?></span>
-				<span class="syb-nowplaying__separator"> – </span>
-			<?php endif; ?>
-			<span class="syb-nowplaying__song"><?php echo esc_html( $data['track_name'] ); ?></span>
-		</p>
-		<?php
-	}
-
-	/**
 	 * Build inline CSS custom properties.
 	 *
 	 * @param array<string, mixed> $settings Display settings.
@@ -293,16 +473,19 @@ class Renderer {
 		$image_size = $this->resolve_image_size( $settings );
 
 		$vars = array(
-			'--syb-song-color'       => $settings['song_color'] ?? '#111111',
-			'--syb-artist-color'     => $settings['artist_color'] ?? '#666666',
-			'--syb-song-font-size'   => ( $settings['song_font_size'] ?? 18 ) . 'px',
-			'--syb-artist-font-size' => ( $settings['artist_font_size'] ?? 14 ) . 'px',
-			'--syb-song-font-weight' => $settings['song_font_weight'] ?? '600',
+			'--syb-song-color'         => $settings['song_color'] ?? '#111111',
+			'--syb-artist-color'       => $settings['artist_color'] ?? '#666666',
+			'--syb-prefix-color'       => $settings['prefix_color'] ?? '#444444',
+			'--syb-song-font-size'     => ( $settings['song_font_size'] ?? 18 ) . 'px',
+			'--syb-artist-font-size'   => ( $settings['artist_font_size'] ?? 14 ) . 'px',
+			'--syb-prefix-font-size'   => ( $settings['prefix_font_size'] ?? 13 ) . 'px',
+			'--syb-song-font-weight'   => $settings['song_font_weight'] ?? '600',
 			'--syb-artist-font-weight' => $settings['artist_font_weight'] ?? '400',
-			'--syb-image-size'       => $image_size . 'px',
+			'--syb-image-size'         => $image_size . 'px',
 		);
 
 		$parts = array();
+
 		foreach ( $vars as $key => $value ) {
 			$parts[] = $key . ':' . $value;
 		}
