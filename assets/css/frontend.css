@@ -65,16 +65,67 @@
 	margin: 0;
 }
 
-.syb-nowplaying__icon {
+.syb-nowplaying__icon,
+.syb-nowplaying .syb-nowplaying__waves,
+.entry-content .syb-nowplaying__waves {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	width: var(--syb-image-size);
 	height: var(--syb-image-size);
+	min-width: var(--syb-image-size);
+	min-height: var(--syb-image-size);
 	flex-shrink: 0;
 	border-radius: 10px;
 	background: rgba(0, 0, 0, 0.06);
 	color: var(--syb-artist-color);
+	box-sizing: border-box;
+}
+
+.syb-nowplaying .syb-nowplaying__waves,
+.entry-content .syb-nowplaying__waves {
+	align-items: flex-end;
+	justify-content: center;
+	gap: 4px;
+	padding: 14px 12px;
+}
+
+.syb-nowplaying__waves-bar {
+	display: block;
+	width: 4px;
+	height: 28px;
+	flex: 0 0 4px;
+	border-radius: 2px;
+	background: currentColor;
+	animation: syb-wave-pulse 1s ease-in-out infinite;
+	transform-origin: bottom center;
+}
+
+@keyframes syb-wave-pulse {
+	0%,
+	100% {
+		transform: scaleY(0.35);
+	}
+
+	50% {
+		transform: scaleY(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.syb-nowplaying__waves-bar {
+		animation: none;
+		transform: scaleY(0.6);
+	}
+}
+
+.syb-nowplaying__waves--centered {
+	margin: 0 auto 12px;
+}
+
+.syb-nowplaying__icon svg {
+	display: block;
+	flex-shrink: 0;
 }
 
 .syb-nowplaying__icon--centered {
@@ -131,6 +182,39 @@
 	color: var(--syb-artist-color);
 	font-size: var(--syb-artist-font-size);
 	margin: 0;
+}
+
+.syb-nowplaying--classic {
+	display: inline-block;
+	max-width: 100%;
+	padding: 16px 20px;
+	border: 1px solid rgba(15, 23, 42, 0.1);
+	border-radius: 12px;
+	background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+	box-shadow:
+		0 1px 2px rgba(15, 23, 42, 0.04),
+		0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.syb-nowplaying--classic .syb-nowplaying__inner {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+}
+
+.syb-nowplaying--classic .syb-nowplaying__waves {
+	align-self: center;
+}
+
+/* Classic: override theme .entry-content p margins (e.g. 1.6rem). */
+.entry-content .syb-nowplaying--classic .syb-nowplaying__meta p,
+.syb-nowplaying--classic .syb-nowplaying__meta p {
+	margin: 0;
+}
+
+.entry-content .syb-nowplaying--classic .syb-nowplaying__song,
+.syb-nowplaying--classic .syb-nowplaying__song {
+	margin-bottom: 0.8rem;
 }
 
 .syb-nowplaying--compact .syb-nowplaying__inner {

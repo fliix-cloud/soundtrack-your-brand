@@ -254,12 +254,72 @@ class Renderer {
 			return;
 		}
 
-		if ( $this->should_use_album_art( $data, $settings ) ) {
-			$this->render_album_image( $data, $size, $inline, $centered );
+		$image_display = $this->resolve_image_display( $settings );
+
+		if ( $this->should_use_album_art( $data, $settings, $image_display ) ) {
+			$this->render_album_image( $data, $settings, $size, $inline, $centered );
+			return;
+		}
+
+		if ( 'waves' === $image_display ) {
+			$this->render_music_waves( $size, $inline, $centered );
 			return;
 		}
 
 		$this->render_music_icon( $size, $inline, $centered );
+	}
+
+	/**
+	 * Resolve the configured artwork display mode.
+	 *
+	 * @param array<string, mixed> $settings Display settings.
+	 * @return string
+	 */
+	private function resolve_image_display( array $settings ): string {
+		$display = (string) ( $settings['image_display'] ?? 'waves' );
+
+		if ( ! in_array( $display, array( 'waves', 'icon', 'album' ), true ) ) {
+			return 'waves';
+		}
+
+		return $display;
+	}
+
+	/**
+	 * Render animated equalizer-style music waves.
+	 *
+	 * Decorative CSS animation — not tied to real audio data.
+	 *
+	 * @param int  $size     Container size in px.
+	 * @param bool $inline   Whether waves are inline.
+	 * @param bool $centered Whether waves are centered.
+	 */
+	private function render_music_waves( int $size, bool $inline = false, bool $centered = false ): void {
+		$classes = array( 'syb-nowplaying__waves' );
+
+		if ( $inline ) {
+			$classes[] = 'syb-nowplaying__waves--inline';
+		}
+
+		if ( $centered ) {
+			$classes[] = 'syb-nowplaying__waves--centered';
+		}
+
+		$bars = array(
+			array( 'duration' => '0.9s', 'delay' => '0s' ),
+			array( 'duration' => '1.1s', 'delay' => '0.15s' ),
+			array( 'duration' => '0.8s', 'delay' => '0.3s' ),
+			array( 'duration' => '1.2s', 'delay' => '0.1s' ),
+			array( 'duration' => '1s', 'delay' => '0.25s' ),
+		);
+		?>
+		<span class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" aria-hidden="true" role="presentation">
+			<?php foreach ( $bars as $bar ) : ?>
+				<span class="syb-nowplaying__waves-bar"
+					style="animation-duration: <?php echo esc_attr( $bar['duration'] ); ?>; animation-delay: <?php echo esc_attr( $bar['delay'] ); ?>"></span>
+			<?php endforeach; ?>
+		</span>
+		<?php
 	}
 
 	/**
@@ -294,13 +354,18 @@ class Renderer {
 	 * Render album artwork when it is usable.
 	 *
 	 * @param array<string, mixed> $data     Track data.
+	 * @param array<string, mixed> $settings Display settings.
 	 * @param int                  $size     Image size in px.
 	 * @param bool                 $inline   Whether image is inline.
 	 * @param bool                 $centered Whether image is centered.
 	 */
-	private function render_album_image( array $data, int $size, bool $inline = false, bool $centered = false ): void {
+	private function render_album_image( array $data, array $settings, int $size, bool $inline = false, bool $centered = false ): void {
 		if ( empty( $data['image_url'] ) ) {
-			$this->render_music_icon( $size, $inline, $centered );
+			if ( 'waves' === $this->resolve_image_display( $settings ) ) {
+				$this->render_music_waves( $size, $inline, $centered );
+			} else {
+				$this->render_music_icon( $size, $inline, $centered );
+			}
 			return;
 		}
 
@@ -350,8 +415,12 @@ class Renderer {
 	 * @param array<string, mixed> $settings Display settings.
 	 * @return bool
 	 */
-	private function should_use_album_art( array $data, array $settings ): bool {
-		if ( 'album' !== ( $settings['image_display'] ?? 'icon' ) ) {
+	private function should_use_album_art( array $data, array $settings, string $image_display = '' ): bool {
+		if ( '' === $image_display ) {
+			$image_display = $this->resolve_image_display( $settings );
+		}
+
+		if ( 'album' !== $image_display ) {
 			return false;
 		}
 

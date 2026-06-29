@@ -417,10 +417,11 @@ class Settings {
 				<th scope="row"><label for="syb_image_display"><?php esc_html_e( 'Artwork Display', 'soundtrack-your-brand' ); ?></label></th>
 				<td>
 					<select name="soundtrack_display_settings[image_display]" id="syb_image_display">
-						<option value="icon" <?php selected( $settings['image_display'], 'icon' ); ?>><?php esc_html_e( 'Music icon (recommended)', 'soundtrack-your-brand' ); ?></option>
+						<option value="waves" <?php selected( $settings['image_display'], 'waves' ); ?>><?php esc_html_e( 'Animated music waves (recommended)', 'soundtrack-your-brand' ); ?></option>
+						<option value="icon" <?php selected( $settings['image_display'], 'icon' ); ?>><?php esc_html_e( 'Static music icon', 'soundtrack-your-brand' ); ?></option>
 						<option value="album" <?php selected( $settings['image_display'], 'album' ); ?>><?php esc_html_e( 'Album art from API (square images only)', 'soundtrack-your-brand' ); ?></option>
 					</select>
-					<p class="description"><?php esc_html_e( 'Soundtrack often returns wide, low-quality banner images. The music icon avoids distorted artwork.', 'soundtrack-your-brand' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Soundtrack often returns wide, low-quality banner images. Animated waves are decorative and do not use API artwork.', 'soundtrack-your-brand' ); ?></p>
 				</td>
 			</tr>
 			<tr>
@@ -545,7 +546,7 @@ class Settings {
 		$alignments     = array( 'left', 'center', 'right' );
 		$sizes          = array( 'small', 'medium', 'large', 'custom' );
 		$weights        = array( '300', '400', '500', '600', '700', '800' );
-		$image_displays = array( 'icon', 'album' );
+		$image_displays = array( 'waves', 'icon', 'album' );
 
 		$clean = array(
 			'template'           => in_array( $value['template'] ?? '', $templates, true ) ? $value['template'] : $defaults['template'],

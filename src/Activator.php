@@ -52,7 +52,7 @@ class Activator {
 		return array(
 			'template'           => 'classic',
 			'show_image'         => true,
-			'image_display'      => 'icon',
+			'image_display'      => 'waves',
 			'show_prefix'        => true,
 			'prefix_text'        => __( 'Currently playing:', 'soundtrack-your-brand' ),
 			'show_artist'        => true,
