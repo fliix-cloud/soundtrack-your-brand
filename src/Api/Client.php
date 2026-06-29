@@ -7,6 +7,8 @@
 
 namespace SoundtrackYourBrand\Api;
 
+use SoundtrackYourBrand\Security\TokenStorage;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -33,7 +35,7 @@ class Client {
 	 */
 	public function request( string $query, array $variables = array() ) {
 		$base_url = get_option( 'soundtrack_api_base_url', 'https://api.soundtrackyourbrand.com/v2' );
-		$token    = get_option( 'soundtrack_api_token', '' );
+		$token    = TokenStorage::get_token();
 
 		if ( empty( $token ) ) {
 			return new \WP_Error(

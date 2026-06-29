@@ -82,7 +82,7 @@
 				'<td data-label="Slug">' +
 					'<input type="text" class="syb-slug-input regular-text" ' +
 						'value="' + escapeHtml( slug || '' ) + '" ' +
-						'placeholder="e.g. mc-shape-nersingen" ' +
+						'placeholder="nagold" ' +
 						'data-zone-id="' + escapeHtml( zone.zone_id ) + '" />' +
 					'<span class="syb-slug-error" role="alert"></span>' +
 				'</td>' +

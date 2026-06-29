@@ -28,7 +28,7 @@ A WordPress plugin that displays currently playing tracks from [Soundtrack Your 
 | Setting | Description |
 |---|---|
 | API Base URL | Default: `https://api.soundtrackyourbrand.com/v2` |
-| API Token | Your token, sent as `Authorization: Basic <token>` |
+| API Token | Encrypted at rest (AES-256-CBC). Write-only in settings — enter a new value to replace; the saved token cannot be viewed. Sent as `Authorization: Basic <token>` |
 
 See the [Soundtrack API Documentation](https://api.soundtrackyourbrand.com/v2/docs) for details.
 
@@ -81,6 +81,7 @@ Is transient syb_nowplaying_{md5(zone_id)} valid?
 
 - **Transient TTL:** Update Interval setting (10–120 seconds, default 30)
 - **In-request deduplication:** Multiple shortcodes for the same zone on one page → one API call
+- **Live refresh:** Frontend JavaScript polls every update interval and updates the widget when the track changes (no page reload needed)
 - **Admin zone fetch:** Separate from frontend cache; only triggered manually via AJAX
 
 ## Templates

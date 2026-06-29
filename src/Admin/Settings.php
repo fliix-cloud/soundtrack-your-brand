@@ -9,6 +9,7 @@ namespace SoundtrackYourBrand\Admin;
 
 use SoundtrackYourBrand\Activator;
 use SoundtrackYourBrand\Plugin;
+use SoundtrackYourBrand\Security\TokenStorage;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -48,7 +49,7 @@ class Settings {
 			'soundtrack_api_token',
 			array(
 				'type'              => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
+				'sanitize_callback' => array( TokenStorage::class, 'sanitize_setting' ),
 				'default'           => '',
 			)
 		);
@@ -228,7 +229,7 @@ class Settings {
 						class="syb-slug-input regular-text"
 						name="syb_slug_<?php echo esc_attr( $zone_id ); ?>"
 						value="<?php echo esc_attr( $slug ); ?>"
-						placeholder="<?php esc_attr_e( 'e.g. mc-shape-nersingen', 'soundtrack-your-brand' ); ?>"
+						placeholder="<?php esc_attr_e( 'nagold', 'soundtrack-your-brand' ); ?>"
 						data-zone-id="<?php echo esc_attr( $zone_id ); ?>" />
 					<span class="syb-slug-error" role="alert"></span>
 				</td>
@@ -264,12 +265,19 @@ class Settings {
 	 * Render API token field.
 	 */
 	public function render_token_field(): void {
-		$value = get_option( 'soundtrack_api_token', '' );
+		$has_token = TokenStorage::has_token();
 		?>
-		<input type="text" name="soundtrack_api_token" id="soundtrack_api_token"
-			value="<?php echo esc_attr( $value ); ?>" class="large-text" autocomplete="off" />
+		<input type="password" name="soundtrack_api_token" id="soundtrack_api_token"
+			value="" class="large-text" autocomplete="new-password"
+			placeholder="<?php echo esc_attr( $has_token ? __( 'Token configured — enter a new token to replace', 'soundtrack-your-brand' ) : __( 'Enter your API token', 'soundtrack-your-brand' ) ); ?>" />
 		<p class="description">
-			<?php esc_html_e( 'Your API token is stored in the WordPress database and sent as: Authorization: Basic <token>', 'soundtrack-your-brand' ); ?>
+			<?php
+			if ( $has_token ) {
+				esc_html_e( 'A token is saved and encrypted. It cannot be viewed — enter a new value only to replace it. Leave blank to keep the current token.', 'soundtrack-your-brand' );
+			} else {
+				esc_html_e( 'Your API token is encrypted before storage and sent as: Authorization: Basic <token>', 'soundtrack-your-brand' );
+			}
+			?>
 		</p>
 		<?php
 	}
@@ -278,7 +286,7 @@ class Settings {
 	 * Cache section description.
 	 */
 	public function render_cache_section(): void {
-		echo '<p>' . esc_html__( 'The plugin uses lazy, on-demand caching. Now playing data is fetched from the API only when a visitor loads a page containing the shortcode and the cached data has expired. No WP-Cron or background polling is used.', 'soundtrack-your-brand' ) . '</p>';
+		echo '<p>' . esc_html__( 'The plugin uses lazy, on-demand caching. Now playing data is fetched from the API when a visitor loads a page with the shortcode (or when the cache expires during live refresh). The frontend polls for updates at this interval so idle visitors see new tracks without reloading. No WP-Cron is used.', 'soundtrack-your-brand' ) . '</p>';
 	}
 
 	/**

@@ -29,7 +29,7 @@ This plugin connects to the [Soundtrack Your Brand API](https://api.soundtrackyo
 2. Run `composer install --no-dev` in the plugin directory
 3. Activate the plugin through the 'Plugins' menu in WordPress
 4. Go to Settings → Soundtrack Your Brand
-5. Enter your API token (sent as `Authorization: Basic <token>`)
+5. Enter your API token (encrypted at rest; sent as `Authorization: Basic <token>`)
 6. Click "Fetch / Refresh SoundZones from API"
 7. Assign slugs to your zones and click "Save All Mappings"
 8. Add `[syb_nowplaying slug="your-slug"]` to any page or post
@@ -42,7 +42,7 @@ Request API credentials at [soundtrackyourbrand.com/our-api/apply](https://www.s
 
 = How does caching work? =
 
-The plugin stores now playing data in WordPress transients. Data is fetched from the API only when a visitor loads a page containing the shortcode and the cached data has expired. The expiration time is configurable (10–120 seconds, default 30). No background cron jobs are used.
+The plugin stores now playing data in WordPress transients. Data is fetched from the API when a visitor loads a page containing the shortcode, or when the cache expires during live refresh. The frontend polls at the configured interval and updates the widget when a new track is detected. No WP-Cron is used.
 
 = Can I override display settings per shortcode? =
 

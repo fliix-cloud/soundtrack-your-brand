@@ -51,7 +51,9 @@ class Renderer {
 			}
 		}
 
-		$style = $this->build_inline_style( $settings );
+		$style      = $this->build_inline_style( $settings );
+		$settings   = $this->apply_render_metadata( $settings, $state, $data );
+		$data_attrs = $this->build_data_attributes( $settings );
 
 		if ( 'track' !== $state || empty( $data ) || empty( $data['has_track'] ) ) {
 			return $this->render_fallback( $classes, $style, $settings, $state );
@@ -63,7 +65,7 @@ class Renderer {
 
 		ob_start();
 		?>
-		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" style="<?php echo esc_attr( $style ); ?>" aria-live="polite">
+		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" style="<?php echo esc_attr( $style ); ?>"<?php echo $data_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-live="polite">
 			<?php
 			switch ( $template ) {
 				case 'compact':
@@ -101,12 +103,80 @@ class Renderer {
 			$text = $settings['error_text'] ?? $text;
 		}
 
+		$data_attrs = $this->build_data_attributes( $settings );
+
 		return sprintf(
-			'<div class="%1$s" style="%2$s" aria-live="polite"><p class="syb-nowplaying__fallback">%3$s</p></div>',
+			'<div class="%1$s" style="%2$s"%3$s aria-live="polite"><p class="syb-nowplaying__fallback">%4$s</p></div>',
 			esc_attr( implode( ' ', $classes ) ),
 			esc_attr( $style ),
+			$data_attrs,
 			esc_html( $text )
 		);
+	}
+
+	/**
+	 * Attach render metadata used for live refresh comparisons.
+	 *
+	 * @param array<string, mixed>      $settings Display settings.
+	 * @param string                    $state    Render state.
+	 * @param array<string, mixed>|null $data     Track data.
+	 * @return array<string, mixed>
+	 */
+	private function apply_render_metadata( array $settings, string $state, ?array $data ): array {
+		$settings['render_state'] = $state;
+		$settings['track_key']    = self::build_track_key( $state, $data );
+
+		return $settings;
+	}
+
+	/**
+	 * Build a stable key representing the currently displayed track.
+	 *
+	 * @param string                    $state Render state.
+	 * @param array<string, mixed>|null $data  Track data.
+	 * @return string
+	 */
+	public static function build_track_key( string $state, ?array $data ): string {
+		if ( 'track' !== $state || empty( $data ) || empty( $data['has_track'] ) ) {
+			return $state;
+		}
+
+		return md5(
+			( $data['started_at'] ?? '' ) . '|' .
+			( $data['track_name'] ?? '' ) . '|' .
+			( $data['artists'] ?? '' )
+		);
+	}
+
+	/**
+	 * Build data attributes for live frontend refresh.
+	 *
+	 * @param array<string, mixed> $settings Display settings.
+	 * @return string
+	 */
+	private function build_data_attributes( array $settings ): string {
+		if ( empty( $settings['live_refresh'] ) || empty( $settings['slug'] ) ) {
+			return '';
+		}
+
+		$attributes = array(
+			'data-syb-live'       => 'true',
+			'data-syb-slug'       => (string) $settings['slug'],
+			'data-syb-state'      => (string) ( $settings['render_state'] ?? 'track' ),
+			'data-syb-track-key'  => (string) ( $settings['track_key'] ?? '' ),
+		);
+
+		if ( ! empty( $settings['refresh_atts'] ) ) {
+			$attributes['data-syb-atts'] = (string) $settings['refresh_atts'];
+		}
+
+		$parts = array();
+
+		foreach ( $attributes as $name => $value ) {
+			$parts[] = sprintf( ' %s="%s"', $name, esc_attr( $value ) );
+		}
+
+		return implode( '', $parts );
 	}
 
 	/**
