@@ -69,6 +69,8 @@ class Plugin {
 		$this->cache      = new NowPlayingCache( $this->api_client );
 		$this->renderer   = new Renderer();
 
+		load_plugin_textdomain('soundtrack-your-brand', false, dirname(plugin_basename(SYB_PLUGIN_FILE)) . '/languages/');
+
 		if ( is_admin() ) {
 			new Admin( $this->api_client );
 		}
