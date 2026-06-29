@@ -38,7 +38,7 @@ See the [Soundtrack API Documentation](https://api.soundtrackyourbrand.com/v2/do
 2. Assign a unique slug to each zone (lowercase, alphanumeric, hyphens/underscores)
 3. Click **Save All Mappings**
 
-Example: zone "MC Shape Nersingen" → slug `mc-shape-nersingen`
+Example: zone "Nagold" → slug `nagold`
 
 Mappings are stored as `slug => zone_id` in the `soundtrack_mappings` option.
 
@@ -49,14 +49,14 @@ Choose a default template, toggle image/artist visibility, customize colors, fon
 ## Shortcode
 
 ```
-[syb_nowplaying slug="mc-shape-nersingen"]
+[syb_nowplaying slug="nagold"]
 ```
 
 ### Optional Attributes
 
 | Attribute | Description | Example |
 |---|---|---|
-| `slug` | **Required.** Mapped zone slug | `mc-shape-nersingen` |
+| `slug` | **Required.** Mapped zone slug | `nagold` |
 | `design` | Template override | `classic`, `compact`, `modern`, `minimal` |
 | `show_image` | Show/hide album art | `true`, `false` |
 | `show_artist` | Show/hide artist name | `true`, `false` |
