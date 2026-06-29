@@ -3,7 +3,7 @@
  * Plugin Name:       Soundtrack Your Brand – Now Playing
  * Plugin URI:        https://github.com/fliix-cloud/soundtrack-your-brand
  * Description:       Display currently playing tracks from Soundtrack Your Brand sound zones via shortcode.
- * Version:           1.0.7
+ * Version:           1.0.8
  * Requires at least: 6.2
  * Requires PHP:      8.0
  * Author:            fliix - Marc Werner
@@ -20,7 +20,7 @@ use SoundtrackYourBrand\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
-const SYB_VERSION = '1.0.7';
+const SYB_VERSION = '1.0.8';
 const SYB_PLUGIN_FILE = __FILE__;
 define( 'SYB_PLUGIN_DIR', plugin_dir_path( SYB_PLUGIN_FILE ) );
 define( 'SYB_PLUGIN_URL', plugin_dir_url( SYB_PLUGIN_FILE ) );
