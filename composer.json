@@ -1,0 +1,24 @@
+{
+	"name": "fliix-cloud/soundtrack-your-brand",
+	"description": "Display currently playing tracks from Soundtrack Your Brand sound zones via shortcode.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Fliix Cloud",
+			"email": "support@fliix.cloud"
+		}
+	],
+	"require": {
+		"php": ">=8.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"SoundtrackYourBrand\\": "src/"
+		}
+	},
+	"config": {
+		"sort-packages": true,
+		"optimize-autoloader": true
+	}
+}

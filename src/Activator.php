@@ -5,12 +5,14 @@
  * @package SoundtrackYourBrand
  */
 
+namespace SoundtrackYourBrand;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Sets default options on plugin activation.
  */
-class SYB_Activator {
+class Activator {
 
 	/**
 	 * Run activation routines.

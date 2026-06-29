@@ -1,0 +1,154 @@
+.syb-settings-wrap .syb-mapping-app {
+	margin-top: 1em;
+}
+
+.syb-mapping-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+	margin: 1em 0;
+}
+
+.syb-mapping-toolbar--bottom {
+	margin-top: 1.5em;
+}
+
+.syb-mapping-notice {
+	padding: 8px 12px;
+	border-radius: 4px;
+	margin-bottom: 12px;
+	display: none;
+}
+
+.syb-mapping-notice:not(:empty) {
+	display: block;
+}
+
+.syb-notice--success {
+	background: #d4edda;
+	border: 1px solid #c3e6cb;
+	color: #155724;
+}
+
+.syb-notice--error {
+	background: #f8d7da;
+	border: 1px solid #f5c6cb;
+	color: #721c24;
+}
+
+.syb-notice--info {
+	background: #d1ecf1;
+	border: 1px solid #bee5eb;
+	color: #0c5460;
+}
+
+.syb-table-wrap {
+	overflow-x: auto;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	max-height: 600px;
+	overflow-y: auto;
+}
+
+.syb-zones-table {
+	margin: 0;
+	border: none;
+}
+
+.syb-zones-table thead th {
+	position: sticky;
+	top: 0;
+	background: #f0f0f1;
+	z-index: 1;
+}
+
+.syb-zones-table tbody tr:nth-child(even) {
+	background: #f9f9f9;
+}
+
+.syb-zone-id {
+	display: inline-block;
+	max-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+	font-size: 11px;
+	word-break: break-all;
+}
+
+.syb-zone-id-cell .button {
+	margin-left: 6px;
+	vertical-align: middle;
+}
+
+.syb-location {
+	color: #646970;
+	font-size: 12px;
+}
+
+.syb-status {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 3px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.syb-status--paired {
+	background: #d4edda;
+	color: #155724;
+}
+
+.syb-status--unpaired {
+	background: #fff3cd;
+	color: #856404;
+}
+
+.syb-slug-input {
+	width: 100%;
+	max-width: 220px;
+}
+
+.syb-slug-input--error {
+	border-color: #d63638;
+	box-shadow: 0 0 0 1px #d63638;
+}
+
+.syb-slug-error {
+	display: block;
+	color: #d63638;
+	font-size: 12px;
+	margin-top: 4px;
+}
+
+.syb-display-table th {
+	width: 200px;
+}
+
+@media screen and (max-width: 782px) {
+	.syb-zones-table thead {
+		display: none;
+	}
+
+	.syb-zones-table tbody tr {
+		display: block;
+		margin-bottom: 1em;
+		border-bottom: 2px solid #c3c4c7;
+	}
+
+	.syb-zones-table tbody td {
+		display: block;
+		text-align: right;
+		padding-left: 50%;
+		position: relative;
+	}
+
+	.syb-zones-table tbody td::before {
+		content: attr(data-label);
+		position: absolute;
+		left: 10px;
+		font-weight: 600;
+		text-align: left;
+	}
+}

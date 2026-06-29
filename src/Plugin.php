@@ -5,47 +5,55 @@
  * @package SoundtrackYourBrand
  */
 
+namespace SoundtrackYourBrand;
+
+use SoundtrackYourBrand\Admin\Admin;
+use SoundtrackYourBrand\Api\Client;
+use SoundtrackYourBrand\Cache\NowPlayingCache;
+use SoundtrackYourBrand\Frontend\Renderer;
+use SoundtrackYourBrand\Frontend\Shortcode;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Bootstraps all plugin components.
  */
-class SYB_Plugin {
+class Plugin {
 
 	/**
 	 * Singleton instance.
 	 *
-	 * @var SYB_Plugin|null
+	 * @var Plugin|null
 	 */
-	private static ?SYB_Plugin $instance = null;
+	private static ?Plugin $instance = null;
 
 	/**
 	 * API client instance.
 	 *
-	 * @var SYB_Api_Client
+	 * @var Client
 	 */
-	private SYB_Api_Client $api_client;
+	private Client $api_client;
 
 	/**
 	 * Cache instance.
 	 *
-	 * @var SYB_Cache
+	 * @var NowPlayingCache
 	 */
-	private SYB_Cache $cache;
+	private NowPlayingCache $cache;
 
 	/**
 	 * Renderer instance.
 	 *
-	 * @var SYB_Renderer
+	 * @var Renderer
 	 */
-	private SYB_Renderer $renderer;
+	private Renderer $renderer;
 
 	/**
 	 * Get singleton instance.
 	 *
-	 * @return SYB_Plugin
+	 * @return Plugin
 	 */
-	public static function instance(): SYB_Plugin {
+	public static function instance(): Plugin {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
@@ -57,32 +65,32 @@ class SYB_Plugin {
 	 * Constructor.
 	 */
 	private function __construct() {
-		$this->api_client = new SYB_Api_Client();
-		$this->cache      = new SYB_Cache( $this->api_client );
-		$this->renderer   = new SYB_Renderer();
+		$this->api_client = new Client();
+		$this->cache      = new NowPlayingCache( $this->api_client );
+		$this->renderer   = new Renderer();
 
 		if ( is_admin() ) {
-			new SYB_Admin( $this->api_client );
+			new Admin( $this->api_client );
 		}
 
-		new SYB_Shortcode( $this->cache, $this->renderer );
+		new Shortcode( $this->cache, $this->renderer );
 	}
 
 	/**
 	 * Get the API client.
 	 *
-	 * @return SYB_Api_Client
+	 * @return Client
 	 */
-	public function api_client(): SYB_Api_Client {
+	public function api_client(): Client {
 		return $this->api_client;
 	}
 
 	/**
 	 * Get the cache handler.
 	 *
-	 * @return SYB_Cache
+	 * @return NowPlayingCache
 	 */
-	public function cache(): SYB_Cache {
+	public function cache(): NowPlayingCache {
 		return $this->cache;
 	}
 
@@ -92,7 +100,7 @@ class SYB_Plugin {
 	 * @return array<string, mixed>
 	 */
 	public static function get_display_settings(): array {
-		$defaults = SYB_Activator::default_display_settings();
+		$defaults = Activator::default_display_settings();
 		$stored   = get_option( 'soundtrack_display_settings', array() );
 
 		if ( ! is_array( $stored ) ) {
