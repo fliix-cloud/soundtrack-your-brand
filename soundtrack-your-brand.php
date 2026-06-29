@@ -3,7 +3,7 @@
  * Plugin Name:       Soundtrack Your Brand – Now Playing
  * Plugin URI:        https://github.com/fliix-cloud/soundtrack-your-brand
  * Description:       Display currently playing tracks from Soundtrack Your Brand sound zones via shortcode.
- * Version:           1.0.5
+ * Version:           1.0.6
  * Requires at least: 6.2
  * Requires PHP:      8.0
  * Author:            fliix - Marc Werner
@@ -14,13 +14,16 @@
  * @package SoundtrackYourBrand
  */
 
+use SoundtrackYourBrand\Activator;
+use SoundtrackYourBrand\Plugin;
+
 defined( 'ABSPATH' ) || exit;
 
-define( 'SYB_VERSION', '1.0.5' );
-define( 'SYB_PLUGIN_FILE', __FILE__ );
-define( 'SYB_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'SYB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'SYB_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+const SYB_VERSION = '1.0.6';
+const SYB_PLUGIN_FILE = __FILE__;
+define( 'SYB_PLUGIN_DIR', plugin_dir_path( SYB_PLUGIN_FILE ) );
+define( 'SYB_PLUGIN_URL', plugin_dir_url( SYB_PLUGIN_FILE ) );
+define( 'SYB_PLUGIN_BASENAME', plugin_basename( SYB_PLUGIN_FILE ) );
 
 $syb_autoloader = SYB_PLUGIN_DIR . 'vendor/autoload.php';
 
@@ -46,15 +49,15 @@ if ( ! file_exists( $syb_autoloader ) ) {
 
 require $syb_autoloader;
 
-register_activation_hook( __FILE__, array( \SoundtrackYourBrand\Activator::class, 'activate' ) );
+register_activation_hook( __FILE__, array( Activator::class, 'activate' ) );
 
 /**
  * Initialize the plugin.
  *
- * @return \SoundtrackYourBrand\Plugin
+ * @return Plugin
  */
-function syb_plugin(): \SoundtrackYourBrand\Plugin {
-	return \SoundtrackYourBrand\Plugin::instance();
+function syb_plugin(): Plugin {
+	return Plugin::instance();
 }
 
 syb_plugin();

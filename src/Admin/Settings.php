@@ -121,17 +121,9 @@ class Settings {
 
 		add_settings_section(
 			'syb_display_section',
-			__( 'Display Settings', 'soundtrack-your-brand' ),
+			__( 'Widget Appearance', 'soundtrack-your-brand' ),
 			array( $this, 'render_display_section' ),
 			'soundtrack-your-brand'
-		);
-
-		add_settings_field(
-			'soundtrack_display_settings',
-			__( 'Widget Appearance', 'soundtrack-your-brand' ),
-			array( $this, 'render_display_fields' ),
-			'soundtrack-your-brand',
-			'syb_display_section'
 		);
 	}
 
@@ -177,14 +169,32 @@ class Settings {
 			);
 		}
 
-		usort(
-			$rows,
-			static function ( $a, $b ) {
-				return strcmp( $a['full_label'], $b['full_label'] );
-			}
-		);
+		usort( $rows, array( self::class, 'compare_zone_rows' ) );
 
 		return $rows;
+	}
+
+	/**
+	 * Sort zone rows by account, location, then zone name.
+	 *
+	 * @param array<string, mixed> $a First row.
+	 * @param array<string, mixed> $b Second row.
+	 * @return int
+	 */
+	public static function compare_zone_rows( array $a, array $b ): int {
+		$compare = strcasecmp( (string) ( $a['business_name'] ?? '' ), (string) ( $b['business_name'] ?? '' ) );
+
+		if ( 0 !== $compare ) {
+			return $compare;
+		}
+
+		$compare = strcasecmp( (string) ( $a['location_name'] ?? '' ), (string) ( $b['location_name'] ?? '' ) );
+
+		if ( 0 !== $compare ) {
+			return $compare;
+		}
+
+		return strcasecmp( (string) ( $a['name'] ?? '' ), (string) ( $b['name'] ?? '' ) );
 	}
 
 	/**
@@ -361,10 +371,11 @@ class Settings {
 	}
 
 	/**
-	 * Display section description.
+	 * Display section — description and appearance controls (no form-table wrapper).
 	 */
 	public function render_display_section(): void {
-		echo '<p>' . esc_html__( 'Configure the default appearance of the now playing widget. Individual shortcodes can override some settings via attributes.', 'soundtrack-your-brand' ) . '</p>';
+		echo '<p class="syb-section-lead">' . esc_html__( 'Configure the default appearance of the now playing widget. Individual shortcodes can override some settings via attributes.', 'soundtrack-your-brand' ) . '</p>';
+		$this->render_display_fields();
 	}
 
 	/**
@@ -373,121 +384,211 @@ class Settings {
 	public function render_display_fields(): void {
 		$settings = Plugin::get_display_settings();
 		?>
-		<table class="form-table syb-display-table" role="presentation">
-			<tr>
-				<th scope="row"><label for="syb_template"><?php esc_html_e( 'Default Display Template', 'soundtrack-your-brand' ); ?></label></th>
-				<td>
-					<select name="soundtrack_display_settings[template]" id="syb_template">
-						<option value="classic" <?php selected( $settings['template'], 'classic' ); ?>><?php esc_html_e( 'Classic (album image left + song above artist)', 'soundtrack-your-brand' ); ?></option>
-						<option value="compact" <?php selected( $settings['template'], 'compact' ); ?>><?php esc_html_e( 'Compact (text only, inline)', 'soundtrack-your-brand' ); ?></option>
-						<option value="modern" <?php selected( $settings['template'], 'modern' ); ?>><?php esc_html_e( 'Modern Card (centered, subtle shadow)', 'soundtrack-your-brand' ); ?></option>
-						<option value="minimal" <?php selected( $settings['template'], 'minimal' ); ?>><?php esc_html_e( 'Minimal (Artist – Song, very small footprint)', 'soundtrack-your-brand' ); ?></option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><?php esc_html_e( 'Global Toggles', 'soundtrack-your-brand' ); ?></th>
-				<td>
-					<input type="hidden" name="soundtrack_display_settings[show_image]" value="0" />
-					<label>
-						<input type="checkbox" name="soundtrack_display_settings[show_image]" value="1" <?php checked( ! empty( $settings['show_image'] ) ); ?> />
-						<?php esc_html_e( 'Show Icon / Artwork', 'soundtrack-your-brand' ); ?>
-					</label><br />
-					<input type="hidden" name="soundtrack_display_settings[show_prefix]" value="0" />
-					<label>
-						<input type="checkbox" name="soundtrack_display_settings[show_prefix]" value="1" <?php checked( ! empty( $settings['show_prefix'] ) ); ?> />
-						<?php esc_html_e( 'Show "Currently playing" Label', 'soundtrack-your-brand' ); ?>
-					</label><br />
-					<input type="hidden" name="soundtrack_display_settings[show_artist]" value="0" />
-					<label>
-						<input type="checkbox" name="soundtrack_display_settings[show_artist]" value="1" <?php checked( ! empty( $settings['show_artist'] ) ); ?> />
-						<?php esc_html_e( 'Show Artist', 'soundtrack-your-brand' ); ?>
-					</label>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_prefix_text"><?php esc_html_e( 'Label Text', 'soundtrack-your-brand' ); ?></label></th>
-				<td>
-					<input type="text" name="soundtrack_display_settings[prefix_text]" id="syb_prefix_text"
-						value="<?php echo esc_attr( $settings['prefix_text'] ); ?>" class="regular-text" />
-					<p class="description"><?php esc_html_e( 'Shown above the track when a song is playing (e.g. "Currently playing:").', 'soundtrack-your-brand' ); ?></p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_image_display"><?php esc_html_e( 'Artwork Display', 'soundtrack-your-brand' ); ?></label></th>
-				<td>
-					<select name="soundtrack_display_settings[image_display]" id="syb_image_display">
-						<option value="waves" <?php selected( $settings['image_display'], 'waves' ); ?>><?php esc_html_e( 'Animated music waves (recommended)', 'soundtrack-your-brand' ); ?></option>
-						<option value="icon" <?php selected( $settings['image_display'], 'icon' ); ?>><?php esc_html_e( 'Static music icon', 'soundtrack-your-brand' ); ?></option>
-						<option value="album" <?php selected( $settings['image_display'], 'album' ); ?>><?php esc_html_e( 'Album art from API (square images only)', 'soundtrack-your-brand' ); ?></option>
-					</select>
-					<p class="description"><?php esc_html_e( 'Soundtrack often returns wide, low-quality banner images. Animated waves are decorative and do not use API artwork.', 'soundtrack-your-brand' ); ?></p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_image_size"><?php esc_html_e( 'Icon / Image Size', 'soundtrack-your-brand' ); ?></label></th>
-				<td>
-					<select name="soundtrack_display_settings[image_size]" id="syb_image_size">
-						<option value="small" <?php selected( $settings['image_size'], 'small' ); ?>><?php esc_html_e( 'Small (48px)', 'soundtrack-your-brand' ); ?></option>
-						<option value="medium" <?php selected( $settings['image_size'], 'medium' ); ?>><?php esc_html_e( 'Medium (80px)', 'soundtrack-your-brand' ); ?></option>
-						<option value="large" <?php selected( $settings['image_size'], 'large' ); ?>><?php esc_html_e( 'Large (120px)', 'soundtrack-your-brand' ); ?></option>
-						<option value="custom" <?php selected( $settings['image_size'], 'custom' ); ?>><?php esc_html_e( 'Custom (px)', 'soundtrack-your-brand' ); ?></option>
-					</select>
-					<input type="number" name="soundtrack_display_settings[image_size_custom]" id="syb_image_size_custom"
-						value="<?php echo esc_attr( (string) $settings['image_size_custom'] ); ?>" min="16" max="400" class="small-text" />
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_song_color"><?php esc_html_e( 'Song Color', 'soundtrack-your-brand' ); ?></label></th>
-				<td><input type="text" name="soundtrack_display_settings[song_color]" id="syb_song_color" value="<?php echo esc_attr( $settings['song_color'] ); ?>" class="syb-color-picker" data-default-color="#111111" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_artist_color"><?php esc_html_e( 'Artist Color', 'soundtrack-your-brand' ); ?></label></th>
-				<td><input type="text" name="soundtrack_display_settings[artist_color]" id="syb_artist_color" value="<?php echo esc_attr( $settings['artist_color'] ); ?>" class="syb-color-picker" data-default-color="#666666" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_prefix_color"><?php esc_html_e( 'Label Color', 'soundtrack-your-brand' ); ?></label></th>
-				<td><input type="text" name="soundtrack_display_settings[prefix_color]" id="syb_prefix_color" value="<?php echo esc_attr( $settings['prefix_color'] ); ?>" class="syb-color-picker" data-default-color="#444444" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_song_font_size"><?php esc_html_e( 'Song Font Size (px)', 'soundtrack-your-brand' ); ?></label></th>
-				<td><input type="number" name="soundtrack_display_settings[song_font_size]" id="syb_song_font_size" value="<?php echo esc_attr( (string) $settings['song_font_size'] ); ?>" min="8" max="72" class="small-text" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_artist_font_size"><?php esc_html_e( 'Artist Font Size (px)', 'soundtrack-your-brand' ); ?></label></th>
-				<td><input type="number" name="soundtrack_display_settings[artist_font_size]" id="syb_artist_font_size" value="<?php echo esc_attr( (string) $settings['artist_font_size'] ); ?>" min="8" max="72" class="small-text" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_prefix_font_size"><?php esc_html_e( 'Label Font Size (px)', 'soundtrack-your-brand' ); ?></label></th>
-				<td><input type="number" name="soundtrack_display_settings[prefix_font_size]" id="syb_prefix_font_size" value="<?php echo esc_attr( (string) $settings['prefix_font_size'] ); ?>" min="8" max="72" class="small-text" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_song_font_weight"><?php esc_html_e( 'Song Font Weight', 'soundtrack-your-brand' ); ?></label></th>
-				<td><?php $this->render_font_weight_select( 'song_font_weight', $settings['song_font_weight'] ); ?></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_artist_font_weight"><?php esc_html_e( 'Artist Font Weight', 'soundtrack-your-brand' ); ?></label></th>
-				<td><?php $this->render_font_weight_select( 'artist_font_weight', $settings['artist_font_weight'] ); ?></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_alignment"><?php esc_html_e( 'Alignment', 'soundtrack-your-brand' ); ?></label></th>
-				<td>
-					<select name="soundtrack_display_settings[alignment]" id="syb_alignment">
-						<option value="left" <?php selected( $settings['alignment'], 'left' ); ?>><?php esc_html_e( 'Left', 'soundtrack-your-brand' ); ?></option>
-						<option value="center" <?php selected( $settings['alignment'], 'center' ); ?>><?php esc_html_e( 'Center', 'soundtrack-your-brand' ); ?></option>
-						<option value="right" <?php selected( $settings['alignment'], 'right' ); ?>><?php esc_html_e( 'Right', 'soundtrack-your-brand' ); ?></option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="syb_fallback_text"><?php esc_html_e( 'Fallback Text', 'soundtrack-your-brand' ); ?></label></th>
-				<td>
-					<input type="text" name="soundtrack_display_settings[fallback_text]" id="syb_fallback_text"
-						value="<?php echo esc_attr( $settings['fallback_text'] ); ?>" class="large-text" />
-					<p class="description"><?php esc_html_e( 'Shown when no track is playing or on error.', 'soundtrack-your-brand' ); ?></p>
-				</td>
-			</tr>
-		</table>
+		<div class="syb-display-panel">
+			<div class="syb-display-grid">
+				<section class="syb-display-card syb-display-card--span-2">
+					<header class="syb-display-card__header">
+						<h3 class="syb-display-card__title"><?php esc_html_e( 'Layout', 'soundtrack-your-brand' ); ?></h3>
+						<p class="syb-display-card__desc"><?php esc_html_e( 'Template, alignment, and visibility options.', 'soundtrack-your-brand' ); ?></p>
+					</header>
+					<div class="syb-display-card__body">
+						<div class="syb-field syb-field--template">
+							<span class="syb-field__label"><?php esc_html_e( 'Template', 'soundtrack-your-brand' ); ?></span>
+							<div class="syb-template-picker" role="radiogroup" aria-label="<?php esc_attr_e( 'Template', 'soundtrack-your-brand' ); ?>">
+								<?php
+								$templates = array(
+									'classic' => array(
+										'label' => __( 'Classic', 'soundtrack-your-brand' ),
+										'desc'  => __( 'Bordered frame with icon and text', 'soundtrack-your-brand' ),
+									),
+									'compact' => array(
+										'label' => __( 'Compact', 'soundtrack-your-brand' ),
+										'desc'  => __( 'Single-line, space-efficient', 'soundtrack-your-brand' ),
+									),
+									'modern'  => array(
+										'label' => __( 'Modern Card', 'soundtrack-your-brand' ),
+										'desc'  => __( 'Rounded card with soft shadow', 'soundtrack-your-brand' ),
+									),
+									'minimal' => array(
+										'label' => __( 'Minimal', 'soundtrack-your-brand' ),
+										'desc'  => __( 'Text only, no decoration', 'soundtrack-your-brand' ),
+									),
+								);
+								foreach ( $templates as $value => $template ) :
+									?>
+									<label class="syb-template-option">
+										<input type="radio" class="syb-template-option__input" name="soundtrack_display_settings[template]"
+											value="<?php echo esc_attr( $value ); ?>" <?php checked( $settings['template'], $value ); ?> />
+										<span class="syb-template-option__card">
+											<span class="syb-template-option__name"><?php echo esc_html( $template['label'] ); ?></span>
+											<span class="syb-template-option__desc"><?php echo esc_html( $template['desc'] ); ?></span>
+										</span>
+									</label>
+								<?php endforeach; ?>
+							</div>
+						</div>
+						<div class="syb-layout-row">
+							<div class="syb-field">
+								<span class="syb-field__label"><?php esc_html_e( 'Alignment', 'soundtrack-your-brand' ); ?></span>
+								<div class="syb-segmented" role="radiogroup" aria-label="<?php esc_attr_e( 'Alignment', 'soundtrack-your-brand' ); ?>">
+									<?php
+									$alignments = array(
+										'left'   => __( 'Left', 'soundtrack-your-brand' ),
+										'center' => __( 'Center', 'soundtrack-your-brand' ),
+										'right'  => __( 'Right', 'soundtrack-your-brand' ),
+									);
+									foreach ( $alignments as $value => $label ) :
+										?>
+										<label class="syb-segmented__item">
+											<input type="radio" class="syb-segmented__input" name="soundtrack_display_settings[alignment]"
+												value="<?php echo esc_attr( $value ); ?>" <?php checked( $settings['alignment'], $value ); ?> />
+											<span class="syb-segmented__label"><?php echo esc_html( $label ); ?></span>
+										</label>
+									<?php endforeach; ?>
+								</div>
+							</div>
+							<div class="syb-field syb-field--toggles">
+							<span class="syb-field__label"><?php esc_html_e( 'Visibility', 'soundtrack-your-brand' ); ?></span>
+							<div class="syb-toggle-group">
+								<?php $this->render_display_toggle( 'show_image', __( 'Icon / Artwork', 'soundtrack-your-brand' ), ! empty( $settings['show_image'] ) ); ?>
+								<?php $this->render_display_toggle( 'show_prefix', __( 'Currently playing label', 'soundtrack-your-brand' ), ! empty( $settings['show_prefix'] ) ); ?>
+								<?php $this->render_display_toggle( 'show_artist', __( 'Artist name', 'soundtrack-your-brand' ), ! empty( $settings['show_artist'] ) ); ?>
+							</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="syb-display-card">
+					<header class="syb-display-card__header">
+						<h3 class="syb-display-card__title"><?php esc_html_e( 'Artwork', 'soundtrack-your-brand' ); ?></h3>
+						<p class="syb-display-card__desc"><?php esc_html_e( 'How the visual indicator appears beside the track.', 'soundtrack-your-brand' ); ?></p>
+					</header>
+					<div class="syb-display-card__body">
+						<div class="syb-field">
+							<label class="syb-field__label" for="syb_image_display"><?php esc_html_e( 'Display mode', 'soundtrack-your-brand' ); ?></label>
+							<select name="soundtrack_display_settings[image_display]" id="syb_image_display" class="syb-field__control">
+								<option value="waves" <?php selected( $settings['image_display'], 'waves' ); ?>><?php esc_html_e( 'Animated waves', 'soundtrack-your-brand' ); ?></option>
+								<option value="icon" <?php selected( $settings['image_display'], 'icon' ); ?>><?php esc_html_e( 'Static icon', 'soundtrack-your-brand' ); ?></option>
+								<option value="album" <?php selected( $settings['image_display'], 'album' ); ?>><?php esc_html_e( 'Album art (square only)', 'soundtrack-your-brand' ); ?></option>
+							</select>
+						</div>
+						<div class="syb-field syb-field--inline-controls">
+							<label class="syb-field__label" for="syb_image_size"><?php esc_html_e( 'Size', 'soundtrack-your-brand' ); ?></label>
+							<div class="syb-field__row">
+								<select name="soundtrack_display_settings[image_size]" id="syb_image_size" class="syb-field__control">
+									<option value="small" <?php selected( $settings['image_size'], 'small' ); ?>><?php esc_html_e( 'Small (48px)', 'soundtrack-your-brand' ); ?></option>
+									<option value="medium" <?php selected( $settings['image_size'], 'medium' ); ?>><?php esc_html_e( 'Medium (80px)', 'soundtrack-your-brand' ); ?></option>
+									<option value="large" <?php selected( $settings['image_size'], 'large' ); ?>><?php esc_html_e( 'Large (120px)', 'soundtrack-your-brand' ); ?></option>
+									<option value="custom" <?php selected( $settings['image_size'], 'custom' ); ?>><?php esc_html_e( 'Custom', 'soundtrack-your-brand' ); ?></option>
+								</select>
+								<input type="number" name="soundtrack_display_settings[image_size_custom]" id="syb_image_size_custom"
+									value="<?php echo esc_attr( (string) $settings['image_size_custom'] ); ?>" min="16" max="400"
+									class="syb-field__control syb-field__control--narrow" placeholder="px" />
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="syb-display-card">
+					<header class="syb-display-card__header">
+						<h3 class="syb-display-card__title"><?php esc_html_e( 'Text', 'soundtrack-your-brand' ); ?></h3>
+						<p class="syb-display-card__desc"><?php esc_html_e( 'Labels shown when playing or idle.', 'soundtrack-your-brand' ); ?></p>
+					</header>
+					<div class="syb-display-card__body">
+						<div class="syb-field">
+							<label class="syb-field__label" for="syb_prefix_text"><?php esc_html_e( 'Playing label', 'soundtrack-your-brand' ); ?></label>
+							<input type="text" name="soundtrack_display_settings[prefix_text]" id="syb_prefix_text"
+								value="<?php echo esc_attr( $settings['prefix_text'] ); ?>" class="syb-field__control" />
+						</div>
+						<div class="syb-field">
+							<label class="syb-field__label" for="syb_fallback_text"><?php esc_html_e( 'Fallback text', 'soundtrack-your-brand' ); ?></label>
+							<input type="text" name="soundtrack_display_settings[fallback_text]" id="syb_fallback_text"
+								value="<?php echo esc_attr( $settings['fallback_text'] ); ?>" class="syb-field__control" />
+						</div>
+					</div>
+				</section>
+
+				<section class="syb-display-card syb-display-card--span-2">
+					<header class="syb-display-card__header">
+						<h3 class="syb-display-card__title"><?php esc_html_e( 'Typography & Colors', 'soundtrack-your-brand' ); ?></h3>
+						<p class="syb-display-card__desc"><?php esc_html_e( 'Fine-tune fonts and colors for each text element.', 'soundtrack-your-brand' ); ?></p>
+					</header>
+					<div class="syb-display-card__body">
+						<div class="syb-type-grid">
+							<div class="syb-type-column">
+								<h4 class="syb-type-column__title"><?php esc_html_e( 'Song', 'soundtrack-your-brand' ); ?></h4>
+								<div class="syb-field">
+									<label class="syb-field__label" for="syb_song_color"><?php esc_html_e( 'Color', 'soundtrack-your-brand' ); ?></label>
+									<input type="text" name="soundtrack_display_settings[song_color]" id="syb_song_color"
+										value="<?php echo esc_attr( $settings['song_color'] ); ?>" class="syb-color-picker syb-field__control" data-default-color="#111111" />
+								</div>
+								<div class="syb-field syb-field--inline-controls">
+									<label class="syb-field__label" for="syb_song_font_size"><?php esc_html_e( 'Size (px)', 'soundtrack-your-brand' ); ?></label>
+									<input type="number" name="soundtrack_display_settings[song_font_size]" id="syb_song_font_size"
+										value="<?php echo esc_attr( (string) $settings['song_font_size'] ); ?>" min="8" max="72" class="syb-field__control syb-field__control--narrow" />
+								</div>
+								<div class="syb-field">
+									<label class="syb-field__label" for="syb_song_font_weight"><?php esc_html_e( 'Weight', 'soundtrack-your-brand' ); ?></label>
+									<?php $this->render_font_weight_select( 'song_font_weight', $settings['song_font_weight'] ); ?>
+								</div>
+							</div>
+							<div class="syb-type-column">
+								<h4 class="syb-type-column__title"><?php esc_html_e( 'Artist', 'soundtrack-your-brand' ); ?></h4>
+								<div class="syb-field">
+									<label class="syb-field__label" for="syb_artist_color"><?php esc_html_e( 'Color', 'soundtrack-your-brand' ); ?></label>
+									<input type="text" name="soundtrack_display_settings[artist_color]" id="syb_artist_color"
+										value="<?php echo esc_attr( $settings['artist_color'] ); ?>" class="syb-color-picker syb-field__control" data-default-color="#666666" />
+								</div>
+								<div class="syb-field syb-field--inline-controls">
+									<label class="syb-field__label" for="syb_artist_font_size"><?php esc_html_e( 'Size (px)', 'soundtrack-your-brand' ); ?></label>
+									<input type="number" name="soundtrack_display_settings[artist_font_size]" id="syb_artist_font_size"
+										value="<?php echo esc_attr( (string) $settings['artist_font_size'] ); ?>" min="8" max="72" class="syb-field__control syb-field__control--narrow" />
+								</div>
+								<div class="syb-field">
+									<label class="syb-field__label" for="syb_artist_font_weight"><?php esc_html_e( 'Weight', 'soundtrack-your-brand' ); ?></label>
+									<?php $this->render_font_weight_select( 'artist_font_weight', $settings['artist_font_weight'] ); ?>
+								</div>
+							</div>
+							<div class="syb-type-column">
+								<h4 class="syb-type-column__title"><?php esc_html_e( 'Label', 'soundtrack-your-brand' ); ?></h4>
+								<div class="syb-field">
+									<label class="syb-field__label" for="syb_prefix_color"><?php esc_html_e( 'Color', 'soundtrack-your-brand' ); ?></label>
+									<input type="text" name="soundtrack_display_settings[prefix_color]" id="syb_prefix_color"
+										value="<?php echo esc_attr( $settings['prefix_color'] ); ?>" class="syb-color-picker syb-field__control" data-default-color="#444444" />
+								</div>
+								<div class="syb-field syb-field--inline-controls">
+									<label class="syb-field__label" for="syb_prefix_font_size"><?php esc_html_e( 'Size (px)', 'soundtrack-your-brand' ); ?></label>
+									<input type="number" name="soundtrack_display_settings[prefix_font_size]" id="syb_prefix_font_size"
+										value="<?php echo esc_attr( (string) $settings['prefix_font_size'] ); ?>" min="8" max="72" class="syb-field__control syb-field__control--narrow" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render a modern toggle control for display settings.
+	 *
+	 * @param string $name    Setting field name.
+	 * @param string $label   Visible label.
+	 * @param bool   $checked Whether the toggle is on.
+	 */
+	private function render_display_toggle( string $name, string $label, bool $checked ): void {
+		?>
+		<div class="syb-toggle">
+			<input type="hidden" name="soundtrack_display_settings[<?php echo esc_attr( $name ); ?>]" value="0" />
+			<label class="syb-toggle__label-wrap">
+				<input type="checkbox" class="syb-toggle__input" name="soundtrack_display_settings[<?php echo esc_attr( $name ); ?>]"
+					value="1" <?php checked( $checked ); ?> />
+				<span class="syb-toggle__track" aria-hidden="true"></span>
+				<span class="syb-toggle__text"><?php echo esc_html( $label ); ?></span>
+			</label>
+		</div>
 		<?php
 	}
 
@@ -500,7 +601,7 @@ class Settings {
 	private function render_font_weight_select( string $name, string $value ): void {
 		$weights = array( '300', '400', '500', '600', '700', '800' );
 		?>
-		<select name="soundtrack_display_settings[<?php echo esc_attr( $name ); ?>]" id="syb_<?php echo esc_attr( $name ); ?>">
+		<select name="soundtrack_display_settings[<?php echo esc_attr( $name ); ?>]" id="syb_<?php echo esc_attr( $name ); ?>" class="syb-field__control">
 			<?php foreach ( $weights as $weight ) : ?>
 				<option value="<?php echo esc_attr( $weight ); ?>" <?php selected( $value, $weight ); ?>><?php echo esc_html( $weight ); ?></option>
 			<?php endforeach; ?>

@@ -90,6 +90,20 @@
 		);
 	}
 
+	function compareZoneRows( a, b ) {
+		var account = ( a.business_name || '' ).localeCompare( b.business_name || '', undefined, { sensitivity: 'base' } );
+		if ( account !== 0 ) {
+			return account;
+		}
+
+		var location = ( a.location_name || '' ).localeCompare( b.location_name || '', undefined, { sensitivity: 'base' } );
+		if ( location !== 0 ) {
+			return location;
+		}
+
+		return ( a.name || '' ).localeCompare( b.name || '', undefined, { sensitivity: 'base' } );
+	}
+
 	function escapeHtml( text ) {
 		return String( text )
 			.replace( /&/g, '&amp;' )
@@ -110,9 +124,7 @@
 			return;
 		}
 
-		zones.sort( function ( a, b ) {
-			return ( a.full_label || '' ).localeCompare( b.full_label || '' );
-		} );
+		zones.sort( compareZoneRows );
 
 		zones.forEach( function ( zone ) {
 			var slug = currentSlugs[ zone.zone_id ] || sybAdmin.zoneIdToSlug[ zone.zone_id ] || '';

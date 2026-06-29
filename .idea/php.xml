@@ -14,9 +14,10 @@
     <include_path>
       <path value="$PROJECT_DIR$/../../wp-core/wp-includes" />
       <path value="$PROJECT_DIR$/../../wp-core/wp-admin" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.4" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
