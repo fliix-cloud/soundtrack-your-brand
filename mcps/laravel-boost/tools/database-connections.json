@@ -1,0 +1,8 @@
+{
+  "name": "database-connections",
+  "description": "List the configured database connection names for this application.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {}
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "last-error",
+  "description": "Get details of the last error/exception created in this application on the backend. Use browser-log tool for browser errors.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {}
+  }
+}
