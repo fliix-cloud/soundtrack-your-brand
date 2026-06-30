@@ -1,0 +1,496 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Soundtrack Your Brand – Now Playing\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-29 12:30+0000\n"
+"PO-Revision-Date: 2026-06-30 08:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: Spanish (Spain)\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Claude Code\n"
+"X-Loco-Version: 2.8.5; wp-7.0; php-8.4.22\n"
+"X-Domain: soundtrack-your-brand"
+
+#: src/Admin/Settings.php:286
+msgid ""
+"A token is saved and encrypted. It cannot be viewed — enter a new value only "
+"to replace it. Leave blank to keep the current token."
+msgstr ""
+"Se guarda un token cifrado. No se puede ver: introduce un nuevo valor solo si "
+"deseas reemplázalo. Déjalo en blanco para conservar el token actual."
+
+#: src/Admin/Settings.php:223 src/Admin/Settings.php:351
+msgid "Account / Location"
+msgstr "Cuenta / Ubicación"
+
+#: src/Admin/Settings.php:473
+msgid "Album art (square only)"
+msgstr "Carátula del álbum (solo cuadrada)"
+
+#: src/Frontend/Renderer.php:394 src/Frontend/Renderer.php:404
+#, php-format
+msgid "Album art for %s"
+msgstr "Carátula del álbum para %s"
+
+#: src/Admin/Settings.php:432 src/Admin/Settings.php:433
+msgid "Alignment"
+msgstr "Alineación"
+
+#: src/Admin/Settings.php:471
+msgid "Animated waves"
+msgstr "Ondas animadas"
+
+#: src/Admin/Settings.php:86
+msgid "API Base URL"
+msgstr "URL base de la API"
+
+#: src/Admin/Settings.php:79
+msgid "API Configuration"
+msgstr "Configuración de la API"
+
+#. %d: HTTP status code
+#: src/Api/Client.php:85
+msgid "API request failed with HTTP status %d."
+msgstr "La solicitud a la API falló con el estado HTTP %d."
+
+#: src/Admin/Settings.php:94
+msgid "API Token"
+msgstr "Token de la API"
+
+#: src/Api/Client.php:43
+msgid "API token is not configured."
+msgstr "El token de la API no está configurado."
+
+#: src/Admin/Settings.php:537
+msgid "Artist"
+msgstr "Artista"
+
+#: src/Admin/Settings.php:455
+msgid "Artist name"
+msgstr "Nombre del artista"
+
+#: src/Admin/Settings.php:464
+msgid "Artwork"
+msgstr "Ilustración"
+
+#: src/Admin/Settings.php:402
+msgid "Bordered frame with icon and text"
+msgstr "Marco con borde, icono y texto"
+
+#: src/Admin/Settings.php:437
+msgid "Center"
+msgstr "Centro"
+
+#: src/Admin/Settings.php:401
+msgid "Classic"
+msgstr "Clásico"
+
+#: src/Admin/Settings.php:522 src/Admin/Settings.php:539
+#: src/Admin/Settings.php:556
+msgid "Color"
+msgstr "Color"
+
+#: src/Admin/Settings.php:405
+msgid "Compact"
+msgstr "Compacto"
+
+#: src/Admin/Settings.php:377
+msgid ""
+"Configure the default appearance of the now playing widget. Individual "
+"shortcodes can override some settings via attributes."
+msgstr ""
+"Configura la apariencia por defecto del widget de «está sonando». Cada "
+"shortcode puede anular algunos ajustes mediante atributos."
+
+#: src/Admin/Settings.php:257
+msgid ""
+"Configure your Soundtrack API credentials. The token is sent as an "
+"Authorization: Basic header with each request."
+msgstr ""
+"Configura tus credenciales de la Soundtrack API. El token se envía como "
+"cabecera «Authorization: Basic» con cada solicitud."
+
+#: src/Admin/Admin.php:112
+msgid "Copied!"
+msgstr "¡Copiado!"
+
+#: src/Admin/Admin.php:119 src/Admin/Settings.php:231
+msgid "Copy"
+msgstr "Copiar"
+
+#: src/Admin/Admin.php:113
+msgid "Copy failed."
+msgstr "Error al copiar."
+
+#: src/Admin/Settings.php:454
+msgid "Currently playing label"
+msgstr "Etiqueta «sonando ahora»"
+
+#: src/Activator.php:57
+msgid "Currently playing:"
+msgstr "Sonando ahora:"
+
+#: src/Admin/Settings.php:483
+msgid "Custom"
+msgstr "Personalizado"
+
+#. Description of the plugin
+msgid ""
+"Display currently playing tracks from Soundtrack Your Brand sound zones via "
+"shortcode."
+msgstr ""
+"Muestra las pistas en reproducción de las zonas sonoras de Soundtrack Your "
+"Brand mediante shortcode."
+
+#: src/Admin/Settings.php:469
+msgid "Display mode"
+msgstr "Modo de visualización"
+
+#: src/Admin/Admin.php:220
+msgid "Duplicate slug."
+msgstr "Slug duplicado."
+
+#: src/Admin/Settings.php:282
+msgid "Enter your API token"
+msgstr "Introduce tu token de la API"
+
+#: src/Admin/Admin.php:108
+msgid "Failed to fetch sound zones."
+msgstr "No se pudieron obtener las zonas sonoras."
+
+#: src/Admin/Admin.php:111
+msgid "Failed to save mappings."
+msgstr "No se pudieron guardar las asignaciones."
+
+#: src/Admin/Settings.php:505
+msgid "Fallback text"
+msgstr "Texto de reserva"
+
+#: src/Admin/Settings.php:338
+msgid "Fetch / Refresh SoundZones from API"
+msgstr "Obtener / Actualizar SoundZones desde la API"
+
+#. %d: number of zones
+#: src/Admin/Admin.php:149
+msgid "Fetched %d sound zones."
+msgstr "Se obtuvieron %d zonas sonoras."
+
+#: src/Admin/Admin.php:106
+msgid "Fetching sound zones…"
+msgstr "Obteniendo zonas sonoras…"
+
+#: src/Admin/Settings.php:515
+msgid "Fine-tune fonts and colors for each text element."
+msgstr "Ajusta fuentes y colores de cada elemento de texto."
+
+#. Author of the plugin
+msgid "fliix - Marc Werner"
+msgstr "fliix - Marc Werner"
+
+#: src/Admin/Settings.php:311
+msgid ""
+"How long (in seconds) to cache now playing data. Minimum 10, maximum 120."
+msgstr ""
+"Cuánto tiempo (en segundos) se almacena en caché los datos de «ahora suena». "
+"Mínimo 10, máximo 120."
+
+#: src/Admin/Settings.php:465
+msgid "How the visual indicator appears beside the track."
+msgstr "Cómo aparece el indicador visual junto a la pista."
+
+#. URI of the plugin
+msgid "https://github.com/fliix-cloud/soundtrack-your-brand"
+msgstr "https://github.com/fliix-cloud/soundtrack-your-brand"
+
+#: src/Admin/Settings.php:453
+msgid "Icon / Artwork"
+msgstr "Icono / Ilustración"
+
+#: src/Api/Client.php:96
+msgid "Invalid API response."
+msgstr "Respuesta de la API no válida."
+
+#: src/Admin/Admin.php:170
+msgid "Invalid mapping data."
+msgstr "Datos de asignación no válidos."
+
+#: src/Admin/Admin.php:215
+msgid "Invalid slug format."
+msgstr "Formato de slug no válido."
+
+#: src/Admin/Settings.php:554
+msgid "Label"
+msgstr "Etiqueta"
+
+#: src/Admin/Settings.php:496
+msgid "Labels shown when playing or idle."
+msgstr "Etiquetas mostradas durante la reproducción o en inactividad."
+
+#: src/Admin/Settings.php:482
+msgid "Large (120px)"
+msgstr "Grande (120px)"
+
+#: src/Admin/Settings.php:391
+msgid "Layout"
+msgstr "Diseño"
+
+#: src/Admin/Settings.php:436
+msgid "Left"
+msgstr "Izquierda"
+
+#: src/Admin/Settings.php:320
+msgid ""
+"Map each SoundZone to a unique slug for use in the shortcode. Fetch zones "
+"from the API, assign slugs, then click Save All Mappings."
+msgstr ""
+"Asigna a cada SoundZone un slug único para usarlo en el shortcode. Obtén las "
+"zonas desde la API, asígnales slugs y haz clic en «Guardar todas las "
+"asignaciones»."
+
+#: src/Admin/Admin.php:110 src/Admin/Admin.php:189
+msgid "Mappings saved successfully."
+msgstr "Asignaciones guardadas correctamente."
+
+#: src/Admin/Settings.php:481
+msgid "Medium (80px)"
+msgstr "Mediano (80px)"
+
+#: src/Admin/Settings.php:413
+msgid "Minimal"
+msgstr "Mínimo"
+
+#: src/Admin/Settings.php:409
+msgid "Modern Card"
+msgstr "Tarjeta moderna"
+
+#: src/Admin/Settings.php:242
+msgid "nagold"
+msgstr "nagold"
+
+#: src/Frontend/Shortcode.php:80 src/Frontend/Shortcode.php:108
+msgid "No slug specified."
+msgstr "No se ha especificado ningún slug."
+
+#: src/Api/Client.php:133
+msgid "No sound zones found for this API token."
+msgstr "No se encontraron zonas sonoras para este token de API."
+
+#: src/Admin/Admin.php:116
+msgid ""
+"No sound zones loaded. Click \"Fetch / Refresh SoundZones from API\" first."
+msgstr ""
+"No se cargaron zonas sonoras. Haz clic primero en «Obtener / Actualizar "
+"SoundZones desde la API»."
+
+#: src/Admin/Settings.php:210
+msgid ""
+"No sound zones loaded. Click \"Fetch / Refresh SoundZones from API\" to get "
+"started."
+msgstr ""
+"No se cargaron zonas sonoras. Haz clic en «Obtener / Actualizar SoundZones "
+"desde la API» para empezar."
+
+#: src/Activator.php:70 src/Frontend/Renderer.php:106 src/Frontend/Renderer.php:133
+msgid "No music playback at the moment."
+msgstr "No se está reproduciendo música en este momento."
+
+#: src/Cache/NowPlayingCache.php:96
+msgid "Now playing data is being fetched."
+msgstr "Se están obteniendo los datos de «sonando ahora»."
+
+#: src/Admin/Admin.php:117 src/Admin/Settings.php:218
+msgid "Paired"
+msgstr "Emparejada"
+
+#: src/Admin/Admin.php:132 src/Admin/Admin.php:163
+msgid "Permission denied."
+msgstr "Permiso denegado."
+
+#: src/Admin/Settings.php:500
+msgid "Playing label"
+msgstr "Etiqueta «reproduciendo»"
+
+#: src/Admin/Admin.php:178
+msgid "Please fix validation errors before saving."
+msgstr "Por favor, corrige los errores de validación antes de guardar."
+
+#: src/Admin/Settings.php:438
+msgid "Right"
+msgstr "Derecha"
+
+#: src/Admin/Settings.php:410
+msgid "Rounded card with soft shadow"
+msgstr "Tarjeta redondeada con sombra suave"
+
+#: src/Admin/Settings.php:341 src/Admin/Settings.php:366
+msgid "Save All Mappings"
+msgstr "Guardar todas las asignaciones"
+
+#: src/Admin/Settings.php:145
+msgid "Save Settings"
+msgstr "Guardar ajustes"
+
+#: src/Admin/Admin.php:109
+msgid "Saving mappings…"
+msgstr "Guardando asignaciones…"
+
+#: src/Admin/Settings.php:406
+msgid "Single-line, space-efficient"
+msgstr "Línea única, uso eficiente del espacio"
+
+#: src/Admin/Settings.php:477
+msgid "Size"
+msgstr "Tamaño"
+
+#: src/Admin/Settings.php:527 src/Admin/Settings.php:544
+#: src/Admin/Settings.php:561
+msgid "Size (px)"
+msgstr "Tamaño (px)"
+
+#: src/Admin/Settings.php:237 src/Admin/Settings.php:355
+msgid "Slug"
+msgstr "Slug"
+
+#: src/Admin/Settings.php:480
+msgid "Small (48px)"
+msgstr "Pequeño (48px)"
+
+#: src/Admin/Settings.php:520
+msgid "Song"
+msgstr "Canción"
+
+#: src/Admin/Admin.php:107
+msgid "Sound zones refreshed successfully."
+msgstr "Zonas sonoras actualizadas correctamente."
+
+#: src/Admin/Settings.php:259
+msgid "Soundtrack API Documentation"
+msgstr "Documentación de la Soundtrack API"
+
+#: src/Admin/Admin.php:55 src/Admin/Admin.php:56
+msgid "Soundtrack Your Brand"
+msgstr "Soundtrack Your Brand"
+
+#. Name of the plugin
+msgid "Soundtrack Your Brand – Now Playing"
+msgstr "Soundtrack Your Brand – Está sonando"
+
+#: soundtrack-your-brand.php:40
+msgid ""
+"Soundtrack Your Brand – Now Playing: Composer autoloader not found. Run "
+"\"composer install\" in the plugin directory."
+msgstr ""
+"Soundtrack Your Brand – Está sonando: No se encontró el cargador automático "
+"de Composer. Ejecuta «composer install» en el directorio del plugin."
+
+#: src/Admin/Settings.php:117
+msgid "SoundZone Mapping"
+msgstr "Asignación de SoundZone"
+
+#: src/Admin/Settings.php:472
+msgid "Static icon"
+msgstr "Icono estático"
+
+#: src/Admin/Settings.php:234 src/Admin/Settings.php:354
+msgid "Status"
+msgstr "Estado"
+
+#: src/Admin/Settings.php:396 src/Admin/Settings.php:397
+msgid "Template"
+msgstr "Plantilla"
+
+#: src/Admin/Settings.php:392
+msgid "Template, alignment, and visibility options."
+msgstr "Opciones de plantilla, alineación y visibilidad."
+
+#: src/Admin/Settings.php:495
+msgid "Text"
+msgstr "Texto"
+
+#: src/Admin/Settings.php:414
+msgid "Text only, no decoration"
+msgstr "Solo texto, sin decoración"
+
+#: src/Admin/Settings.php:299
+msgid ""
+"The plugin uses lazy, on-demand caching. Now playing data is fetched from "
+"the API when a visitor loads a page with the shortcode (or when the cache "
+"expires during live refresh). The frontend polls for updates at this "
+"interval so idle visitors see new tracks without reloading. No WP-Cron is "
+"used."
+msgstr ""
+"El plugin usa un almacenamiento en caché diferido y bajo demanda. Los datos "
+"de «ahora suena» se obtienen de la API cuando un visitante carga una página "
+"con el shortcode (o cuando el caché caduca durante una actualización en "
+"vivo). La interfaz consulta actualizaciones en este intervalo para que los "
+"visitantes inactivos vean nuevas pistas sin recargar. No se usa WP-Cron."
+
+#: src/Admin/Admin.php:115
+msgid "This slug is already used."
+msgstr "Este slug ya está en uso."
+
+#: src/Admin/Settings.php:282
+msgid "Token configured — enter a new token to replace"
+msgstr "Token configurado: introduce un nuevo token para reemplazarlo"
+
+#: src/Admin/Settings.php:514
+msgid "Typography & Colors"
+msgstr "Tipografía y colores"
+
+#: src/Api/Client.php:105
+msgid "Unknown GraphQL error."
+msgstr "Error GraphQL desconocido."
+
+#. %s: slug name
+#: src/Frontend/Shortcode.php:122
+#, php-format
+msgid "Unknown slug: %s"
+msgstr "Slug desconocido: %s"
+
+#: src/Admin/Admin.php:118 src/Admin/Settings.php:219
+msgid "Unpaired"
+msgstr "Sin emparejar"
+
+#: src/Admin/Settings.php:102
+msgid "Update Interval & Caching"
+msgstr "Intervalo de actualización y caché"
+
+#: src/Admin/Settings.php:109
+msgid "Update Interval (seconds)"
+msgstr "Intervalo de actualización (segundos)"
+
+#: src/Admin/Admin.php:114
+msgid "Use lowercase letters, numbers, hyphens, and underscores only."
+msgstr "Usa solo letras minúsculas, números, guiones y guiones bajos."
+
+#: src/Admin/Settings.php:451
+msgid "Visibility"
+msgstr "Visibilidad"
+
+#: src/Admin/Settings.php:532 src/Admin/Settings.php:549
+msgid "Weight"
+msgstr "Peso"
+
+#: src/Admin/Settings.php:124
+msgid "Widget Appearance"
+msgstr "Apariencia del widget"
+
+#: src/Admin/Settings.php:288
+msgid ""
+"Your API token is encrypted before storage and sent as: Authorization: Basic "
+"<token>"
+msgstr ""
+"Tu token de la API se cifra antes de almacenarlo y se envía como: "
+"Authorization: Basic <token>"
+
+#: src/Admin/Settings.php:228 src/Admin/Settings.php:353
+msgid "Zone ID"
+msgstr "ID de zona"
+
+#: src/Admin/Settings.php:227 src/Admin/Settings.php:352
+msgid "Zone Name"
+msgstr "Nombre de zona"
