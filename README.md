@@ -182,8 +182,9 @@ The plugin is fully translatable with **text domain** `soundtrack-your-brand` an
 
 | Language | Locale | Status | File |
 |----------|--------|--------|------|
+| Spanish  | `es_ES` | ✅ Complete | `languages/soundtrack-your-brand-es_ES.l10n.php` |
 | German   | `de_DE` | ✅ Complete | `languages/soundtrack-your-brand-de_DE.l10n.php` |
-| English  | `en_US` | ✅ Reference (`en_US` ships gettext catalog) | `languages/soundtrack-your-brand-en_US.l10n.php>` |
+| English  | `en_US` | ✅ Reference | `languages/soundtrack-your-brand-en_US.l10n.php` |
 
 ### How to Contribute Translations
 
