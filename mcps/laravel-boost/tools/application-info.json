@@ -1,8 +1,0 @@
-{
-  "name": "application-info",
-  "description": "Get comprehensive application information including PHP version, Laravel version, database engine, and all installed packages with their versions. You should use this tool on each new chat, and use the package & version data to write version specific code for the packages that exist.",
-  "inputSchema": {
-    "type": "object",
-    "properties": {}
-  }
-}
