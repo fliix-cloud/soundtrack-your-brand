@@ -299,9 +299,9 @@ msgstr ""
 "Es wurden keine SoundZones geladen. Klicken Sie auf „SoundZones von der API "
 "abrufen/aktualisieren“, um loszulegen."
 
-#: src/Activator.php:70 src/Frontend/Renderer.php:106
-msgid "Nothing playing right now."
-msgstr "Derzeit läuft nichts."
+#: src/Activator.php:70 src/Frontend/Renderer.php:106 src/Frontend/Renderer.php:133
+msgid "No music playback at the moment."
+msgstr "Derzeit keine Musik-Wiedergabe"
 
 #: src/Cache/NowPlayingCache.php:96
 msgid "Now playing data is being fetched."

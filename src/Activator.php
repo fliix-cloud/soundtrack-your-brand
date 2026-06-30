@@ -67,7 +67,7 @@ class Activator {
 			'song_font_weight'   => '600',
 			'artist_font_weight' => '400',
 			'alignment'          => 'left',
-			'fallback_text'      => __( 'Nothing playing right now.', 'soundtrack-your-brand' ),
+			'fallback_text'      => __( 'No music playback at the moment.', 'soundtrack-your-brand' ),
 		);
 	}
 }

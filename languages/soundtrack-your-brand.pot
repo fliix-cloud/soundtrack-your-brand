@@ -278,8 +278,8 @@ msgid ""
 "started."
 msgstr ""
 
-#: src/Activator.php:70 src/Frontend/Renderer.php:106
-msgid "Nothing playing right now."
+#: src/Activator.php:70 src/Frontend/Renderer.php:106 src/Frontend/Renderer.php:133
+msgid "No music playback at the moment."
 msgstr ""
 
 #: src/Cache/NowPlayingCache.php:96

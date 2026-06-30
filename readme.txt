@@ -52,7 +52,7 @@ Yes. Use optional attributes:
 
 = What happens when nothing is playing? =
 
-The widget shows your configured fallback text (default: "Nothing playing right now.").
+The widget shows your configured fallback text (default: "No music playback at the moment.").
 
 = Will I hit rate limits? =
 

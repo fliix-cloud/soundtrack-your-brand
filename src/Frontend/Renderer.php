@@ -66,7 +66,7 @@ class Renderer {
 		$data_attrs = $this->build_data_attributes( $settings );
 
 		if ( 'track' !== $state || empty( $data ) || empty( $data['has_track'] ) ) {
-			return $this->render_fallback( $classes, $style, $settings, $state );
+			return $this->render_fallback( $classes, $style, $settings, $state, $template );
 		}
 
 		ob_start();
@@ -100,10 +100,15 @@ class Renderer {
 	 * @param string               $style    Inline style.
 	 * @param array<string, mixed> $settings Display settings.
 	 * @param string               $state    Render state.
+	 * @param string               $template Template name.
 	 * @return string
 	 */
-	private function render_fallback( array $classes, string $style, array $settings, string $state ): string {
-		$text = $settings['fallback_text'] ?? __( 'Nothing playing right now.', 'soundtrack-your-brand' );
+	private function render_fallback( array $classes, string $style, array $settings, string $state, string $template ): string {
+		if ( 'classic' === $template && 'error' !== $state ) {
+			return $this->render_classic_fallback( $classes, $style, $settings );
+		}
+
+		$text = $this->resolve_fallback_text( $settings );
 
 		if ( 'error' === $state ) {
 			$text = $settings['error_text'] ?? $text;
@@ -118,6 +123,64 @@ class Renderer {
 			$data_attrs,
 			esc_html( $text )
 		);
+	}
+
+	/**
+	 * Render classic template empty/idle state with the same layout as a playing track.
+	 *
+	 * @param array<int, string>   $classes  CSS classes.
+	 * @param string               $style    Inline style.
+	 * @param array<string, mixed> $settings Display settings.
+	 * @return string
+	 */
+	private function render_classic_fallback( array $classes, string $style, array $settings ): string {
+		$text       = $this->resolve_fallback_text( $settings );
+		$data_attrs = $this->build_data_attributes( $settings );
+		$image_size = $this->resolve_image_size( $settings );
+
+		ob_start();
+		?>
+		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" style="<?php echo esc_attr( $style ); ?>"<?php echo $data_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> aria-live="polite">
+			<div class="syb-nowplaying__inner">
+				<?php
+				if ( ! empty( $settings['show_image'] ) ) {
+					if ( 'icon' === $this->resolve_image_display( $settings ) ) {
+						$this->render_music_icon( $image_size );
+					} else {
+						$this->render_music_waves( $image_size, false, false, true );
+					}
+				}
+				?>
+				<div class="syb-nowplaying__meta">
+					<?php $this->render_prefix( $settings, 'p' ); ?>
+					<p class="syb-nowplaying__song"><?php echo esc_html( $text ); ?></p>
+				</div>
+			</div>
+		</div>
+		<?php
+		return (string) ob_get_clean();
+	}
+
+	/**
+	 * Resolve fallback text, upgrading legacy defaults to the current translatable string.
+	 *
+	 * @param array<string, mixed> $settings Display settings.
+	 * @return string
+	 */
+	private function resolve_fallback_text( array $settings ): string {
+		$text = trim( (string) ( $settings['fallback_text'] ?? '' ) );
+
+		$legacy_defaults = array(
+			'Nothing playing right now.',
+			'Derzeit läuft nichts.',
+			'Derzeit wird nichts abgespielt.',
+		);
+
+		if ( '' === $text || in_array( $text, $legacy_defaults, true ) ) {
+			return __( 'No music playback at the moment.', 'soundtrack-your-brand' );
+		}
+
+		return $text;
 	}
 
 	/**
@@ -293,8 +356,9 @@ class Renderer {
 	 * @param int  $size     Container size in px.
 	 * @param bool $inline   Whether waves are inline.
 	 * @param bool $centered Whether waves are centered.
+	 * @param bool $stopped  Whether waves are static (idle/stopped state).
 	 */
-	private function render_music_waves( int $size, bool $inline = false, bool $centered = false ): void {
+	private function render_music_waves( int $size, bool $inline = false, bool $centered = false, bool $stopped = false ): void {
 		$classes = array( 'syb-nowplaying__waves' );
 
 		if ( $inline ) {
@@ -303,6 +367,10 @@ class Renderer {
 
 		if ( $centered ) {
 			$classes[] = 'syb-nowplaying__waves--centered';
+		}
+
+		if ( $stopped ) {
+			$classes[] = 'syb-nowplaying__waves--stopped';
 		}
 
 		$bars = array(

@@ -291,9 +291,9 @@ msgstr ""
 "No sound zones loaded. Click \"Fetch / Refresh SoundZones from API\" to get "
 "started."
 
-#: src/Activator.php:70 src/Frontend/Renderer.php:106
-msgid "Nothing playing right now."
-msgstr "Nothing playing right now."
+#: src/Activator.php:70 src/Frontend/Renderer.php:106 src/Frontend/Renderer.php:133
+msgid "No music playback at the moment."
+msgstr "No music playback at the moment."
 
 #: src/Cache/NowPlayingCache.php:96
 msgid "Now playing data is being fetched."
