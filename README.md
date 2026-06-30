@@ -174,6 +174,68 @@ GraphQL can return HTTP 200 with an `errors` array. The plugin surfaces these me
 
 Deleting the plugin removes all options and cached transients via `uninstall.php`.
 
+## Internationalization
+
+The plugin is fully translatable with **text domain** `soundtrack-your-brand` and lives in the `languages/` directory. It uses WordPress's [JSON-based translation](https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/#internationalization-functions) system (`load_plugin_textdomain`), so translations are loaded automatically alongside WordPress core `.l10n.php` files.
+
+### Current Translations
+
+| Language | Locale | Status | File |
+|----------|--------|--------|------|
+| German   | `de_DE` | ✅ Complete | `languages/soundtrack-your-brand-de_DE.l10n.php` |
+| English  | `en_US` | ✅ Reference (`en_US` ships gettext catalog) | `languages/soundtrack-your-brand-en_US.l10n.php>` |
+
+### How to Contribute Translations
+
+You can add a new language either with a graphical translator plugin or with WP-CLI. Both produce the same `languages/<locale>.l10n.php` file at the end.
+
+#### Option A — Using [Loco Translate](https://wordpress.org/plugins/loco-translate/) (easiest)
+
+1. Install and activate **Loco Translate** from the WordPress plugin repository.
+2. Navigate to **Loco Translate → Plugins → Soundtrack Your Brand – Now Playing**.
+3. Click **New language**, pick your target language, and choose **Custom** as the location (Loco will save into the plugin's `languages/` folder automatically).
+4. Use theLoco editor to translate the strings. It pulls in strings from the existing `.pot` automatically.
+5. Click **Save** — Loco compiles the `.l10n.php` file directly, no command line required.
+6. Open a pull request adding your generated `languages/<locale>.l10n.php` (and `.po`/`.mo` if present).
+
+> **Tip:** If you already have a translation you created with Loco Translate, you can simply copy the generated `languages/<locale>.l10n.php` file into the plugin and submit it — no need to regenerate anything.
+
+#### Option B — Using WP-CLI (for developers)
+
+1. **Generate the base `.pot` file** (template catalog):
+
+   ```bash
+   wp i18n make-pot . languages/soundtrack-your-brand.pot
+   ```
+
+2. **Create a translation** for your language (e.g. `de_DE`):
+
+   ```bash
+   wp i18n make-json languages/soundtrack-your-brand-de_DE.po
+   ```
+
+   This builds the compiled `languages/soundtrack-your-brand-de_DE.l10n.php` file WordPress loads at runtime.
+
+3. Open a pull request adding your translation under `languages/`.
+
+All output strings in the plugin are wrapped in WordPress internationalization functions (`__()`, `_e()`, `esc_html__()`, `esc_attr_x()`, `_n()`, etc.), so 100% of visible text is translatable — including fallback strings, admin labels, and error messages.
+
+### Translation Functions Used
+
+The project uses the full WordPress i18n API:
+
+| Function | Purpose |
+|----------|---------|
+| `__()`           | Return translated string |
+| `_e()`           | Echo translated string |
+| `_x()` / `_ex()` | Translation with context |
+| `_n()`           | Singular / plural forms |
+| `esc_html__()`   | Escaped, translated string for HTML output |
+| `esc_attr__()`   | Escaped, translated string for attributes |
+| `_nx()`          | Plural with context |
+
+To extract new strings after changing code, run `composer install` and regenerate the `.pot` file — any untranslated strings fall back to English automatically.
+
 ## Development
 
 ```bash
