@@ -1,6 +1,7 @@
 # Soundtrack Your Brand – Now Playing
 
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2+-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
+[![Languages: 3](https://img.shields.io/badge/Languages-3-2ea44f.svg?logo=googletranslate&logoColor=white)](./languages/)
 [![PHP 8.0+](https://img.shields.io/badge/PHP-8.0%2B-777BB4.svg?logo=php&logoColor=white)](https://php.net/)
 [![WordPress 6.2+](https://img.shields.io/badge/WordPress-6.2%2B-21759B.svg?logo=wordpress&logoColor=white)](https://wordpress.org/)
 
