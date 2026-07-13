@@ -93,7 +93,7 @@ class NowPlayingCache {
 				'data'  => null,
 				'error' => new \WP_Error(
 					'syb_pending',
-					__( 'Now playing data is being fetched.', 'soundtrack-your-brand' )
+					__( 'Now playing data is being fetched.', 'fliix-now-playing-for-soundtrack-your-brand' )
 				),
 			);
 		}

@@ -19,7 +19,7 @@ Connect your WordPress site to the [Soundtrack Your Brand API](https://api.sound
 - **Secure** — Nonces, capability checks, sanitized input, escaped output, encrypted API tokens (AES-256-CBC)
 - **Customizable** — Colors, fonts, alignment, image sizes, and per-shortcode overrides
 - **In-Request Deduplication** — Multiple shortcodes for the same zone trigger only one API call
-- **Composer Autoloading** — PSR-4 structure with no third-party runtime dependencies
+- **PSR-4 Autoloading** — Built-in autoloader, no Composer required at runtime
 
 ## Requirements
 
@@ -29,16 +29,11 @@ Connect your WordPress site to the [Soundtrack Your Brand API](https://api.sound
 
 ## Installation
 
-1. Upload the `soundtrack-your-brand` folder to `wp-content/plugins/`
-2. Install the Composer autoloader:
+1. Upload the `fliix-now-playing-for-soundtrack-your-brand` folder to `wp-content/plugins/`, or install the release ZIP from WordPress.org.
+2. Activate **fliix – Now Playing for Soundtrack Your Brand** in the WordPress admin.
+3. Navigate to **Settings → Soundtrack Your Brand**.
 
-   ```bash
-   cd wp-content/plugins/soundtrack-your-brand
-   composer install --no-dev
-   ```
-
-3. Activate **Soundtrack Your Brand – Now Playing** in the WordPress admin
-4. Navigate to **Settings → Soundtrack Your Brand**
+> **WordPress.org listing:** [`readme.txt`](readme.txt) is the source of truth for the plugin directory page.
 
 ## Setup
 
@@ -177,15 +172,15 @@ Deleting the plugin removes all options and cached transients via `uninstall.php
 
 ## Internationalization
 
-The plugin is fully translatable with **text domain** `soundtrack-your-brand` and lives in the `languages/` directory. It uses WordPress's [JSON-based translation](https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/#internationalization-functions) system (`load_plugin_textdomain`), so translations are loaded automatically alongside WordPress core `.l10n.php` files.
+The plugin is fully translatable with **text domain** `fliix-now-playing-for-soundtrack-your-brand` (matches the plugin slug) and lives in the `languages/` directory. It uses WordPress's [JSON-based translation](https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/#internationalization-functions) system (`load_plugin_textdomain`), so translations are loaded automatically alongside WordPress core `.l10n.php` files.
 
 ### Current Translations
 
 | Language | Locale | Status | File |
 |----------|--------|--------|------|
-| Spanish  | `es_ES` | ✅ Complete | `languages/soundtrack-your-brand-es_ES.l10n.php` |
-| German   | `de_DE` | ✅ Complete | `languages/soundtrack-your-brand-de_DE.l10n.php` |
-| English  | `en_US` | ✅ Reference | `languages/soundtrack-your-brand-en_US.l10n.php` |
+| Spanish  | `es_ES` | ✅ Complete | `languages/fliix-now-playing-for-soundtrack-your-brand-es_ES.l10n.php` |
+| German   | `de_DE` | ✅ Complete | `languages/fliix-now-playing-for-soundtrack-your-brand-de_DE.l10n.php` |
+| English  | `en_US` | ✅ Reference | `languages/fliix-now-playing-for-soundtrack-your-brand-en_US.l10n.php` |
 
 ### How to Contribute Translations
 
@@ -207,16 +202,16 @@ You can add a new language either with a graphical translator plugin or with WP-
 1. **Generate the base `.pot` file** (template catalog):
 
    ```bash
-   wp i18n make-pot . languages/soundtrack-your-brand.pot
+   wp i18n make-pot . languages/fliix-now-playing-for-soundtrack-your-brand.pot
    ```
 
 2. **Create a translation** for your language (e.g. `de_DE`):
 
    ```bash
-   wp i18n make-json languages/soundtrack-your-brand-de_DE.po
+   wp i18n make-json languages/fliix-now-playing-for-soundtrack-your-brand-de_DE.po
    ```
 
-   This builds the compiled `languages/soundtrack-your-brand-de_DE.l10n.php` file WordPress loads at runtime.
+   This builds the compiled `languages/fliix-now-playing-for-soundtrack-your-brand-de_DE.l10n.php` file WordPress loads at runtime.
 
 3. Open a pull request adding your translation under `languages/`.
 
@@ -241,35 +236,41 @@ To extract new strings after changing code, run `composer install` and regenerat
 ## Development
 
 ```bash
-composer install
+composer install   # optional — local tooling only; not required to run the plugin
+php bin/compile-mo.php
 ```
 
-The plugin uses PSR-4 autoloading via Composer (`SoundtrackYourBrand\` → `src/`). No third-party runtime dependencies are required.
+The plugin uses PSR-4 autoloading via `src/Autoloader.php` (`SoundtrackYourBrand\` → `src/`). No third-party runtime dependencies are required.
+
+## Release build
+
+From the plugin directory on Windows:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build-release.ps1
+```
+
+Creates `fliix-now-playing-for-soundtrack-your-brand.zip` in the parent `plugins/` folder, ready for upload to WordPress.org or **Plugins → Add New → Upload**.
 
 ## File Structure
 
 ```
-soundtrack-your-brand/
-├── soundtrack-your-brand.php    # Bootstrap
-├── composer.json                # PSR-4 autoloading
+fliix-now-playing-for-soundtrack-your-brand/
+├── fliix-now-playing-for-soundtrack-your-brand.php  # Bootstrap
+├── readme.txt                                       # WordPress.org plugin page
+├── LICENSE
 ├── uninstall.php
 ├── src/
+│   ├── Autoloader.php           # PSR-4 autoloader
 │   ├── Plugin.php               # Orchestrator
 │   ├── Activator.php
-│   ├── Api/
-│   │   └── Client.php           # GraphQL client
-│   ├── Cache/
-│   │   └── NowPlayingCache.php  # Transient cache
-│   ├── Frontend/
-│   │   ├── Renderer.php         # HTML output
-│   │   └── Shortcode.php        # [syb_nowplaying]
-│   └── Admin/
-│       ├── Admin.php            # AJAX, assets
-│       └── Settings.php         # Settings page
-└── assets/
-    ├── css/admin.css
-    ├── css/frontend.css
-    └── js/admin.js
+│   ├── Api/Client.php
+│   ├── Cache/NowPlayingCache.php
+│   ├── Frontend/Renderer.php
+│   ├── Frontend/Shortcode.php
+│   └── Admin/Admin.php, Settings.php
+├── languages/
+└── assets/css/, assets/js/
 ```
 
 ## License

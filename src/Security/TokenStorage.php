@@ -164,6 +164,6 @@ class TokenStorage {
 	 * @return string
 	 */
 	private static function get_encryption_key(): string {
-		return hash_hmac( 'sha256', 'soundtrack-your-brand-api-token', wp_salt( 'auth' ), true );
+		return hash_hmac( 'sha256', 'fliix-now-playing-for-soundtrack-your-brand-api-token', wp_salt( 'auth' ), true );
 	}
 }

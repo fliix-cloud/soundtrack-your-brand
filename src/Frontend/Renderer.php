@@ -177,7 +177,7 @@ class Renderer {
 		);
 
 		if ( '' === $text || in_array( $text, $legacy_defaults, true ) ) {
-			return __( 'No music playback at the moment.', 'soundtrack-your-brand' );
+			return __( 'No music playback at the moment.', 'fliix-now-playing-for-soundtrack-your-brand' );
 		}
 
 		return $text;
@@ -451,27 +451,35 @@ class Renderer {
 			$classes[] = 'syb-nowplaying__image--wide';
 		}
 
-		$tag   = $inline ? 'img' : 'div';
-		$class = esc_attr( implode( ' ', $classes ) );
-
 		if ( $inline ) {
 			printf(
 				'<img class="%1$s" src="%2$s" alt="%3$s" width="%4$d" height="%4$d" loading="lazy" />',
-				$class,
+				esc_attr( implode( ' ', $classes ) ),
 				esc_url( $data['image_url'] ),
-				esc_attr( sprintf( __( 'Album art for %s', 'soundtrack-your-brand' ), $data['album_name'] ) ),
-				$size
+				esc_attr(
+					sprintf(
+						/* translators: %s: album name */
+						__( 'Album art for %s', 'fliix-now-playing-for-soundtrack-your-brand' ),
+						$data['album_name']
+					)
+				),
+				absint( $size )
 			);
 			return;
 		}
 
-		printf( '<div class="%s">', $class );
+		printf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
 		printf(
-			'<img src="%s" alt="%s" width="%d" height="%d" loading="lazy" />',
+			'<img src="%1$s" alt="%2$s" width="%3$d" height="%3$d" loading="lazy" />',
 			esc_url( $data['image_url'] ),
-			esc_attr( sprintf( __( 'Album art for %s', 'soundtrack-your-brand' ), $data['album_name'] ) ),
-			$size,
-			$size
+			esc_attr(
+				sprintf(
+					/* translators: %s: album name */
+					__( 'Album art for %s', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					$data['album_name']
+				)
+			),
+			absint( $size )
 		);
 		echo '</div>';
 	}

@@ -54,7 +54,7 @@ class Activator {
 			'show_image'         => true,
 			'image_display'      => 'waves',
 			'show_prefix'        => true,
-			'prefix_text'        => __( 'Currently playing:', 'soundtrack-your-brand' ),
+			'prefix_text'        => __( 'Currently playing:', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			'show_artist'        => true,
 			'image_size'         => 'medium',
 			'image_size_custom'  => 80,
@@ -67,7 +67,7 @@ class Activator {
 			'song_font_weight'   => '600',
 			'artist_font_weight' => '400',
 			'alignment'          => 'left',
-			'fallback_text'      => __( 'No music playback at the moment.', 'soundtrack-your-brand' ),
+			'fallback_text'      => __( 'No music playback at the moment.', 'fliix-now-playing-for-soundtrack-your-brand' ),
 		);
 	}
 }

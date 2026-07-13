@@ -76,54 +76,54 @@ class Settings {
 
 		add_settings_section(
 			'syb_api_section',
-			__( 'API Configuration', 'soundtrack-your-brand' ),
+			__( 'API Configuration', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			array( $this, 'render_api_section' ),
-			'soundtrack-your-brand'
+			'fliix-now-playing-for-soundtrack-your-brand'
 		);
 
 		add_settings_field(
 			'soundtrack_api_base_url',
-			__( 'API Base URL', 'soundtrack-your-brand' ),
+			__( 'API Base URL', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			array( $this, 'render_base_url_field' ),
-			'soundtrack-your-brand',
+			'fliix-now-playing-for-soundtrack-your-brand',
 			'syb_api_section'
 		);
 
 		add_settings_field(
 			'soundtrack_api_token',
-			__( 'API Token', 'soundtrack-your-brand' ),
+			__( 'API Token', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			array( $this, 'render_token_field' ),
-			'soundtrack-your-brand',
+			'fliix-now-playing-for-soundtrack-your-brand',
 			'syb_api_section'
 		);
 
 		add_settings_section(
 			'syb_cache_section',
-			__( 'Update Interval & Caching', 'soundtrack-your-brand' ),
+			__( 'Update Interval & Caching', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			array( $this, 'render_cache_section' ),
-			'soundtrack-your-brand'
+			'fliix-now-playing-for-soundtrack-your-brand'
 		);
 
 		add_settings_field(
 			'soundtrack_update_interval',
-			__( 'Update Interval (seconds)', 'soundtrack-your-brand' ),
+			__( 'Update Interval (seconds)', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			array( $this, 'render_interval_field' ),
-			'soundtrack-your-brand',
+			'fliix-now-playing-for-soundtrack-your-brand',
 			'syb_cache_section'
 		);
 
 		add_settings_section(
 			'syb_mapping_section',
-			__( 'SoundZone Mapping', 'soundtrack-your-brand' ),
+			__( 'SoundZone Mapping', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			array( $this, 'render_mapping_section' ),
-			'soundtrack-your-brand'
+			'fliix-now-playing-for-soundtrack-your-brand'
 		);
 
 		add_settings_section(
 			'syb_display_section',
-			__( 'Widget Appearance', 'soundtrack-your-brand' ),
+			__( 'Widget Appearance', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			array( $this, 'render_display_section' ),
-			'soundtrack-your-brand'
+			'fliix-now-playing-for-soundtrack-your-brand'
 		);
 	}
 
@@ -141,8 +141,8 @@ class Settings {
 			<form action="options.php" method="post">
 				<?php
 				settings_fields( self::OPTION_GROUP );
-				do_settings_sections( 'soundtrack-your-brand' );
-				submit_button( __( 'Save Settings', 'soundtrack-your-brand' ) );
+				do_settings_sections( 'fliix-now-playing-for-soundtrack-your-brand' );
+				submit_button( __( 'Save Settings', 'fliix-now-playing-for-soundtrack-your-brand' ) );
 				?>
 			</form>
 		</div>
@@ -207,7 +207,7 @@ class Settings {
 		$rows = self::zones_for_table( $zones_cache );
 
 		if ( empty( $rows ) ) {
-			echo '<tr class="syb-zones-empty"><td colspan="5">' . esc_html__( 'No sound zones loaded. Click "Fetch / Refresh SoundZones from API" to get started.', 'soundtrack-your-brand' ) . '</td></tr>';
+			echo '<tr class="syb-zones-empty"><td colspan="5">' . esc_html__( 'No sound zones loaded. Click "Fetch / Refresh SoundZones from API" to get started.', 'fliix-now-playing-for-soundtrack-your-brand' ) . '</td></tr>';
 			return;
 		}
 
@@ -215,31 +215,31 @@ class Settings {
 			$zone_id = $zone['zone_id'];
 			$slug    = $zone_id_to_slug[ $zone_id ] ?? '';
 			$status  = ! empty( $zone['is_paired'] )
-				? __( 'Paired', 'soundtrack-your-brand' )
-				: __( 'Unpaired', 'soundtrack-your-brand' );
+				? __( 'Paired', 'fliix-now-playing-for-soundtrack-your-brand' )
+				: __( 'Unpaired', 'fliix-now-playing-for-soundtrack-your-brand' );
 			$status_class = ! empty( $zone['is_paired'] ) ? 'syb-status--paired' : 'syb-status--unpaired';
 			?>
 			<tr data-zone-id="<?php echo esc_attr( $zone_id ); ?>">
-				<td data-label="<?php esc_attr_e( 'Account / Location', 'soundtrack-your-brand' ); ?>">
+				<td data-label="<?php esc_attr_e( 'Account / Location', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>">
 					<strong><?php echo esc_html( $zone['business_name'] ); ?></strong><br />
 					<span class="syb-location"><?php echo esc_html( $zone['location_name'] ); ?></span>
 				</td>
-				<td data-label="<?php esc_attr_e( 'Zone Name', 'soundtrack-your-brand' ); ?>"><?php echo esc_html( $zone['name'] ); ?></td>
-				<td data-label="<?php esc_attr_e( 'Zone ID', 'soundtrack-your-brand' ); ?>" class="syb-zone-id-cell">
+				<td data-label="<?php esc_attr_e( 'Zone Name', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>"><?php echo esc_html( $zone['name'] ); ?></td>
+				<td data-label="<?php esc_attr_e( 'Zone ID', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>" class="syb-zone-id-cell">
 					<code class="syb-zone-id"><?php echo esc_html( $zone_id ); ?></code>
 					<button type="button" class="button button-small syb-copy-id" data-zone-id="<?php echo esc_attr( $zone_id ); ?>">
-						<?php esc_html_e( 'Copy', 'soundtrack-your-brand' ); ?>
+						<?php esc_html_e( 'Copy', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>
 					</button>
 				</td>
-				<td data-label="<?php esc_attr_e( 'Status', 'soundtrack-your-brand' ); ?>">
+				<td data-label="<?php esc_attr_e( 'Status', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>">
 					<span class="syb-status <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $status ); ?></span>
 				</td>
-				<td data-label="<?php esc_attr_e( 'Slug', 'soundtrack-your-brand' ); ?>">
+				<td data-label="<?php esc_attr_e( 'Slug', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>">
 					<input type="text"
 						class="syb-slug-input regular-text"
 						name="syb_slug_<?php echo esc_attr( $zone_id ); ?>"
 						value="<?php echo esc_attr( $slug ); ?>"
-						placeholder="<?php esc_attr_e( 'nagold', 'soundtrack-your-brand' ); ?>"
+						placeholder="<?php esc_attr_e( 'nagold', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>"
 						data-zone-id="<?php echo esc_attr( $zone_id ); ?>" />
 					<span class="syb-slug-error" role="alert"></span>
 				</td>
@@ -254,9 +254,9 @@ class Settings {
 	public function render_api_section(): void {
 		printf(
 			'<p>%s <a href="%s" target="_blank" rel="noopener noreferrer">%s</a></p>',
-			esc_html__( 'Configure your Soundtrack API credentials. The token is sent as an Authorization: Basic header with each request.', 'soundtrack-your-brand' ),
+			esc_html__( 'Configure your Soundtrack API credentials. The token is sent as an Authorization: Basic header with each request.', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			esc_url( 'https://api.soundtrackyourbrand.com/v2/docs' ),
-			esc_html__( 'Soundtrack API Documentation', 'soundtrack-your-brand' )
+			esc_html__( 'Soundtrack API Documentation', 'fliix-now-playing-for-soundtrack-your-brand' )
 		);
 	}
 
@@ -279,13 +279,13 @@ class Settings {
 		?>
 		<input type="password" name="soundtrack_api_token" id="soundtrack_api_token"
 			value="" class="large-text" autocomplete="new-password"
-			placeholder="<?php echo esc_attr( $has_token ? __( 'Token configured — enter a new token to replace', 'soundtrack-your-brand' ) : __( 'Enter your API token', 'soundtrack-your-brand' ) ); ?>" />
+			placeholder="<?php echo esc_attr( $has_token ? __( 'Token configured — enter a new token to replace', 'fliix-now-playing-for-soundtrack-your-brand' ) : __( 'Enter your API token', 'fliix-now-playing-for-soundtrack-your-brand' ) ); ?>" />
 		<p class="description">
 			<?php
 			if ( $has_token ) {
-				esc_html_e( 'A token is saved and encrypted. It cannot be viewed — enter a new value only to replace it. Leave blank to keep the current token.', 'soundtrack-your-brand' );
+				esc_html_e( 'A token is saved and encrypted. It cannot be viewed — enter a new value only to replace it. Leave blank to keep the current token.', 'fliix-now-playing-for-soundtrack-your-brand' );
 			} else {
-				esc_html_e( 'Your API token is encrypted before storage and sent as: Authorization: Basic <token>', 'soundtrack-your-brand' );
+				esc_html_e( 'Your API token is encrypted before storage and sent as: Authorization: Basic <token>', 'fliix-now-playing-for-soundtrack-your-brand' );
 			}
 			?>
 		</p>
@@ -296,7 +296,7 @@ class Settings {
 	 * Cache section description.
 	 */
 	public function render_cache_section(): void {
-		echo '<p>' . esc_html__( 'The plugin uses lazy, on-demand caching. Now playing data is fetched from the API when a visitor loads a page with the shortcode (or when the cache expires during live refresh). The frontend polls for updates at this interval so idle visitors see new tracks without reloading. No WP-Cron is used.', 'soundtrack-your-brand' ) . '</p>';
+		echo '<p>' . esc_html__( 'The plugin uses lazy, on-demand caching. Now playing data is fetched from the API when a visitor loads a page with the shortcode (or when the cache expires during live refresh). The frontend polls for updates at this interval so idle visitors see new tracks without reloading. No WP-Cron is used.', 'fliix-now-playing-for-soundtrack-your-brand' ) . '</p>';
 	}
 
 	/**
@@ -308,7 +308,7 @@ class Settings {
 		<input type="number" name="soundtrack_update_interval" id="soundtrack_update_interval"
 			value="<?php echo esc_attr( (string) $value ); ?>" min="10" max="120" step="1" class="small-text" />
 		<p class="description">
-			<?php esc_html_e( 'How long (in seconds) to cache now playing data. Minimum 10, maximum 120.', 'soundtrack-your-brand' ); ?>
+			<?php esc_html_e( 'How long (in seconds) to cache now playing data. Minimum 10, maximum 120.', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>
 		</p>
 		<?php
 	}
@@ -317,7 +317,7 @@ class Settings {
 	 * Mapping section with zone table.
 	 */
 	public function render_mapping_section(): void {
-		echo '<p>' . esc_html__( 'Map each SoundZone to a unique slug for use in the shortcode. Fetch zones from the API, assign slugs, then click Save All Mappings.', 'soundtrack-your-brand' ) . '</p>';
+		echo '<p>' . esc_html__( 'Map each SoundZone to a unique slug for use in the shortcode. Fetch zones from the API, assign slugs, then click Save All Mappings.', 'fliix-now-playing-for-soundtrack-your-brand' ) . '</p>';
 		echo '<p><code>[syb_nowplaying slug="your-slug-here"]</code></p>';
 
 		$zones_cache = get_option( 'soundtrack_zones_cache', array() );
@@ -335,10 +335,10 @@ class Settings {
 		<div id="syb-mapping-app" class="syb-mapping-app">
 			<div class="syb-mapping-toolbar">
 				<button type="button" id="syb-fetch-zones" class="button button-primary button-hero">
-					<?php esc_html_e( 'Fetch / Refresh SoundZones from API', 'soundtrack-your-brand' ); ?>
+					<?php esc_html_e( 'Fetch / Refresh SoundZones from API', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>
 				</button>
 				<button type="button" id="syb-save-mappings-top" class="button button-secondary">
-					<?php esc_html_e( 'Save All Mappings', 'soundtrack-your-brand' ); ?>
+					<?php esc_html_e( 'Save All Mappings', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>
 				</button>
 			</div>
 
@@ -348,11 +348,11 @@ class Settings {
 				<table class="widefat striped syb-zones-table" id="syb-zones-table">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Account / Location', 'soundtrack-your-brand' ); ?></th>
-							<th><?php esc_html_e( 'Zone Name', 'soundtrack-your-brand' ); ?></th>
-							<th><?php esc_html_e( 'Zone ID', 'soundtrack-your-brand' ); ?></th>
-							<th><?php esc_html_e( 'Status', 'soundtrack-your-brand' ); ?></th>
-							<th><?php esc_html_e( 'Slug', 'soundtrack-your-brand' ); ?></th>
+							<th><?php esc_html_e( 'Account / Location', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></th>
+							<th><?php esc_html_e( 'Zone Name', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></th>
+							<th><?php esc_html_e( 'Zone ID', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></th>
+							<th><?php esc_html_e( 'Status', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></th>
+							<th><?php esc_html_e( 'Slug', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></th>
 						</tr>
 					</thead>
 					<tbody id="syb-zones-tbody">
@@ -363,7 +363,7 @@ class Settings {
 
 			<div class="syb-mapping-toolbar syb-mapping-toolbar--bottom">
 				<button type="button" id="syb-save-mappings-bottom" class="button button-secondary">
-					<?php esc_html_e( 'Save All Mappings', 'soundtrack-your-brand' ); ?>
+					<?php esc_html_e( 'Save All Mappings', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>
 				</button>
 			</div>
 		</div>
@@ -374,7 +374,7 @@ class Settings {
 	 * Display section — description and appearance controls (no form-table wrapper).
 	 */
 	public function render_display_section(): void {
-		echo '<p class="syb-section-lead">' . esc_html__( 'Configure the default appearance of the now playing widget. Individual shortcodes can override some settings via attributes.', 'soundtrack-your-brand' ) . '</p>';
+		echo '<p class="syb-section-lead">' . esc_html__( 'Configure the default appearance of the now playing widget. Individual shortcodes can override some settings via attributes.', 'fliix-now-playing-for-soundtrack-your-brand' ) . '</p>';
 		$this->render_display_fields();
 	}
 
@@ -388,30 +388,30 @@ class Settings {
 			<div class="syb-display-grid">
 				<section class="syb-display-card syb-display-card--span-2">
 					<header class="syb-display-card__header">
-						<h3 class="syb-display-card__title"><?php esc_html_e( 'Layout', 'soundtrack-your-brand' ); ?></h3>
-						<p class="syb-display-card__desc"><?php esc_html_e( 'Template, alignment, and visibility options.', 'soundtrack-your-brand' ); ?></p>
+						<h3 class="syb-display-card__title"><?php esc_html_e( 'Layout', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h3>
+						<p class="syb-display-card__desc"><?php esc_html_e( 'Template, alignment, and visibility options.', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></p>
 					</header>
 					<div class="syb-display-card__body">
 						<div class="syb-field syb-field--template">
-							<span class="syb-field__label"><?php esc_html_e( 'Template', 'soundtrack-your-brand' ); ?></span>
-							<div class="syb-template-picker" role="radiogroup" aria-label="<?php esc_attr_e( 'Template', 'soundtrack-your-brand' ); ?>">
+							<span class="syb-field__label"><?php esc_html_e( 'Template', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></span>
+							<div class="syb-template-picker" role="radiogroup" aria-label="<?php esc_attr_e( 'Template', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>">
 								<?php
 								$templates = array(
 									'classic' => array(
-										'label' => __( 'Classic', 'soundtrack-your-brand' ),
-										'desc'  => __( 'Bordered frame with icon and text', 'soundtrack-your-brand' ),
+										'label' => __( 'Classic', 'fliix-now-playing-for-soundtrack-your-brand' ),
+										'desc'  => __( 'Bordered frame with icon and text', 'fliix-now-playing-for-soundtrack-your-brand' ),
 									),
 									'compact' => array(
-										'label' => __( 'Compact', 'soundtrack-your-brand' ),
-										'desc'  => __( 'Single-line, space-efficient', 'soundtrack-your-brand' ),
+										'label' => __( 'Compact', 'fliix-now-playing-for-soundtrack-your-brand' ),
+										'desc'  => __( 'Single-line, space-efficient', 'fliix-now-playing-for-soundtrack-your-brand' ),
 									),
 									'modern'  => array(
-										'label' => __( 'Modern Card', 'soundtrack-your-brand' ),
-										'desc'  => __( 'Rounded card with soft shadow', 'soundtrack-your-brand' ),
+										'label' => __( 'Modern Card', 'fliix-now-playing-for-soundtrack-your-brand' ),
+										'desc'  => __( 'Rounded card with soft shadow', 'fliix-now-playing-for-soundtrack-your-brand' ),
 									),
 									'minimal' => array(
-										'label' => __( 'Minimal', 'soundtrack-your-brand' ),
-										'desc'  => __( 'Text only, no decoration', 'soundtrack-your-brand' ),
+										'label' => __( 'Minimal', 'fliix-now-playing-for-soundtrack-your-brand' ),
+										'desc'  => __( 'Text only, no decoration', 'fliix-now-playing-for-soundtrack-your-brand' ),
 									),
 								);
 								foreach ( $templates as $value => $template ) :
@@ -429,13 +429,13 @@ class Settings {
 						</div>
 						<div class="syb-layout-row">
 							<div class="syb-field">
-								<span class="syb-field__label"><?php esc_html_e( 'Alignment', 'soundtrack-your-brand' ); ?></span>
-								<div class="syb-segmented" role="radiogroup" aria-label="<?php esc_attr_e( 'Alignment', 'soundtrack-your-brand' ); ?>">
+								<span class="syb-field__label"><?php esc_html_e( 'Alignment', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></span>
+								<div class="syb-segmented" role="radiogroup" aria-label="<?php esc_attr_e( 'Alignment', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>">
 									<?php
 									$alignments = array(
-										'left'   => __( 'Left', 'soundtrack-your-brand' ),
-										'center' => __( 'Center', 'soundtrack-your-brand' ),
-										'right'  => __( 'Right', 'soundtrack-your-brand' ),
+										'left'   => __( 'Left', 'fliix-now-playing-for-soundtrack-your-brand' ),
+										'center' => __( 'Center', 'fliix-now-playing-for-soundtrack-your-brand' ),
+										'right'  => __( 'Right', 'fliix-now-playing-for-soundtrack-your-brand' ),
 									);
 									foreach ( $alignments as $value => $label ) :
 										?>
@@ -448,11 +448,11 @@ class Settings {
 								</div>
 							</div>
 							<div class="syb-field syb-field--toggles">
-							<span class="syb-field__label"><?php esc_html_e( 'Visibility', 'soundtrack-your-brand' ); ?></span>
+							<span class="syb-field__label"><?php esc_html_e( 'Visibility', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></span>
 							<div class="syb-toggle-group">
-								<?php $this->render_display_toggle( 'show_image', __( 'Icon / Artwork', 'soundtrack-your-brand' ), ! empty( $settings['show_image'] ) ); ?>
-								<?php $this->render_display_toggle( 'show_prefix', __( 'Currently playing label', 'soundtrack-your-brand' ), ! empty( $settings['show_prefix'] ) ); ?>
-								<?php $this->render_display_toggle( 'show_artist', __( 'Artist name', 'soundtrack-your-brand' ), ! empty( $settings['show_artist'] ) ); ?>
+								<?php $this->render_display_toggle( 'show_image', __( 'Icon / Artwork', 'fliix-now-playing-for-soundtrack-your-brand' ), ! empty( $settings['show_image'] ) ); ?>
+								<?php $this->render_display_toggle( 'show_prefix', __( 'Currently playing label', 'fliix-now-playing-for-soundtrack-your-brand' ), ! empty( $settings['show_prefix'] ) ); ?>
+								<?php $this->render_display_toggle( 'show_artist', __( 'Artist name', 'fliix-now-playing-for-soundtrack-your-brand' ), ! empty( $settings['show_artist'] ) ); ?>
 							</div>
 							</div>
 						</div>
@@ -461,26 +461,26 @@ class Settings {
 
 				<section class="syb-display-card">
 					<header class="syb-display-card__header">
-						<h3 class="syb-display-card__title"><?php esc_html_e( 'Artwork', 'soundtrack-your-brand' ); ?></h3>
-						<p class="syb-display-card__desc"><?php esc_html_e( 'How the visual indicator appears beside the track.', 'soundtrack-your-brand' ); ?></p>
+						<h3 class="syb-display-card__title"><?php esc_html_e( 'Artwork', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h3>
+						<p class="syb-display-card__desc"><?php esc_html_e( 'How the visual indicator appears beside the track.', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></p>
 					</header>
 					<div class="syb-display-card__body">
 						<div class="syb-field">
-							<label class="syb-field__label" for="syb_image_display"><?php esc_html_e( 'Display mode', 'soundtrack-your-brand' ); ?></label>
+							<label class="syb-field__label" for="syb_image_display"><?php esc_html_e( 'Display mode', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 							<select name="soundtrack_display_settings[image_display]" id="syb_image_display" class="syb-field__control">
-								<option value="waves" <?php selected( $settings['image_display'], 'waves' ); ?>><?php esc_html_e( 'Animated waves', 'soundtrack-your-brand' ); ?></option>
-								<option value="icon" <?php selected( $settings['image_display'], 'icon' ); ?>><?php esc_html_e( 'Static icon', 'soundtrack-your-brand' ); ?></option>
-								<option value="album" <?php selected( $settings['image_display'], 'album' ); ?>><?php esc_html_e( 'Album art (square only)', 'soundtrack-your-brand' ); ?></option>
+								<option value="waves" <?php selected( $settings['image_display'], 'waves' ); ?>><?php esc_html_e( 'Animated waves', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
+								<option value="icon" <?php selected( $settings['image_display'], 'icon' ); ?>><?php esc_html_e( 'Static icon', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
+								<option value="album" <?php selected( $settings['image_display'], 'album' ); ?>><?php esc_html_e( 'Album art (square only)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
 							</select>
 						</div>
 						<div class="syb-field syb-field--inline-controls">
-							<label class="syb-field__label" for="syb_image_size"><?php esc_html_e( 'Size', 'soundtrack-your-brand' ); ?></label>
+							<label class="syb-field__label" for="syb_image_size"><?php esc_html_e( 'Size', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 							<div class="syb-field__row">
 								<select name="soundtrack_display_settings[image_size]" id="syb_image_size" class="syb-field__control">
-									<option value="small" <?php selected( $settings['image_size'], 'small' ); ?>><?php esc_html_e( 'Small (48px)', 'soundtrack-your-brand' ); ?></option>
-									<option value="medium" <?php selected( $settings['image_size'], 'medium' ); ?>><?php esc_html_e( 'Medium (80px)', 'soundtrack-your-brand' ); ?></option>
-									<option value="large" <?php selected( $settings['image_size'], 'large' ); ?>><?php esc_html_e( 'Large (120px)', 'soundtrack-your-brand' ); ?></option>
-									<option value="custom" <?php selected( $settings['image_size'], 'custom' ); ?>><?php esc_html_e( 'Custom', 'soundtrack-your-brand' ); ?></option>
+									<option value="small" <?php selected( $settings['image_size'], 'small' ); ?>><?php esc_html_e( 'Small (48px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
+									<option value="medium" <?php selected( $settings['image_size'], 'medium' ); ?>><?php esc_html_e( 'Medium (80px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
+									<option value="large" <?php selected( $settings['image_size'], 'large' ); ?>><?php esc_html_e( 'Large (120px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
+									<option value="custom" <?php selected( $settings['image_size'], 'custom' ); ?>><?php esc_html_e( 'Custom', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
 								</select>
 								<input type="number" name="soundtrack_display_settings[image_size_custom]" id="syb_image_size_custom"
 									value="<?php echo esc_attr( (string) $settings['image_size_custom'] ); ?>" min="16" max="400"
@@ -492,17 +492,17 @@ class Settings {
 
 				<section class="syb-display-card">
 					<header class="syb-display-card__header">
-						<h3 class="syb-display-card__title"><?php esc_html_e( 'Text', 'soundtrack-your-brand' ); ?></h3>
-						<p class="syb-display-card__desc"><?php esc_html_e( 'Labels shown when playing or idle.', 'soundtrack-your-brand' ); ?></p>
+						<h3 class="syb-display-card__title"><?php esc_html_e( 'Text', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h3>
+						<p class="syb-display-card__desc"><?php esc_html_e( 'Labels shown when playing or idle.', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></p>
 					</header>
 					<div class="syb-display-card__body">
 						<div class="syb-field">
-							<label class="syb-field__label" for="syb_prefix_text"><?php esc_html_e( 'Playing label', 'soundtrack-your-brand' ); ?></label>
+							<label class="syb-field__label" for="syb_prefix_text"><?php esc_html_e( 'Playing label', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 							<input type="text" name="soundtrack_display_settings[prefix_text]" id="syb_prefix_text"
 								value="<?php echo esc_attr( $settings['prefix_text'] ); ?>" class="syb-field__control" />
 						</div>
 						<div class="syb-field">
-							<label class="syb-field__label" for="syb_fallback_text"><?php esc_html_e( 'Fallback text', 'soundtrack-your-brand' ); ?></label>
+							<label class="syb-field__label" for="syb_fallback_text"><?php esc_html_e( 'Fallback text', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 							<input type="text" name="soundtrack_display_settings[fallback_text]" id="syb_fallback_text"
 								value="<?php echo esc_attr( $settings['fallback_text'] ); ?>" class="syb-field__control" />
 						</div>
@@ -511,54 +511,54 @@ class Settings {
 
 				<section class="syb-display-card syb-display-card--span-2">
 					<header class="syb-display-card__header">
-						<h3 class="syb-display-card__title"><?php esc_html_e( 'Typography & Colors', 'soundtrack-your-brand' ); ?></h3>
-						<p class="syb-display-card__desc"><?php esc_html_e( 'Fine-tune fonts and colors for each text element.', 'soundtrack-your-brand' ); ?></p>
+						<h3 class="syb-display-card__title"><?php esc_html_e( 'Typography & Colors', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h3>
+						<p class="syb-display-card__desc"><?php esc_html_e( 'Fine-tune fonts and colors for each text element.', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></p>
 					</header>
 					<div class="syb-display-card__body">
 						<div class="syb-type-grid">
 							<div class="syb-type-column">
-								<h4 class="syb-type-column__title"><?php esc_html_e( 'Song', 'soundtrack-your-brand' ); ?></h4>
+								<h4 class="syb-type-column__title"><?php esc_html_e( 'Song', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h4>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_song_color"><?php esc_html_e( 'Color', 'soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="syb_song_color"><?php esc_html_e( 'Color', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<input type="text" name="soundtrack_display_settings[song_color]" id="syb_song_color"
 										value="<?php echo esc_attr( $settings['song_color'] ); ?>" class="syb-color-picker syb-field__control" data-default-color="#111111" />
 								</div>
 								<div class="syb-field syb-field--inline-controls">
-									<label class="syb-field__label" for="syb_song_font_size"><?php esc_html_e( 'Size (px)', 'soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="syb_song_font_size"><?php esc_html_e( 'Size (px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<input type="number" name="soundtrack_display_settings[song_font_size]" id="syb_song_font_size"
 										value="<?php echo esc_attr( (string) $settings['song_font_size'] ); ?>" min="8" max="72" class="syb-field__control syb-field__control--narrow" />
 								</div>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_song_font_weight"><?php esc_html_e( 'Weight', 'soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="syb_song_font_weight"><?php esc_html_e( 'Weight', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<?php $this->render_font_weight_select( 'song_font_weight', $settings['song_font_weight'] ); ?>
 								</div>
 							</div>
 							<div class="syb-type-column">
-								<h4 class="syb-type-column__title"><?php esc_html_e( 'Artist', 'soundtrack-your-brand' ); ?></h4>
+								<h4 class="syb-type-column__title"><?php esc_html_e( 'Artist', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h4>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_artist_color"><?php esc_html_e( 'Color', 'soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="syb_artist_color"><?php esc_html_e( 'Color', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<input type="text" name="soundtrack_display_settings[artist_color]" id="syb_artist_color"
 										value="<?php echo esc_attr( $settings['artist_color'] ); ?>" class="syb-color-picker syb-field__control" data-default-color="#666666" />
 								</div>
 								<div class="syb-field syb-field--inline-controls">
-									<label class="syb-field__label" for="syb_artist_font_size"><?php esc_html_e( 'Size (px)', 'soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="syb_artist_font_size"><?php esc_html_e( 'Size (px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<input type="number" name="soundtrack_display_settings[artist_font_size]" id="syb_artist_font_size"
 										value="<?php echo esc_attr( (string) $settings['artist_font_size'] ); ?>" min="8" max="72" class="syb-field__control syb-field__control--narrow" />
 								</div>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_artist_font_weight"><?php esc_html_e( 'Weight', 'soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="syb_artist_font_weight"><?php esc_html_e( 'Weight', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<?php $this->render_font_weight_select( 'artist_font_weight', $settings['artist_font_weight'] ); ?>
 								</div>
 							</div>
 							<div class="syb-type-column">
-								<h4 class="syb-type-column__title"><?php esc_html_e( 'Label', 'soundtrack-your-brand' ); ?></h4>
+								<h4 class="syb-type-column__title"><?php esc_html_e( 'Label', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h4>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_prefix_color"><?php esc_html_e( 'Color', 'soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="syb_prefix_color"><?php esc_html_e( 'Color', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<input type="text" name="soundtrack_display_settings[prefix_color]" id="syb_prefix_color"
 										value="<?php echo esc_attr( $settings['prefix_color'] ); ?>" class="syb-color-picker syb-field__control" data-default-color="#444444" />
 								</div>
 								<div class="syb-field syb-field--inline-controls">
-									<label class="syb-field__label" for="syb_prefix_font_size"><?php esc_html_e( 'Size (px)', 'soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="syb_prefix_font_size"><?php esc_html_e( 'Size (px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<input type="number" name="soundtrack_display_settings[prefix_font_size]" id="syb_prefix_font_size"
 										value="<?php echo esc_attr( (string) $settings['prefix_font_size'] ); ?>" min="8" max="72" class="syb-field__control syb-field__control--narrow" />
 								</div>

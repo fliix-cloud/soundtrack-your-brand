@@ -74,13 +74,16 @@ class Shortcode {
 	 * AJAX: return refreshed widget HTML for live updates.
 	 */
 	public function ajax_refresh_nowplaying(): void {
+		check_ajax_referer( 'syb_refresh_nowplaying', 'nonce' );
+
 		$slug = sanitize_title( wp_unslash( $_POST['slug'] ?? '' ) );
 
 		if ( empty( $slug ) ) {
-			wp_send_json_error( array( 'message' => __( 'No slug specified.', 'soundtrack-your-brand' ) ) );
+			wp_send_json_error( array( 'message' => __( 'No slug specified.', 'fliix-now-playing-for-soundtrack-your-brand' ) ) );
 		}
 
-		$atts = $this->decode_refresh_atts( wp_unslash( $_POST['atts'] ?? '' ) );
+		$raw_atts = isset( $_POST['atts'] ) ? sanitize_textarea_field( wp_unslash( $_POST['atts'] ) ) : '';
+		$atts     = $this->decode_refresh_atts( $raw_atts );
 		$result = $this->render_widget( $slug, $atts, true );
 
 		wp_send_json_success(
@@ -105,7 +108,7 @@ class Shortcode {
 		$slug     = sanitize_title( $slug );
 
 		if ( empty( $slug ) ) {
-			$settings['error_text'] = __( 'No slug specified.', 'soundtrack-your-brand' );
+			$settings['error_text'] = __( 'No slug specified.', 'fliix-now-playing-for-soundtrack-your-brand' );
 
 			return $this->build_widget_result(
 				$this->renderer->render( null, $settings, 'error' ),
@@ -119,7 +122,7 @@ class Shortcode {
 		if ( null === $zone_id ) {
 			$settings['error_text'] = sprintf(
 				/* translators: %s: slug name */
-				__( 'Unknown slug: %s', 'soundtrack-your-brand' ),
+				__( 'Unknown slug: %s', 'fliix-now-playing-for-soundtrack-your-brand' ),
 				$slug
 			);
 
@@ -300,16 +303,16 @@ class Shortcode {
 
 		wp_enqueue_style(
 			'syb-frontend',
-			SYB_PLUGIN_URL . 'assets/css/frontend.css',
+			FLIIX_NP_SYB_URL . 'assets/css/frontend.css',
 			array(),
-			SYB_VERSION
+			FLIIX_NP_SYB_VERSION
 		);
 
 		wp_enqueue_script(
 			'syb-frontend',
-			SYB_PLUGIN_URL . 'assets/js/frontend.js',
+			FLIIX_NP_SYB_URL . 'assets/js/frontend.js',
 			array(),
-			SYB_VERSION,
+			FLIIX_NP_SYB_VERSION,
 			true
 		);
 
@@ -318,6 +321,7 @@ class Shortcode {
 			'sybFrontend',
 			array(
 				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
+				'nonce'    => wp_create_nonce( 'syb_refresh_nowplaying' ),
 				'interval' => Plugin::get_update_interval(),
 				'action'   => 'syb_refresh_nowplaying',
 			)

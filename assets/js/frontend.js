@@ -37,6 +37,7 @@
 	function requestRefresh( slug, atts ) {
 		var body = new window.FormData();
 		body.append( 'action', sybFrontend.action );
+		body.append( 'nonce', sybFrontend.nonce );
 		body.append( 'slug', slug );
 
 		if ( atts ) {

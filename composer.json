@@ -1,12 +1,27 @@
 {
-	"name": "fliix-cloud/soundtrack-your-brand",
+	"name": "fliix-cloud/fliix-now-playing-for-soundtrack-your-brand",
 	"description": "Display currently playing tracks from Soundtrack Your Brand sound zones via shortcode.",
+	"version": "1.1.0",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"wordpress",
+		"soundtrack",
+		"now-playing",
+		"shortcode",
+		"music",
+		"api"
+	],
+	"homepage": "https://www.fliix.cloud",
+	"support": {
+		"issues": "https://wordpress.org/support/plugin/fliix-now-playing-for-soundtrack-your-brand/",
+		"source": "https://www.fliix.cloud"
+	},
 	"authors": [
 		{
 			"name": "fliix - Marc Werner",
-			"email": "support@fliix.cloud"
+			"homepage": "https://www.fliix.cloud",
+			"role": "Maintainer"
 		}
 	],
 	"require": {
@@ -18,7 +33,6 @@
 		}
 	},
 	"config": {
-		"sort-packages": true,
-		"optimize-autoloader": true
+		"sort-packages": true
 	}
 }

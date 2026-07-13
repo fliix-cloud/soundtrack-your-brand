@@ -40,7 +40,7 @@ class Client {
 		if ( empty( $token ) ) {
 			return new \WP_Error(
 				'syb_missing_token',
-				__( 'API token is not configured.', 'soundtrack-your-brand' )
+				__( 'API token is not configured.', 'fliix-now-playing-for-soundtrack-your-brand' )
 			);
 		}
 
@@ -82,7 +82,7 @@ class Client {
 				'syb_http_error',
 				sprintf(
 					/* translators: %d: HTTP status code */
-					__( 'API request failed with HTTP status %d.', 'soundtrack-your-brand' ),
+					__( 'API request failed with HTTP status %d.', 'fliix-now-playing-for-soundtrack-your-brand' ),
 					$status_code
 				)
 			);
@@ -93,7 +93,7 @@ class Client {
 		if ( ! is_array( $decoded ) ) {
 			return new \WP_Error(
 				'syb_invalid_response',
-				__( 'Invalid API response.', 'soundtrack-your-brand' )
+				__( 'Invalid API response.', 'fliix-now-playing-for-soundtrack-your-brand' )
 			);
 		}
 
@@ -102,7 +102,7 @@ class Client {
 				static function ( $error ) {
 					return is_array( $error ) && isset( $error['message'] )
 						? (string) $error['message']
-						: __( 'Unknown GraphQL error.', 'soundtrack-your-brand' );
+						: __( 'Unknown GraphQL error.', 'fliix-now-playing-for-soundtrack-your-brand' );
 				},
 				$decoded['errors']
 			);
@@ -130,7 +130,7 @@ class Client {
 		if ( empty( $zones ) ) {
 			return new \WP_Error(
 				'syb_no_zones',
-				__( 'No sound zones found for this API token.', 'soundtrack-your-brand' )
+				__( 'No sound zones found for this API token.', 'fliix-now-playing-for-soundtrack-your-brand' )
 			);
 		}
 

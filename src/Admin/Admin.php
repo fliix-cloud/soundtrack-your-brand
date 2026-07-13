@@ -17,6 +17,11 @@ defined( 'ABSPATH' ) || exit;
 class Admin {
 
 	/**
+	 * Settings page slug under Settings → General.
+	 */
+	private const SETTINGS_PAGE = 'fliix-now-playing-for-soundtrack-your-brand';
+
+	/**
 	 * Settings page hook suffix.
 	 *
 	 * @var string
@@ -42,6 +47,7 @@ class Admin {
 
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_filter( 'plugin_action_links_' . FLIIX_NP_SYB_BASENAME, array( $this, 'add_plugin_action_links' ) );
 
 		add_action( 'wp_ajax_syb_fetch_soundzones', array( $this, 'ajax_fetch_soundzones' ) );
 		add_action( 'wp_ajax_syb_save_mappings', array( $this, 'ajax_save_mappings' ) );
@@ -52,12 +58,30 @@ class Admin {
 	 */
 	public function register_menu(): void {
 		$this->page_hook = (string) add_options_page(
-			__( 'Soundtrack Your Brand', 'soundtrack-your-brand' ),
-			__( 'Soundtrack Your Brand', 'soundtrack-your-brand' ),
+			__( 'Soundtrack Your Brand', 'fliix-now-playing-for-soundtrack-your-brand' ),
+			__( 'Soundtrack Your Brand', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			'manage_options',
-			'soundtrack-your-brand',
+			self::SETTINGS_PAGE,
 			array( Settings::class, 'render_page' )
 		);
+	}
+
+	/**
+	 * Add a Settings link on the Plugins list screen.
+	 *
+	 * @param array<int, string> $links Existing action links.
+	 * @return array<int, string>
+	 */
+	public function add_plugin_action_links( array $links ): array {
+		$settings_link = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( admin_url( 'options-general.php?page=' . self::SETTINGS_PAGE ) ),
+			esc_html__( 'Settings', 'fliix-now-playing-for-soundtrack-your-brand' )
+		);
+
+		array_unshift( $links, $settings_link );
+
+		return $links;
 	}
 
 	/**
@@ -75,16 +99,16 @@ class Admin {
 
 		wp_enqueue_style(
 			'syb-admin',
-			SYB_PLUGIN_URL . 'assets/css/admin.css',
+			FLIIX_NP_SYB_URL . 'assets/css/admin.css',
 			array(),
-			SYB_VERSION
+			FLIIX_NP_SYB_VERSION
 		);
 
 		wp_enqueue_script(
 			'syb-admin',
-			SYB_PLUGIN_URL . 'assets/js/admin.js',
+			FLIIX_NP_SYB_URL . 'assets/js/admin.js',
 			array( 'jquery', 'wp-color-picker' ),
-			SYB_VERSION,
+			FLIIX_NP_SYB_VERSION,
 			true
 		);
 
@@ -103,20 +127,20 @@ class Admin {
 				'nonce'          => wp_create_nonce( 'syb_admin_nonce' ),
 				'zoneIdToSlug'   => $zone_id_to_slug,
 				'i18n'           => array(
-					'fetching'       => __( 'Fetching sound zones…', 'soundtrack-your-brand' ),
-					'fetchSuccess'   => __( 'Sound zones refreshed successfully.', 'soundtrack-your-brand' ),
-					'fetchError'     => __( 'Failed to fetch sound zones.', 'soundtrack-your-brand' ),
-					'saving'         => __( 'Saving mappings…', 'soundtrack-your-brand' ),
-					'saveSuccess'    => __( 'Mappings saved successfully.', 'soundtrack-your-brand' ),
-					'saveError'      => __( 'Failed to save mappings.', 'soundtrack-your-brand' ),
-					'copied'         => __( 'Copied!', 'soundtrack-your-brand' ),
-					'copyFailed'     => __( 'Copy failed.', 'soundtrack-your-brand' ),
-					'slugInvalid'    => __( 'Use lowercase letters, numbers, hyphens, and underscores only.', 'soundtrack-your-brand' ),
-					'slugDuplicate'  => __( 'This slug is already used.', 'soundtrack-your-brand' ),
-					'noZones'        => __( 'No sound zones loaded. Click "Fetch / Refresh SoundZones from API" first.', 'soundtrack-your-brand' ),
-					'paired'         => __( 'Paired', 'soundtrack-your-brand' ),
-					'unpaired'       => __( 'Unpaired', 'soundtrack-your-brand' ),
-					'copy'           => __( 'Copy', 'soundtrack-your-brand' ),
+					'fetching'       => __( 'Fetching sound zones…', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'fetchSuccess'   => __( 'Sound zones refreshed successfully.', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'fetchError'     => __( 'Failed to fetch sound zones.', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'saving'         => __( 'Saving mappings…', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'saveSuccess'    => __( 'Mappings saved successfully.', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'saveError'      => __( 'Failed to save mappings.', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'copied'         => __( 'Copied!', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'copyFailed'     => __( 'Copy failed.', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'slugInvalid'    => __( 'Use lowercase letters, numbers, hyphens, and underscores only.', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'slugDuplicate'  => __( 'This slug is already used.', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'noZones'        => __( 'No sound zones loaded. Click "Fetch / Refresh SoundZones from API" first.', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'paired'         => __( 'Paired', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'unpaired'       => __( 'Unpaired', 'fliix-now-playing-for-soundtrack-your-brand' ),
+					'copy'           => __( 'Copy', 'fliix-now-playing-for-soundtrack-your-brand' ),
 				),
 			)
 		);
@@ -129,7 +153,7 @@ class Admin {
 		check_ajax_referer( 'syb_admin_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'soundtrack-your-brand' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'fliix-now-playing-for-soundtrack-your-brand' ) ), 403 );
 		}
 
 		$zones = $this->api_client->fetch_sound_zones();
@@ -146,7 +170,7 @@ class Admin {
 				'zones'   => $zones,
 				'message' => sprintf(
 					/* translators: %d: number of zones */
-					__( 'Fetched %d sound zones.', 'soundtrack-your-brand' ),
+					__( 'Fetched %d sound zones.', 'fliix-now-playing-for-soundtrack-your-brand' ),
 					count( $zones )
 				),
 			)
@@ -160,14 +184,14 @@ class Admin {
 		check_ajax_referer( 'syb_admin_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'soundtrack-your-brand' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'fliix-now-playing-for-soundtrack-your-brand' ) ), 403 );
 		}
 
-		$raw_mappings = isset( $_POST['mappings'] ) ? wp_unslash( $_POST['mappings'] ) : '';
+		$raw_mappings = isset( $_POST['mappings'] ) ? sanitize_textarea_field( wp_unslash( $_POST['mappings'] ) ) : '';
 		$decoded      = json_decode( $raw_mappings, true );
 
 		if ( ! is_array( $decoded ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid mapping data.', 'soundtrack-your-brand' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid mapping data.', 'fliix-now-playing-for-soundtrack-your-brand' ) ) );
 		}
 
 		$validation = $this->validate_mappings( $decoded );
@@ -175,7 +199,7 @@ class Admin {
 		if ( ! empty( $validation['errors'] ) ) {
 			wp_send_json_error(
 				array(
-					'message' => __( 'Please fix validation errors before saving.', 'soundtrack-your-brand' ),
+					'message' => __( 'Please fix validation errors before saving.', 'fliix-now-playing-for-soundtrack-your-brand' ),
 					'errors'  => $validation['errors'],
 				)
 			);
@@ -186,7 +210,7 @@ class Admin {
 		wp_send_json_success(
 			array(
 				'mappings' => $validation['mappings'],
-				'message'  => __( 'Mappings saved successfully.', 'soundtrack-your-brand' ),
+				'message'  => __( 'Mappings saved successfully.', 'fliix-now-playing-for-soundtrack-your-brand' ),
 			)
 		);
 	}
@@ -212,12 +236,12 @@ class Admin {
 			}
 
 			if ( ! preg_match( $slug_pattern, $slug ) ) {
-				$errors[ $zone_id ] = __( 'Invalid slug format.', 'soundtrack-your-brand' );
+				$errors[ $zone_id ] = __( 'Invalid slug format.', 'fliix-now-playing-for-soundtrack-your-brand' );
 				continue;
 			}
 
 			if ( isset( $seen_slugs[ $slug ] ) ) {
-				$errors[ $zone_id ] = __( 'Duplicate slug.', 'soundtrack-your-brand' );
+				$errors[ $zone_id ] = __( 'Duplicate slug.', 'fliix-now-playing-for-soundtrack-your-brand' );
 				continue;
 			}
 
