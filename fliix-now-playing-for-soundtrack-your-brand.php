@@ -17,9 +17,9 @@
  * @package SoundtrackYourBrand
  */
 
-use SoundtrackYourBrand\Activator;
-use SoundtrackYourBrand\Autoloader;
-use SoundtrackYourBrand\Plugin;
+use Fliix\SoundtrackYourBrand\Activator;
+use Fliix\SoundtrackYourBrand\Autoloader;
+use Fliix\SoundtrackYourBrand\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -56,7 +56,7 @@ define( 'FLIIX_NP_SYB_BASENAME', plugin_basename( FLIIX_NP_SYB_FILE ) );
 require_once FLIIX_NP_SYB_DIR . 'src/Autoloader.php';
 
 Autoloader::register(
-	prefix: 'SoundtrackYourBrand\\',
+	prefix: 'Fliix\\SoundtrackYourBrand\\',
 	base_dir: FLIIX_NP_SYB_DIR . 'src/'
 );
 

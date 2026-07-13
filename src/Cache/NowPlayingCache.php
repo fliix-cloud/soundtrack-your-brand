@@ -5,10 +5,10 @@
  * @package SoundtrackYourBrand
  */
 
-namespace SoundtrackYourBrand\Cache;
+namespace Fliix\SoundtrackYourBrand\Cache;
 
-use SoundtrackYourBrand\Api\Client;
-use SoundtrackYourBrand\Plugin;
+use Fliix\SoundtrackYourBrand\Api\Client;
+use Fliix\SoundtrackYourBrand\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -20,7 +20,7 @@ class NowPlayingCache {
 	/**
 	 * Transient key prefix.
 	 */
-	private const TRANSIENT_PREFIX = 'syb_nowplaying_';
+	private const TRANSIENT_PREFIX = 'fliix_nowplaying_';
 
 	/**
 	 * API client instance.
@@ -92,7 +92,7 @@ class NowPlayingCache {
 			return array(
 				'data'  => null,
 				'error' => new \WP_Error(
-					'syb_pending',
+					'fliix_pending',
 					__( 'Now playing data is being fetched.', 'fliix-now-playing-for-soundtrack-your-brand' )
 				),
 			);

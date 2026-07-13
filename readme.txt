@@ -24,17 +24,22 @@ Display currently playing tracks from Soundtrack Your Brand sound zones on your 
 * Live frontend refresh at a configurable interval (10–120 seconds)
 * Secure: nonces, capability checks, sanitized input, escaped output, encrypted API tokens (AES-256-CBC)
 
-= External service =
+= External services =
 
-This plugin calls the **Soundtrack Your Brand API** at `https://api.soundtrackyourbrand.com/v2` (or a custom base URL you configure). You must supply your own API token from [Soundtrack Your Brand](https://www.soundtrackyourbrand.com/our-api/apply).
+This plugin relies on the **Soundtrack Your Brand API** to retrieve your sound zones and now-playing track information. It connects to `https://api.soundtrackyourbrand.com/v2` by default, or to a custom API base URL if you configure one. You must supply your own API token from [Soundtrack Your Brand](https://www.soundtrackyourbrand.com/our-api/apply).
 
-When the shortcode is rendered or refreshed, the plugin may send:
+The plugin sends data when an administrator fetches sound zones and whenever a page containing the shortcode loads or refreshes after its local cache expires. Each API request sends:
 
 * Your API token (as `Authorization: Basic` header)
-* Sound zone IDs from your saved mappings
-* GraphQL queries for now-playing track metadata (song title, artist, album art URL)
+* A GraphQL query describing the requested data
+* The selected sound zone ID when requesting now-playing information
 
 No visitor personal data is collected or transmitted by this plugin.
+
+The service is provided by **Soundtrack Technologies Sweden AB**:
+
+* [General Terms and Conditions](https://www.soundtrack.io/legal/general-terms-and-conditions/)
+* [Privacy Policy](https://www.soundtrack.io/legal/privacy-policy/)
 
 = Third-party extension =
 
@@ -51,7 +56,7 @@ English (source), German (`de_DE`), and Spanish (`es_ES`) are included. See `lan
 3. Open **Settings → Soundtrack Your Brand**.
 4. Enter your API token (encrypted at rest; sent as `Authorization: Basic <token>`).
 5. Click **Fetch / Refresh SoundZones from API**, assign slugs, and save mappings.
-6. Add `[syb_nowplaying slug="your-slug"]` to any page or post.
+6. Add `[fliix_nowplaying slug="your-slug"]` to any page or post.
 
 == Frequently Asked Questions ==
 
@@ -67,7 +72,7 @@ Now playing data is stored in WordPress transients. Data is fetched when a visit
 
 Yes. Use optional attributes:
 
-`[syb_nowplaying slug="lobby" design="modern" show_image="false" show_artist="true" class="my-class"]`
+`[fliix_nowplaying slug="lobby" design="modern" show_image="false" show_artist="true" class="my-class"]`
 
 = What happens when nothing is playing? =
 

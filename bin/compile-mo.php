@@ -11,6 +11,8 @@
 
 declare(strict_types=1);
 
+namespace Fliix\SoundtrackYourBrand\Tools;
+
 if ( PHP_SAPI !== 'cli' ) {
 	if ( ! defined( 'ABSPATH' ) ) {
 		exit;

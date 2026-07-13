@@ -5,7 +5,7 @@
  * @package SoundtrackYourBrand
  */
 
-namespace SoundtrackYourBrand;
+namespace Fliix\SoundtrackYourBrand;
 
 defined( 'ABSPATH' ) || exit;
 

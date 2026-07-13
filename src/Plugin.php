@@ -5,13 +5,13 @@
  * @package SoundtrackYourBrand
  */
 
-namespace SoundtrackYourBrand;
+namespace Fliix\SoundtrackYourBrand;
 
-use SoundtrackYourBrand\Admin\Admin;
-use SoundtrackYourBrand\Api\Client;
-use SoundtrackYourBrand\Cache\NowPlayingCache;
-use SoundtrackYourBrand\Frontend\Renderer;
-use SoundtrackYourBrand\Frontend\Shortcode;
+use Fliix\SoundtrackYourBrand\Admin\Admin;
+use Fliix\SoundtrackYourBrand\Api\Client;
+use Fliix\SoundtrackYourBrand\Cache\NowPlayingCache;
+use Fliix\SoundtrackYourBrand\Frontend\Renderer;
+use Fliix\SoundtrackYourBrand\Frontend\Shortcode;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -101,7 +101,7 @@ class Plugin {
 	 */
 	public static function get_display_settings(): array {
 		$defaults = Activator::default_display_settings();
-		$stored   = get_option( 'soundtrack_display_settings', array() );
+		$stored   = get_option( 'fliix_display_settings', array() );
 
 		if ( ! is_array( $stored ) ) {
 			$stored = array();
@@ -116,7 +116,7 @@ class Plugin {
 	 * @return int
 	 */
 	public static function get_update_interval(): int {
-		$interval = (int) get_option( 'soundtrack_update_interval', 30 );
+		$interval = (int) get_option( 'fliix_update_interval', 30 );
 
 		return max( 10, min( 120, $interval ) );
 	}

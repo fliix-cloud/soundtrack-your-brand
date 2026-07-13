@@ -5,9 +5,9 @@
  * @package SoundtrackYourBrand
  */
 
-namespace SoundtrackYourBrand\Admin;
+namespace Fliix\SoundtrackYourBrand\Admin;
 
-use SoundtrackYourBrand\Api\Client;
+use Fliix\SoundtrackYourBrand\Api\Client;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -49,8 +49,8 @@ class Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_filter( 'plugin_action_links_' . FLIIX_NP_SYB_BASENAME, array( $this, 'add_plugin_action_links' ) );
 
-		add_action( 'wp_ajax_syb_fetch_soundzones', array( $this, 'ajax_fetch_soundzones' ) );
-		add_action( 'wp_ajax_syb_save_mappings', array( $this, 'ajax_save_mappings' ) );
+		add_action( 'wp_ajax_fliix_fetch_soundzones', array( $this, 'ajax_fetch_soundzones' ) );
+		add_action( 'wp_ajax_fliix_save_mappings', array( $this, 'ajax_save_mappings' ) );
 	}
 
 	/**
@@ -98,21 +98,21 @@ class Admin {
 		wp_enqueue_script( 'wp-color-picker' );
 
 		wp_enqueue_style(
-			'syb-admin',
+			'fliix-admin',
 			FLIIX_NP_SYB_URL . 'assets/css/admin.css',
 			array(),
 			FLIIX_NP_SYB_VERSION
 		);
 
 		wp_enqueue_script(
-			'syb-admin',
+			'fliix-admin',
 			FLIIX_NP_SYB_URL . 'assets/js/admin.js',
 			array( 'jquery', 'wp-color-picker' ),
 			FLIIX_NP_SYB_VERSION,
 			true
 		);
 
-		$mappings = get_option( 'soundtrack_mappings', array() );
+		$mappings = get_option( 'fliix_mappings', array() );
 		if ( ! is_array( $mappings ) ) {
 			$mappings = array();
 		}
@@ -120,11 +120,11 @@ class Admin {
 		$zone_id_to_slug = array_flip( $mappings );
 
 		wp_localize_script(
-			'syb-admin',
-			'sybAdmin',
+			'fliix-admin',
+			'fliixAdmin',
 			array(
 				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
-				'nonce'          => wp_create_nonce( 'syb_admin_nonce' ),
+				'nonce'          => wp_create_nonce( 'fliix_admin_nonce' ),
 				'zoneIdToSlug'   => $zone_id_to_slug,
 				'i18n'           => array(
 					'fetching'       => __( 'Fetching sound zones…', 'fliix-now-playing-for-soundtrack-your-brand' ),
@@ -150,7 +150,7 @@ class Admin {
 	 * AJAX: fetch sound zones from API.
 	 */
 	public function ajax_fetch_soundzones(): void {
-		check_ajax_referer( 'syb_admin_nonce', 'nonce' );
+		check_ajax_referer( 'fliix_admin_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'fliix-now-playing-for-soundtrack-your-brand' ) ), 403 );
@@ -163,7 +163,7 @@ class Admin {
 		}
 
 		$cache = $this->api_client->build_zones_cache( $zones );
-		update_option( 'soundtrack_zones_cache', $cache );
+		update_option( 'fliix_zones_cache', $cache );
 
 		wp_send_json_success(
 			array(
@@ -181,7 +181,7 @@ class Admin {
 	 * AJAX: save slug mappings.
 	 */
 	public function ajax_save_mappings(): void {
-		check_ajax_referer( 'syb_admin_nonce', 'nonce' );
+		check_ajax_referer( 'fliix_admin_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'fliix-now-playing-for-soundtrack-your-brand' ) ), 403 );
@@ -205,7 +205,7 @@ class Admin {
 			);
 		}
 
-		update_option( 'soundtrack_mappings', $validation['mappings'] );
+		update_option( 'fliix_mappings', $validation['mappings'] );
 
 		wp_send_json_success(
 			array(
