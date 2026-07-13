@@ -24,7 +24,7 @@ Display currently playing tracks from Soundtrack Your Brand sound zones on your 
 * Live frontend refresh at a configurable interval (10–120 seconds)
 * Secure: nonces, capability checks, sanitized input, escaped output, encrypted API tokens (AES-256-CBC)
 
-= External services =
+== External services ==
 
 This plugin relies on the **Soundtrack Your Brand API** to retrieve your sound zones and now-playing track information. It connects to `https://api.soundtrackyourbrand.com/v2` by default, or to a custom API base URL if you configure one. You must supply your own API token from [Soundtrack Your Brand](https://www.soundtrackyourbrand.com/our-api/apply).
 
