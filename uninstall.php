@@ -7,12 +7,12 @@
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
-delete_option( 'soundtrack_api_base_url' );
-delete_option( 'soundtrack_api_token' );
-delete_option( 'soundtrack_update_interval' );
-delete_option( 'soundtrack_mappings' );
-delete_option( 'soundtrack_zones_cache' );
-delete_option( 'soundtrack_display_settings' );
+delete_option( 'fliix_api_base_url' );
+delete_option( 'fliix_api_token' );
+delete_option( 'fliix_update_interval' );
+delete_option( 'fliix_soundtrack_mappings' );
+delete_option( 'fliix_zones_cache' );
+delete_option( 'fliix_display_settings' );
 
 global $wpdb;
 
@@ -20,7 +20,7 @@ global $wpdb;
 $wpdb->query(
 	$wpdb->prepare(
 		"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
-		$wpdb->esc_like( '_transient_syb_nowplaying_' ) . '%',
-		$wpdb->esc_like( '_transient_timeout_syb_nowplaying_' ) . '%'
+		$wpdb->esc_like( '_transient_fliix_nowplaying_' ) . '%',
+		$wpdb->esc_like( '_transient_timeout_fliix_nowplaying_' ) . '%'
 	)
 );

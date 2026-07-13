@@ -5,7 +5,7 @@
  * @package SoundtrackYourBrand
  */
 
-namespace SoundtrackYourBrand\Security;
+namespace Fliix\SoundtrackYourBrand\Security;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,12 +17,12 @@ class TokenStorage {
 	/**
 	 * Option name for the stored token.
 	 */
-	public const OPTION_NAME = 'soundtrack_api_token';
+	public const OPTION_NAME = 'fliix_api_token';
 
 	/**
 	 * Prefix identifying encrypted values.
 	 */
-	private const ENCRYPTED_PREFIX = 'sybenc:';
+	private const ENCRYPTED_PREFIX = 'fliixenc:';
 
 	/**
 	 * Check whether a token is configured.
@@ -90,9 +90,15 @@ class TokenStorage {
 	public static function sanitize_setting( $value ): string {
 		$existing = get_option( self::OPTION_NAME, '' );
 		$existing = is_string( $existing ) ? $existing : '';
-		$value    = is_string( $value ) ? trim( sanitize_text_field( $value ) ) : '';
+		// Preserve valid token punctuation while trimming surrounding whitespace.
+		$value    = is_string( $value ) ? trim( $value ) : '';
 
 		if ( '' === $value ) {
+			return $existing;
+		}
+
+		// Reject embedded C0 control characters and DEL.
+		if ( preg_match( '/[\x00-\x1F\x7F]/', $value ) ) {
 			return $existing;
 		}
 

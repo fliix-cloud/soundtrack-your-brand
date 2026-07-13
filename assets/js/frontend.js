@@ -1,11 +1,11 @@
 ( function () {
 	'use strict';
 
-	if ( typeof sybFrontend === 'undefined' ) {
+	if ( typeof fliixFrontend === 'undefined' ) {
 		return;
 	}
 
-	var intervalMs = Math.max( 10, sybFrontend.interval || 30 ) * 1000;
+	var intervalMs = Math.max( 10, fliixFrontend.interval || 30 ) * 1000;
 	var pollTimer = null;
 
 	function getWidgets() {
@@ -36,15 +36,15 @@
 
 	function requestRefresh( slug, atts ) {
 		var body = new window.FormData();
-		body.append( 'action', sybFrontend.action );
-		body.append( 'nonce', sybFrontend.nonce );
+		body.append( 'action', fliixFrontend.action );
+		body.append( 'nonce', fliixFrontend.nonce );
 		body.append( 'slug', slug );
 
 		if ( atts ) {
 			body.append( 'atts', atts );
 		}
 
-		return window.fetch( sybFrontend.ajaxUrl, {
+		return window.fetch( fliixFrontend.ajaxUrl, {
 			method: 'POST',
 			body: body,
 			credentials: 'same-origin',
