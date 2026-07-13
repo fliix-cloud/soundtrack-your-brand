@@ -90,12 +90,14 @@ class TokenStorage {
 	public static function sanitize_setting( $value ): string {
 		$existing = get_option( self::OPTION_NAME, '' );
 		$existing = is_string( $existing ) ? $existing : '';
+		// Preserve valid token punctuation while trimming surrounding whitespace.
 		$value    = is_string( $value ) ? trim( $value ) : '';
 
 		if ( '' === $value ) {
 			return $existing;
 		}
 
+		// Reject embedded C0 control characters and DEL.
 		if ( preg_match( '/[\x00-\x1F\x7F]/', $value ) ) {
 			return $existing;
 		}
