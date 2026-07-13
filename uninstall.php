@@ -10,7 +10,7 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 delete_option( 'fliix_api_base_url' );
 delete_option( 'fliix_api_token' );
 delete_option( 'fliix_update_interval' );
-delete_option( 'fliix_mappings' );
+delete_option( 'fliix_soundtrack_mappings' );
 delete_option( 'fliix_zones_cache' );
 delete_option( 'fliix_display_settings' );
 

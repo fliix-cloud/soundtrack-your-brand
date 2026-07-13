@@ -54,7 +54,7 @@ See the [Soundtrack API Documentation](https://api.soundtrackyourbrand.com/v2/do
 
 **Example:** zone "Nagold" → slug `nagold`
 
-Mappings are stored as `slug => zone_id` in the `fliix_mappings` option.
+Mappings are stored as `slug => zone_id` in the `fliix_soundtrack_mappings` option.
 
 ### 3. Display Settings
 

@@ -211,7 +211,7 @@ class Shortcode {
 	 * @return string|null
 	 */
 	private function resolve_zone_id( string $slug ): ?string {
-		$mappings = get_option( 'fliix_mappings', array() );
+		$mappings = get_option( 'fliix_soundtrack_mappings', array() );
 
 		if ( ! is_array( $mappings ) || ! isset( $mappings[ $slug ] ) ) {
 			return null;

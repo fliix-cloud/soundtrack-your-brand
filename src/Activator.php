@@ -30,8 +30,8 @@ class Activator {
 			add_option( 'fliix_update_interval', 30 );
 		}
 
-		if ( false === get_option( 'fliix_mappings' ) ) {
-			add_option( 'fliix_mappings', array() );
+		if ( false === get_option( 'fliix_soundtrack_mappings' ) ) {
+			add_option( 'fliix_soundtrack_mappings', array() );
 		}
 
 		if ( false === get_option( 'fliix_zones_cache' ) ) {

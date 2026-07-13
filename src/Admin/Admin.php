@@ -112,7 +112,7 @@ class Admin {
 			true
 		);
 
-		$mappings = get_option( 'fliix_mappings', array() );
+		$mappings = get_option( 'fliix_soundtrack_mappings', array() );
 		if ( ! is_array( $mappings ) ) {
 			$mappings = array();
 		}
@@ -205,7 +205,7 @@ class Admin {
 			);
 		}
 
-		update_option( 'fliix_mappings', $validation['mappings'] );
+		update_option( 'fliix_soundtrack_mappings', $validation['mappings'] );
 
 		wp_send_json_success(
 			array(

@@ -325,7 +325,7 @@ class Settings {
 			$zones_cache = array();
 		}
 
-		$mappings = get_option( 'fliix_mappings', array() );
+		$mappings = get_option( 'fliix_soundtrack_mappings', array() );
 		if ( ! is_array( $mappings ) ) {
 			$mappings = array();
 		}
