@@ -237,7 +237,7 @@ class Settings {
 				<td data-label="<?php esc_attr_e( 'Slug', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>">
 					<input type="text"
 						class="syb-slug-input regular-text"
-						name="syb_slug_<?php echo esc_attr( $zone_id ); ?>"
+						name="fliix_slug_<?php echo esc_attr( $zone_id ); ?>"
 						value="<?php echo esc_attr( $slug ); ?>"
 						placeholder="<?php esc_attr_e( 'nagold', 'fliix-now-playing-for-soundtrack-your-brand' ); ?>"
 						data-zone-id="<?php echo esc_attr( $zone_id ); ?>" />
@@ -466,23 +466,23 @@ class Settings {
 					</header>
 					<div class="syb-display-card__body">
 						<div class="syb-field">
-							<label class="syb-field__label" for="syb_image_display"><?php esc_html_e( 'Display mode', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
-							<select name="fliix_display_settings[image_display]" id="syb_image_display" class="syb-field__control">
+							<label class="syb-field__label" for="fliix_image_display"><?php esc_html_e( 'Display mode', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+							<select name="fliix_display_settings[image_display]" id="fliix_image_display" class="syb-field__control">
 								<option value="waves" <?php selected( $settings['image_display'], 'waves' ); ?>><?php esc_html_e( 'Animated waves', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
 								<option value="icon" <?php selected( $settings['image_display'], 'icon' ); ?>><?php esc_html_e( 'Static icon', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
 								<option value="album" <?php selected( $settings['image_display'], 'album' ); ?>><?php esc_html_e( 'Album art (square only)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
 							</select>
 						</div>
 						<div class="syb-field syb-field--inline-controls">
-							<label class="syb-field__label" for="syb_image_size"><?php esc_html_e( 'Size', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+							<label class="syb-field__label" for="fliix_image_size"><?php esc_html_e( 'Size', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 							<div class="syb-field__row">
-								<select name="fliix_display_settings[image_size]" id="syb_image_size" class="syb-field__control">
+								<select name="fliix_display_settings[image_size]" id="fliix_image_size" class="syb-field__control">
 									<option value="small" <?php selected( $settings['image_size'], 'small' ); ?>><?php esc_html_e( 'Small (48px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
 									<option value="medium" <?php selected( $settings['image_size'], 'medium' ); ?>><?php esc_html_e( 'Medium (80px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
 									<option value="large" <?php selected( $settings['image_size'], 'large' ); ?>><?php esc_html_e( 'Large (120px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
 									<option value="custom" <?php selected( $settings['image_size'], 'custom' ); ?>><?php esc_html_e( 'Custom', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></option>
 								</select>
-								<input type="number" name="fliix_display_settings[image_size_custom]" id="syb_image_size_custom"
+								<input type="number" name="fliix_display_settings[image_size_custom]" id="fliix_image_size_custom"
 									value="<?php echo esc_attr( (string) $settings['image_size_custom'] ); ?>" min="16" max="400"
 									class="syb-field__control syb-field__control--narrow" placeholder="px" />
 							</div>
@@ -497,13 +497,13 @@ class Settings {
 					</header>
 					<div class="syb-display-card__body">
 						<div class="syb-field">
-							<label class="syb-field__label" for="syb_prefix_text"><?php esc_html_e( 'Playing label', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
-							<input type="text" name="fliix_display_settings[prefix_text]" id="syb_prefix_text"
+							<label class="syb-field__label" for="fliix_prefix_text"><?php esc_html_e( 'Playing label', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+							<input type="text" name="fliix_display_settings[prefix_text]" id="fliix_prefix_text"
 								value="<?php echo esc_attr( $settings['prefix_text'] ); ?>" class="syb-field__control" />
 						</div>
 						<div class="syb-field">
-							<label class="syb-field__label" for="syb_fallback_text"><?php esc_html_e( 'Fallback text', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
-							<input type="text" name="fliix_display_settings[fallback_text]" id="syb_fallback_text"
+							<label class="syb-field__label" for="fliix_fallback_text"><?php esc_html_e( 'Fallback text', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+							<input type="text" name="fliix_display_settings[fallback_text]" id="fliix_fallback_text"
 								value="<?php echo esc_attr( $settings['fallback_text'] ); ?>" class="syb-field__control" />
 						</div>
 					</div>
@@ -519,47 +519,47 @@ class Settings {
 							<div class="syb-type-column">
 								<h4 class="syb-type-column__title"><?php esc_html_e( 'Song', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h4>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_song_color"><?php esc_html_e( 'Color', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
-									<input type="text" name="fliix_display_settings[song_color]" id="syb_song_color"
+									<label class="syb-field__label" for="fliix_song_color"><?php esc_html_e( 'Color', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+									<input type="text" name="fliix_display_settings[song_color]" id="fliix_song_color"
 										value="<?php echo esc_attr( $settings['song_color'] ); ?>" class="syb-color-picker syb-field__control" data-default-color="#111111" />
 								</div>
 								<div class="syb-field syb-field--inline-controls">
-									<label class="syb-field__label" for="syb_song_font_size"><?php esc_html_e( 'Size (px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
-									<input type="number" name="fliix_display_settings[song_font_size]" id="syb_song_font_size"
+									<label class="syb-field__label" for="fliix_song_font_size"><?php esc_html_e( 'Size (px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+									<input type="number" name="fliix_display_settings[song_font_size]" id="fliix_song_font_size"
 										value="<?php echo esc_attr( (string) $settings['song_font_size'] ); ?>" min="8" max="72" class="syb-field__control syb-field__control--narrow" />
 								</div>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_song_font_weight"><?php esc_html_e( 'Weight', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="fliix_song_font_weight"><?php esc_html_e( 'Weight', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<?php $this->render_font_weight_select( 'song_font_weight', $settings['song_font_weight'] ); ?>
 								</div>
 							</div>
 							<div class="syb-type-column">
 								<h4 class="syb-type-column__title"><?php esc_html_e( 'Artist', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h4>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_artist_color"><?php esc_html_e( 'Color', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
-									<input type="text" name="fliix_display_settings[artist_color]" id="syb_artist_color"
+									<label class="syb-field__label" for="fliix_artist_color"><?php esc_html_e( 'Color', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+									<input type="text" name="fliix_display_settings[artist_color]" id="fliix_artist_color"
 										value="<?php echo esc_attr( $settings['artist_color'] ); ?>" class="syb-color-picker syb-field__control" data-default-color="#666666" />
 								</div>
 								<div class="syb-field syb-field--inline-controls">
-									<label class="syb-field__label" for="syb_artist_font_size"><?php esc_html_e( 'Size (px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
-									<input type="number" name="fliix_display_settings[artist_font_size]" id="syb_artist_font_size"
+									<label class="syb-field__label" for="fliix_artist_font_size"><?php esc_html_e( 'Size (px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+									<input type="number" name="fliix_display_settings[artist_font_size]" id="fliix_artist_font_size"
 										value="<?php echo esc_attr( (string) $settings['artist_font_size'] ); ?>" min="8" max="72" class="syb-field__control syb-field__control--narrow" />
 								</div>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_artist_font_weight"><?php esc_html_e( 'Weight', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+									<label class="syb-field__label" for="fliix_artist_font_weight"><?php esc_html_e( 'Weight', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
 									<?php $this->render_font_weight_select( 'artist_font_weight', $settings['artist_font_weight'] ); ?>
 								</div>
 							</div>
 							<div class="syb-type-column">
 								<h4 class="syb-type-column__title"><?php esc_html_e( 'Label', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></h4>
 								<div class="syb-field">
-									<label class="syb-field__label" for="syb_prefix_color"><?php esc_html_e( 'Color', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
-									<input type="text" name="fliix_display_settings[prefix_color]" id="syb_prefix_color"
+									<label class="syb-field__label" for="fliix_prefix_color"><?php esc_html_e( 'Color', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+									<input type="text" name="fliix_display_settings[prefix_color]" id="fliix_prefix_color"
 										value="<?php echo esc_attr( $settings['prefix_color'] ); ?>" class="syb-color-picker syb-field__control" data-default-color="#444444" />
 								</div>
 								<div class="syb-field syb-field--inline-controls">
-									<label class="syb-field__label" for="syb_prefix_font_size"><?php esc_html_e( 'Size (px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
-									<input type="number" name="fliix_display_settings[prefix_font_size]" id="syb_prefix_font_size"
+									<label class="syb-field__label" for="fliix_prefix_font_size"><?php esc_html_e( 'Size (px)', 'fliix-now-playing-for-soundtrack-your-brand' ); ?></label>
+									<input type="number" name="fliix_display_settings[prefix_font_size]" id="fliix_prefix_font_size"
 										value="<?php echo esc_attr( (string) $settings['prefix_font_size'] ); ?>" min="8" max="72" class="syb-field__control syb-field__control--narrow" />
 								</div>
 							</div>
@@ -601,7 +601,7 @@ class Settings {
 	private function render_font_weight_select( string $name, string $value ): void {
 		$weights = array( '300', '400', '500', '600', '700', '800' );
 		?>
-		<select name="fliix_display_settings[<?php echo esc_attr( $name ); ?>]" id="syb_<?php echo esc_attr( $name ); ?>" class="syb-field__control">
+		<select name="fliix_display_settings[<?php echo esc_attr( $name ); ?>]" id="fliix_<?php echo esc_attr( $name ); ?>" class="syb-field__control">
 			<?php foreach ( $weights as $weight ) : ?>
 				<option value="<?php echo esc_attr( $weight ); ?>" <?php selected( $value, $weight ); ?>><?php echo esc_html( $weight ); ?></option>
 			<?php endforeach; ?>
