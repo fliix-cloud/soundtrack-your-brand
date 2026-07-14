@@ -18,28 +18,28 @@ class Activator {
 	 * Run activation routines.
 	 */
 	public static function activate(): void {
-		if ( false === get_option( 'fliix_api_base_url' ) ) {
-			add_option( 'fliix_api_base_url', 'https://api.soundtrackyourbrand.com/v2' );
+		if ( false === get_option( 'fliix_np_syb_api_base_url' ) ) {
+			add_option( 'fliix_np_syb_api_base_url', 'https://api.soundtrackyourbrand.com/v2' );
 		}
 
-		if ( false === get_option( 'fliix_api_token' ) ) {
-			add_option( 'fliix_api_token', '' );
+		if ( false === get_option( 'fliix_np_syb_api_token' ) ) {
+			add_option( 'fliix_np_syb_api_token', '' );
 		}
 
-		if ( false === get_option( 'fliix_update_interval' ) ) {
-			add_option( 'fliix_update_interval', 30 );
+		if ( false === get_option( 'fliix_np_syb_update_interval' ) ) {
+			add_option( 'fliix_np_syb_update_interval', 30 );
 		}
 
-		if ( false === get_option( 'fliix_soundtrack_mappings' ) ) {
-			add_option( 'fliix_soundtrack_mappings', array() );
+		if ( false === get_option( 'fliix_np_syb_soundtrack_mappings' ) ) {
+			add_option( 'fliix_np_syb_soundtrack_mappings', array() );
 		}
 
-		if ( false === get_option( 'fliix_zones_cache' ) ) {
-			add_option( 'fliix_zones_cache', array() );
+		if ( false === get_option( 'fliix_np_syb_zones_cache' ) ) {
+			add_option( 'fliix_np_syb_zones_cache', array() );
 		}
 
-		if ( false === get_option( 'fliix_display_settings' ) ) {
-			add_option( 'fliix_display_settings', self::default_display_settings() );
+		if ( false === get_option( 'fliix_np_syb_display_settings' ) ) {
+			add_option( 'fliix_np_syb_display_settings', self::default_display_settings() );
 		}
 	}
 

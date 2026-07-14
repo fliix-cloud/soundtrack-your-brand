@@ -17,12 +17,12 @@ class TokenStorage {
 	/**
 	 * Option name for the stored token.
 	 */
-	public const OPTION_NAME = 'fliix_api_token';
+	public const OPTION_NAME = 'fliix_np_syb_api_token';
 
 	/**
 	 * Prefix identifying encrypted values.
 	 */
-	private const ENCRYPTED_PREFIX = 'fliixenc:';
+	private const ENCRYPTED_PREFIX = 'fliix_np_syb_enc:';
 
 	/**
 	 * Check whether a token is configured.

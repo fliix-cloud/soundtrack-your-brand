@@ -20,7 +20,7 @@ class NowPlayingCache {
 	/**
 	 * Transient key prefix.
 	 */
-	private const TRANSIENT_PREFIX = 'fliix_nowplaying_';
+	private const TRANSIENT_PREFIX = 'fliix_np_syb_nowplaying_';
 
 	/**
 	 * API client instance.
@@ -92,7 +92,7 @@ class NowPlayingCache {
 			return array(
 				'data'  => null,
 				'error' => new \WP_Error(
-					'fliix_pending',
+					'fliix_np_syb_pending',
 					__( 'Now playing data is being fetched.', 'fliix-now-playing-for-soundtrack-your-brand' )
 				),
 			);

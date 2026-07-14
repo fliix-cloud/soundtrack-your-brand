@@ -2,7 +2,7 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="SoundtrackYourBrand\" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="Fliix\SoundtrackYourBrand\" />
       <excludeFolder url="file://$MODULE_DIR$/.agentbridge" />
       <excludeFolder url="file://$MODULE_DIR$/.junie" />
       <excludeFolder url="file://$MODULE_DIR$/vendor" />

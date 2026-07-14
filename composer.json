@@ -1,7 +1,7 @@
 {
 	"name": "fliix-cloud/fliix-now-playing-for-soundtrack-your-brand",
 	"description": "Display currently playing tracks from Soundtrack Your Brand sound zones via shortcode.",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
 	"keywords": [

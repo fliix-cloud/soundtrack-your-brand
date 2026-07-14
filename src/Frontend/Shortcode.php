@@ -13,7 +13,7 @@ use Fliix\SoundtrackYourBrand\Plugin;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Registers and handles the [fliix_nowplaying] shortcode.
+ * Registers and handles the [fliix_np_syb] shortcode.
  */
 class Shortcode {
 
@@ -48,10 +48,10 @@ class Shortcode {
 		$this->cache    = $cache;
 		$this->renderer = $renderer;
 
-		add_shortcode( 'fliix_nowplaying', array( $this, 'render_shortcode' ) );
+		add_shortcode( 'fliix_np_syb', array( $this, 'render_shortcode' ) );
 
-		add_action( 'wp_ajax_fliix_refresh_nowplaying', array( $this, 'ajax_refresh_nowplaying' ) );
-		add_action( 'wp_ajax_nopriv_fliix_refresh_nowplaying', array( $this, 'ajax_refresh_nowplaying' ) );
+		add_action( 'wp_ajax_fliix_np_syb_refresh_nowplaying', array( $this, 'ajax_refresh_nowplaying' ) );
+		add_action( 'wp_ajax_nopriv_fliix_np_syb_refresh_nowplaying', array( $this, 'ajax_refresh_nowplaying' ) );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Shortcode {
 	 * AJAX: return refreshed widget HTML for live updates.
 	 */
 	public function ajax_refresh_nowplaying(): void {
-		check_ajax_referer( 'fliix_refresh_nowplaying', 'nonce' );
+		check_ajax_referer( 'fliix_np_syb_refresh_nowplaying', 'nonce' );
 
 		$slug = sanitize_title( wp_unslash( $_POST['slug'] ?? '' ) );
 
@@ -200,7 +200,7 @@ class Shortcode {
 				'class'       => '',
 			),
 			$atts,
-			'fliix_nowplaying'
+			'fliix_np_syb'
 		);
 	}
 
@@ -211,7 +211,7 @@ class Shortcode {
 	 * @return string|null
 	 */
 	private function resolve_zone_id( string $slug ): ?string {
-		$mappings = get_option( 'fliix_soundtrack_mappings', array() );
+		$mappings = get_option( 'fliix_np_syb_soundtrack_mappings', array() );
 
 		if ( ! is_array( $mappings ) || ! isset( $mappings[ $slug ] ) ) {
 			return null;
@@ -302,14 +302,14 @@ class Shortcode {
 		}
 
 		wp_enqueue_style(
-			'fliix-frontend',
+			'fliix-np-syb-frontend',
 			FLIIX_NP_SYB_URL . 'assets/css/frontend.css',
 			array(),
 			FLIIX_NP_SYB_VERSION
 		);
 
 		wp_enqueue_script(
-			'fliix-frontend',
+			'fliix-np-syb-frontend',
 			FLIIX_NP_SYB_URL . 'assets/js/frontend.js',
 			array(),
 			FLIIX_NP_SYB_VERSION,
@@ -317,13 +317,13 @@ class Shortcode {
 		);
 
 		wp_localize_script(
-			'fliix-frontend',
-			'fliixFrontend',
+			'fliix-np-syb-frontend',
+			'fliixNpSybFrontend',
 			array(
 				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'fliix_refresh_nowplaying' ),
+				'nonce'    => wp_create_nonce( 'fliix_np_syb_refresh_nowplaying' ),
 				'interval' => Plugin::get_update_interval(),
-				'action'   => 'fliix_refresh_nowplaying',
+				'action'   => 'fliix_np_syb_refresh_nowplaying',
 			)
 		);
 
