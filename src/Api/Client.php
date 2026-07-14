@@ -34,12 +34,12 @@ class Client {
 	 * @return array<string, mixed>|\WP_Error
 	 */
 	public function request( string $query, array $variables = array() ) {
-		$base_url = get_option( 'fliix_api_base_url', 'https://api.soundtrackyourbrand.com/v2' );
+		$base_url = get_option( 'fliix_np_syb_api_base_url', 'https://api.soundtrackyourbrand.com/v2' );
 		$token    = TokenStorage::get_token();
 
 		if ( empty( $token ) ) {
 			return new \WP_Error(
-				'fliix_missing_token',
+				'fliix_np_syb_missing_token',
 				__( 'API token is not configured.', 'fliix-now-playing-for-soundtrack-your-brand' )
 			);
 		}
@@ -79,7 +79,7 @@ class Client {
 
 		if ( $status_code < 200 || $status_code >= 300 ) {
 			return new \WP_Error(
-				'fliix_http_error',
+				'fliix_np_syb_http_error',
 				sprintf(
 					/* translators: %d: HTTP status code */
 					__( 'API request failed with HTTP status %d.', 'fliix-now-playing-for-soundtrack-your-brand' ),
@@ -92,7 +92,7 @@ class Client {
 
 		if ( ! is_array( $decoded ) ) {
 			return new \WP_Error(
-				'fliix_invalid_response',
+				'fliix_np_syb_invalid_response',
 				__( 'Invalid API response.', 'fliix-now-playing-for-soundtrack-your-brand' )
 			);
 		}
@@ -107,7 +107,7 @@ class Client {
 				$decoded['errors']
 			);
 
-			return new \WP_Error( 'fliix_graphql_error', implode( ' ', $messages ) );
+			return new \WP_Error( 'fliix_np_syb_graphql_error', implode( ' ', $messages ) );
 		}
 
 		return $decoded;
@@ -129,7 +129,7 @@ class Client {
 
 		if ( empty( $zones ) ) {
 			return new \WP_Error(
-				'fliix_no_zones',
+				'fliix_np_syb_no_zones',
 				__( 'No sound zones found for this API token.', 'fliix-now-playing-for-soundtrack-your-brand' )
 			);
 		}

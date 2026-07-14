@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       fliix – Now Playing for Soundtrack Your Brand
  * Description:       Display currently playing tracks from Soundtrack Your Brand sound zones via shortcode.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Requires at least: 6.2
  * Requires PHP:      8.0
  * Author:            fliix - Marc Werner
@@ -47,7 +47,7 @@ if ( version_compare( PHP_VERSION, '8.0', '<' ) ) {
 	return;
 }
 
-const FLIIX_NP_SYB_VERSION = '1.1.0';
+const FLIIX_NP_SYB_VERSION = '1.1.1';
 const FLIIX_NP_SYB_FILE    = __FILE__;
 define( 'FLIIX_NP_SYB_DIR', plugin_dir_path( FLIIX_NP_SYB_FILE ) );
 define( 'FLIIX_NP_SYB_URL', plugin_dir_url( FLIIX_NP_SYB_FILE ) );

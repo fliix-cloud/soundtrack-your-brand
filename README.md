@@ -54,7 +54,7 @@ See the [Soundtrack API Documentation](https://api.soundtrackyourbrand.com/v2/do
 
 **Example:** zone "Nagold" → slug `nagold`
 
-Mappings are stored as `slug => zone_id` in the `fliix_soundtrack_mappings` option.
+Mappings are stored as `slug => zone_id` in the `fliix_np_syb_soundtrack_mappings` option.
 
 ### 3. Display Settings
 
@@ -65,7 +65,7 @@ Choose a default template, toggle image/artist visibility, and customize colors,
 ### Basic Shortcode
 
 ```
-[fliix_nowplaying slug="nagold"]
+[fliix_np_syb slug="nagold"]
 ```
 
 ### Optional Attributes
@@ -81,8 +81,8 @@ Choose a default template, toggle image/artist visibility, and customize colors,
 ### Examples
 
 ```
-[fliix_nowplaying slug="lobby" design="modern" show_image="false"]
-[fliix_nowplaying slug="bar" design="minimal" class="header-now-playing"]
+[fliix_np_syb slug="lobby" design="modern" show_image="false"]
+[fliix_np_syb slug="bar" design="minimal" class="header-now-playing"]
 ```
 
 ## Caching
@@ -93,7 +93,7 @@ The plugin uses **lazy, on-demand caching** — no WP-Cron or background polling
 Visitor loads page with shortcode
         │
         ▼
-Is transient fliix_nowplaying_{md5(zone_id)} valid?
+Is transient fliix_np_syb_nowplaying_{md5(zone_id)} valid?
    ├── Yes → render cached data
    └── No  → call GraphQL nowPlaying API → store transient → render
 ```
@@ -129,7 +129,7 @@ Now playing data is stored in WordPress transients. Data is fetched from the API
 Yes. Use optional attributes:
 
 ```
-[fliix_nowplaying slug="lobby" design="modern" show_image="false" show_artist="true" class="my-class"]
+[fliix_np_syb slug="lobby" design="modern" show_image="false" show_artist="true" class="my-class"]
 ```
 
 ### What happens when nothing is playing?

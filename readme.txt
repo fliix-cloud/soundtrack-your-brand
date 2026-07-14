@@ -4,7 +4,7 @@ Tags: soundtrack, music, now playing, shortcode, api
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,7 +56,7 @@ English (source), German (`de_DE`), and Spanish (`es_ES`) are included. See `lan
 3. Open **Settings → Soundtrack Your Brand**.
 4. Enter your API token (encrypted at rest; sent as `Authorization: Basic <token>`).
 5. Click **Fetch / Refresh SoundZones from API**, assign slugs, and save mappings.
-6. Add `[fliix_nowplaying slug="your-slug"]` to any page or post.
+6. Add `[fliix_np_syb slug="your-slug"]` to any page or post.
 
 == Frequently Asked Questions ==
 
@@ -72,7 +72,7 @@ Now playing data is stored in WordPress transients. Data is fetched when a visit
 
 Yes. Use optional attributes:
 
-`[fliix_nowplaying slug="lobby" design="modern" show_image="false" show_artist="true" class="my-class"]`
+`[fliix_np_syb slug="lobby" design="modern" show_image="false" show_artist="true" class="my-class"]`
 
 = What happens when nothing is playing? =
 
@@ -99,9 +99,20 @@ Contact the maintainer privately (see Author URI) rather than posting exploit de
 
 == Changelog ==
 
+= 1.1.1 =
+
+* Use plugin-specific fliix_np_syb prefix for options, shortcodes, AJAX, scripts, and related identifiers
+* Align version metadata across plugin header and readme
+
+= 1.1.0 =
+
+* Prefix plugin identifiers to avoid naming collisions
+* Document Soundtrack Your Brand as an external service with terms and privacy links
+* Improve API token sanitization (trim and control-character rejection only)
+
 = 1.0.9 =
 
-* Current stable release
+* Stable release
 
 = 1.0.8 =
 
@@ -125,5 +136,5 @@ Contact the maintainer privately (see Author URI) rather than posting exploit de
 
 == Upgrade Notice ==
 
-= 1.0.9 =
-Stable release for WordPress.org distribution.
+= 1.1.1 =
+Uses a more unique fliix_np_syb prefix for all plugin identifiers. Re-save settings and update shortcodes to [fliix_np_syb] after upgrading.

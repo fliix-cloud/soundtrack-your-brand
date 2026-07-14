@@ -40,14 +40,14 @@
 			}
 
 			if ( ! slugPattern.test( slug ) ) {
-				$error.text( fliixAdmin.i18n.slugInvalid );
+				$error.text( fliixNpSybAdmin.i18n.slugInvalid );
 				$input.addClass( 'syb-slug-input--error' );
 				valid = false;
 				return;
 			}
 
 			if ( seen[ slug ] ) {
-				$error.text( fliixAdmin.i18n.slugDuplicate );
+				$error.text( fliixNpSybAdmin.i18n.slugDuplicate );
 				$input.addClass( 'syb-slug-input--error' );
 				valid = false;
 				return;
@@ -61,7 +61,7 @@
 
 	function buildZoneRow( zone, slug ) {
 		var statusClass = zone.is_paired ? 'syb-status--paired' : 'syb-status--unpaired';
-		var statusText = zone.is_paired ? fliixAdmin.i18n.paired : fliixAdmin.i18n.unpaired;
+		var statusText = zone.is_paired ? fliixNpSybAdmin.i18n.paired : fliixNpSybAdmin.i18n.unpaired;
 
 		return (
 			'<tr data-zone-id="' + zone.zone_id + '">' +
@@ -73,7 +73,7 @@
 				'<td data-label="Zone ID" class="syb-zone-id-cell">' +
 					'<code class="syb-zone-id">' + escapeHtml( zone.zone_id ) + '</code> ' +
 					'<button type="button" class="button button-small syb-copy-id" data-zone-id="' + escapeHtml( zone.zone_id ) + '">' +
-						escapeHtml( fliixAdmin.i18n.copy ) +
+						escapeHtml( fliixNpSybAdmin.i18n.copy ) +
 					'</button>' +
 				'</td>' +
 				'<td data-label="Status">' +
@@ -119,7 +119,7 @@
 
 		if ( ! zones || ! zones.length ) {
 			$tbody.html(
-				'<tr class="syb-zones-empty"><td colspan="5">' + escapeHtml( fliixAdmin.i18n.noZones ) + '</td></tr>'
+				'<tr class="syb-zones-empty"><td colspan="5">' + escapeHtml( fliixNpSybAdmin.i18n.noZones ) + '</td></tr>'
 			);
 			return;
 		}
@@ -127,7 +127,7 @@
 		zones.sort( compareZoneRows );
 
 		zones.forEach( function ( zone ) {
-			var slug = currentSlugs[ zone.zone_id ] || fliixAdmin.zoneIdToSlug[ zone.zone_id ] || '';
+			var slug = currentSlugs[ zone.zone_id ] || fliixNpSybAdmin.zoneIdToSlug[ zone.zone_id ] || '';
 			html += buildZoneRow( zone, slug );
 		} );
 
@@ -149,28 +149,28 @@
 
 	function saveMappings() {
 		if ( ! validateSlugs() ) {
-			showNotice( fliixAdmin.i18n.saveError, 'error' );
+			showNotice( fliixNpSybAdmin.i18n.saveError, 'error' );
 			return;
 		}
 
-		showNotice( fliixAdmin.i18n.saving, 'info' );
+		showNotice( fliixNpSybAdmin.i18n.saving, 'info' );
 
-		$.post( fliixAdmin.ajaxUrl, {
-			action: 'fliix_save_mappings',
-			nonce: fliixAdmin.nonce,
+		$.post( fliixNpSybAdmin.ajaxUrl, {
+			action: 'fliix_np_syb_save_mappings',
+			nonce: fliixNpSybAdmin.nonce,
 			mappings: JSON.stringify( collectMappings() ),
 		} )
 			.done( function ( response ) {
 				if ( response.success ) {
-					showNotice( response.data.message || fliixAdmin.i18n.saveSuccess, 'success' );
+					showNotice( response.data.message || fliixNpSybAdmin.i18n.saveSuccess, 'success' );
 					if ( response.data.mappings ) {
-						fliixAdmin.zoneIdToSlug = {};
+						fliixNpSybAdmin.zoneIdToSlug = {};
 						Object.keys( response.data.mappings ).forEach( function ( slug ) {
-							fliixAdmin.zoneIdToSlug[ response.data.mappings[ slug ] ] = slug;
+							fliixNpSybAdmin.zoneIdToSlug[ response.data.mappings[ slug ] ] = slug;
 						} );
 					}
 				} else {
-					var msg = ( response.data && response.data.message ) || fliixAdmin.i18n.saveError;
+					var msg = ( response.data && response.data.message ) || fliixNpSybAdmin.i18n.saveError;
 					showNotice( msg, 'error' );
 					if ( response.data && response.data.errors ) {
 						Object.keys( response.data.errors ).forEach( function ( zoneId ) {
@@ -182,32 +182,32 @@
 				}
 			} )
 			.fail( function () {
-				showNotice( fliixAdmin.i18n.saveError, 'error' );
+				showNotice( fliixNpSybAdmin.i18n.saveError, 'error' );
 			} );
 	}
 
 	function fetchZones() {
 		var $btn = $( '#syb-fetch-zones' );
 		$btn.prop( 'disabled', true );
-		showNotice( fliixAdmin.i18n.fetching, 'info' );
+		showNotice( fliixNpSybAdmin.i18n.fetching, 'info' );
 
-		$.post( fliixAdmin.ajaxUrl, {
-			action: 'fliix_fetch_soundzones',
-			nonce: fliixAdmin.nonce,
+		$.post( fliixNpSybAdmin.ajaxUrl, {
+			action: 'fliix_np_syb_fetch_soundzones',
+			nonce: fliixNpSybAdmin.nonce,
 		} )
 			.done( function ( response ) {
 				if ( response.success ) {
 					renderZonesTable( response.data.zones );
-					showNotice( response.data.message || fliixAdmin.i18n.fetchSuccess, 'success' );
+					showNotice( response.data.message || fliixNpSybAdmin.i18n.fetchSuccess, 'success' );
 				} else {
 					showNotice(
-						( response.data && response.data.message ) || fliixAdmin.i18n.fetchError,
+						( response.data && response.data.message ) || fliixNpSybAdmin.i18n.fetchError,
 						'error'
 					);
 				}
 			} )
 			.fail( function () {
-				showNotice( fliixAdmin.i18n.fetchError, 'error' );
+				showNotice( fliixNpSybAdmin.i18n.fetchError, 'error' );
 			} )
 			.always( function () {
 				$btn.prop( 'disabled', false );
@@ -244,10 +244,10 @@
 			var zoneId = $( this ).data( 'zone-id' );
 			copyToClipboard( zoneId )
 				.then( function () {
-					showNotice( fliixAdmin.i18n.copied, 'success' );
+					showNotice( fliixNpSybAdmin.i18n.copied, 'success' );
 				} )
 				.catch( function () {
-					showNotice( fliixAdmin.i18n.copyFailed, 'error' );
+					showNotice( fliixNpSybAdmin.i18n.copyFailed, 'error' );
 				} );
 		} );
 	} );
