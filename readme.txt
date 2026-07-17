@@ -4,7 +4,7 @@ Tags: soundtrack, music, now playing, shortcode, api
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,7 +49,7 @@ This is an independent plugin for the Soundtrack Your Brand platform. It is **no
 
 = Translations =
 
-English (source), German (`de_DE`), and Spanish (`es_ES`) are included. See `languages/README.md` in the GitHub repository to contribute locales.
+The plugin is fully internationalized (text domain `fliix-now-playing-for-soundtrack-your-brand`). Translations are managed on [translate.wordpress.org](https://translate.wordpress.org/) and delivered as language packs — no translation files are bundled in the plugin package.
 
 == Installation ==
 
@@ -101,6 +101,12 @@ Contact the maintainer privately (see Author URI) rather than posting exploit de
 
 == Changelog ==
 
+= 1.1.2 =
+
+* Remove bundled locale translation files and the languages folder for WordPress.org language pack workflow
+* Drop Domain Path header; translations via translate.wordpress.org only
+* Point translation contributions to translate.wordpress.org
+
 = 1.1.1 =
 
 * Use plugin-specific fliix_np_syb prefix for options, shortcodes, AJAX, scripts, and related identifiers
@@ -137,6 +143,9 @@ Contact the maintainer privately (see Author URI) rather than posting exploit de
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Translations are now delivered via WordPress.org language packs instead of files bundled with the plugin.
 
 = 1.1.1 =
 Uses a more unique fliix_np_syb prefix for all plugin identifiers. Re-save settings and update shortcodes to [fliix_np_syb] after upgrading.

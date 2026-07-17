@@ -1,7 +1,7 @@
 # Soundtrack Your Brand – Now Playing
 
 [![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v2+-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
-[![Languages: 3](https://img.shields.io/badge/Languages-3-2ea44f.svg?logo=googletranslate&logoColor=white)](./languages/)
+[![i18n ready](https://img.shields.io/badge/i18n-translate.wordpress.org-2ea44f.svg?logo=googletranslate&logoColor=white)](https://translate.wordpress.org/)
 [![PHP 8.0+](https://img.shields.io/badge/PHP-8.0%2B-777BB4.svg?logo=php&logoColor=white)](https://php.net/)
 [![WordPress 6.2+](https://img.shields.io/badge/WordPress-6.2%2B-21759B.svg?logo=wordpress&logoColor=white)](https://wordpress.org/)
 
@@ -172,72 +172,27 @@ Deleting the plugin removes all options and cached transients via `uninstall.php
 
 ## Internationalization
 
-The plugin is fully translatable with **text domain** `fliix-now-playing-for-soundtrack-your-brand` (matches the plugin slug) and lives in the `languages/` directory. It uses WordPress's [JSON-based translation](https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/#internationalization-functions) system (`load_plugin_textdomain`), so translations are loaded automatically alongside WordPress core `.l10n.php` files.
+The plugin is fully internationalized with **text domain** `fliix-now-playing-for-soundtrack-your-brand` (matches the plugin slug). There is no `Domain Path` and no bundled `languages/` folder.
 
-### Current Translations
+Translations are managed on [translate.wordpress.org](https://translate.wordpress.org/) and delivered as WordPress language packs.
 
-| Language | Locale | Status | File |
-|----------|--------|--------|------|
-| Spanish  | `es_ES` | ✅ Complete | `languages/fliix-now-playing-for-soundtrack-your-brand-es_ES.l10n.php` |
-| German   | `de_DE` | ✅ Complete | `languages/fliix-now-playing-for-soundtrack-your-brand-de_DE.l10n.php` |
-| English  | `en_US` | ✅ Reference | `languages/fliix-now-playing-for-soundtrack-your-brand-en_US.l10n.php` |
+All user-facing strings use the WordPress i18n API (`__()`, `_e()`, `esc_html__()`, `_x()`, `_n()`, etc.).
 
-### How to Contribute Translations
+### Contribute translations
 
-You can add a new language either with a graphical translator plugin or with WP-CLI. Both produce the same `languages/<locale>.l10n.php` file at the end.
+After the plugin is published on WordPress.org:
 
-#### Option A — Using [Loco Translate](https://wordpress.org/plugins/loco-translate/) (easiest)
+1. Find the project on [translate.wordpress.org](https://translate.wordpress.org/)
+2. Select your locale and translate strings
+3. Language packs are distributed automatically once approved by the locale team
 
-1. Install and activate **Loco Translate** from the WordPress plugin repository.
-2. Navigate to **Loco Translate → Plugins → Soundtrack Your Brand – Now Playing**.
-3. Click **New language**, pick your target language, and choose **Custom** as the location (Loco will save into the plugin's `languages/` folder automatically).
-4. Use theLoco editor to translate the strings. It pulls in strings from the existing `.pot` automatically.
-5. Click **Save** — Loco compiles the `.l10n.php` file directly, no command line required.
-6. Open a pull request adding your generated `languages/<locale>.l10n.php` (and `.po`/`.mo` if present).
-
-> **Tip:** If you already have a translation you created with Loco Translate, you can simply copy the generated `languages/<locale>.l10n.php` file into the plugin and submit it — no need to regenerate anything.
-
-#### Option B — Using WP-CLI (for developers)
-
-1. **Generate the base `.pot` file** (template catalog):
-
-   ```bash
-   wp i18n make-pot . languages/fliix-now-playing-for-soundtrack-your-brand.pot
-   ```
-
-2. **Create a translation** for your language (e.g. `de_DE`):
-
-   ```bash
-   wp i18n make-json languages/fliix-now-playing-for-soundtrack-your-brand-de_DE.po
-   ```
-
-   This builds the compiled `languages/fliix-now-playing-for-soundtrack-your-brand-de_DE.l10n.php` file WordPress loads at runtime.
-
-3. Open a pull request adding your translation under `languages/`.
-
-All output strings in the plugin are wrapped in WordPress internationalization functions (`__()`, `_e()`, `esc_html__()`, `esc_attr_x()`, `_n()`, etc.), so 100% of visible text is translatable — including fallback strings, admin labels, and error messages.
-
-### Translation Functions Used
-
-The project uses the full WordPress i18n API:
-
-| Function | Purpose |
-|----------|---------|
-| `__()`           | Return translated string |
-| `_e()`           | Echo translated string |
-| `_x()` / `_ex()` | Translation with context |
-| `_n()`           | Singular / plural forms |
-| `esc_html__()`   | Escaped, translated string for HTML output |
-| `esc_attr__()`   | Escaped, translated string for attributes |
-| `_nx()`          | Plural with context |
-
-To extract new strings after changing code, run `composer install` and regenerate the `.pot` file — any untranslated strings fall back to English automatically.
+**Maintainer references (GitHub only, not in the release ZIP):** [`docs/translations/`](./docs/translations/)  
+including the DE/ES cheat sheet [`docs/translations/TRANSLATIONS.md`](./docs/translations/TRANSLATIONS.md).
 
 ## Development
 
 ```bash
 composer install   # optional — local tooling only; not required to run the plugin
-php bin/compile-mo.php
 ```
 
 The plugin uses PSR-4 autoloading via `src/Autoloader.php` (`Fliix\SoundtrackYourBrand\` → `src/`). No third-party runtime dependencies are required.
@@ -269,7 +224,7 @@ fliix-now-playing-for-soundtrack-your-brand/
 │   ├── Frontend/Renderer.php
 │   ├── Frontend/Shortcode.php
 │   └── Admin/Admin.php, Settings.php
-├── languages/
+├── docs/translations/   # GitHub only — not shipped in release ZIP
 └── assets/css/, assets/js/
 ```
 

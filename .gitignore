@@ -4,3 +4,6 @@
 /vendor/
 /mcps/
 build-release.ps1
+
+# Not used — WordPress.org language packs only (translate.wordpress.org)
+/languages/

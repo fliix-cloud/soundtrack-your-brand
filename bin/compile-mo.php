@@ -4,7 +4,9 @@
  *
  * Usage:
  *   php bin/compile-mo.php
- *   php bin/compile-mo.php languages/fliix-now-playing-for-soundtrack-your-brand-de_DE.po
+ *   php bin/compile-mo.php docs/translations/fliix-now-playing-for-soundtrack-your-brand-de_DE.po
+ *
+ * Local testing only — do not ship .mo files in the plugin package.
  *
  * @package SoundtrackYourBrand
  */
@@ -29,7 +31,7 @@ $root = dirname( __DIR__ );
 $args = array_slice( $argv, 1 );
 
 $files = [] === $args
-	? ( glob( $root . '/languages/*.po' ) ?: [] )
+	? ( glob( $root . '/docs/translations/*.po' ) ?: [] )
 	: array_map(
 		static function ( string $arg ) use ( $root ): string {
 			if ( is_file( $arg ) ) {
